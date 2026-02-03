@@ -15,8 +15,9 @@
 #'   object carries an attribute `"duckdb_con"` with the open `DBI` connection.
 #'
 #' @details
-#' **Caching:** A temporary DuckDB database is created within a temp directory
-#' (via `withr::local_tempdir()`), so each R session gets an isolated cache. The
+#' **Caching:** A persistent DuckDB database is created under the user cache
+#' directory (via `tools::R_user_dir("phiperio", "cache")`). You can override
+#' this location with `options(phiperio.cache_dir = \"...\")`. The
 #' `force_refresh` argument bypasses the fast path and rebuilds the cache.
 #'
 #' **Sanitization:** Columns are stripped of attributes, list-columns are
@@ -30,20 +31,34 @@
 #'
 #' @seealso [dplyr::tbl()], [DBI::dbConnect()], [duckdb::duckdb()]
 #' @export
-get_peptide_meta <- function(force_refresh = FALSE) {
+get_peptide_library <- function(force_refresh = FALSE) {
   .ph_with_timing(
     headline = "Retrieving peptide metadata into DuckDB cache",
     step = sprintf(
-      "get_peptide_meta(force_refresh = %s)",
+      "get_peptide_library(force_refresh = %s)",
       as.character(force_refresh)
     ),
     expr = {
       # check if dependencies installed --> maybe hard dep in the future?
       rlang::check_installed(c("duckdb", "DBI", "dplyr", "withr"))
 
-      # 1. Prep cache dir & DuckDB connection
-      # a throw-away directory that vanishes when the calling environment ends
-      cache_dir <- withr::local_tempdir("phiperio_cache") # optional name-prefix
+      # 1. Prep cache dir & DuckDB connection (persistent cache by default)
+      cache_root <- getOption(
+        "phiperio.cache_dir",
+        tools::R_user_dir("phiperio", "cache")
+      )
+      cache_dir <- file.path(cache_root, "peptide_meta")
+      dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+      if (!dir.exists(cache_dir)) {
+        cache_dir <- withr::local_tempdir("phiperio_cache",
+          .local_envir = globalenv()
+        )
+        .ph_warn(
+          headline = "Persistent cache unavailable; using temp dir.",
+          step = "cache setup",
+          bullets = sprintf("cache dir: %s", cache_dir)
+        )
+      }
       duckdb_file <- file.path(cache_dir, "phip_cache.duckdb")
       con <- DBI::dbConnect(duckdb::duckdb(), dbdir = duckdb_file)
       .ph_log_info("Opened DuckDB connection",
@@ -68,17 +83,16 @@ get_peptide_meta <- function(force_refresh = FALSE) {
         "main/library-metadata/",
         "combined_library_15.01.26.rds"
       )
-      tmp <- tempfile(fileext = ".rds")
+      tmp <- file.path(cache_dir, "combined_library_15.01.26.rds")
       sha <- "86c167453b2d13135c3c4147e6deacdfbd9030bbac1f7420c409483f1ca71915"
 
       ## safe download (fallbacks if file changed, or if download does not
       ## succeed)
-      .safe_download(url, tmp, sha)
+      .safe_download(url, tmp, sha, force = isTRUE(force_refresh))
 
       ## reading the raw RDS file --> it needs a lot of polishin (is prolly
       ## python generated, see attributes)
       raw_meta <- readRDS(tmp)
-      unlink(tmp)
       .ph_log_ok("Download complete and loaded into R")
 
       # 4. peptide_id is now stored in the column withthe same name
@@ -162,11 +176,27 @@ get_peptide_meta <- function(force_refresh = FALSE) {
 #' @keywords internal
 .safe_download <- function(url,
                            dest,
-                           sha_expected = NULL) {
+                           sha_expected = NULL,
+                           force = FALSE) {
   ## setup
   dir.create(dirname(dest), recursive = TRUE, showWarnings = FALSE)
   methods <- c("", "libcurl", "curl")
   ok <- FALSE
+
+  if (!isTRUE(force) && file.exists(dest) &&
+    isTRUE(file.info(dest)$size > 0)) {
+    if (is.null(sha_expected)) {
+      .ph_log_ok("Using cached download")
+      return(invisible(TRUE))
+    }
+
+    sha_actual <- .ph_sha256_file(dest)
+    if (!is.na(sha_actual) &&
+      identical(tolower(sha_actual), tolower(sha_expected))) {
+      .ph_log_ok("Using cached download (SHA-256 match)")
+      return(invisible(TRUE))
+    }
+  }
 
   .ph_log_info("Starting download",
     bullets = c(
@@ -217,12 +247,7 @@ get_peptide_meta <- function(force_refresh = FALSE) {
   ## Compare the checksums for the whole file, generate a warning if the file
   ## changed
   if (!is.null(sha_expected)) {
-    sha_actual <- tryCatch(
-      {
-        strsplit(system2("sha256sum", dest, stdout = TRUE), "\\s+")[[1]][1]
-      },
-      error = function(e) NA_character_
-    )
+    sha_actual <- .ph_sha256_file(dest)
 
     if (is.na(sha_actual) ||
       !identical(tolower(sha_actual), tolower(sha_expected))) {
@@ -240,4 +265,18 @@ get_peptide_meta <- function(force_refresh = FALSE) {
   }
 
   invisible(dest)
+}
+
+#' @keywords internal
+.ph_sha256_file <- function(path) {
+  if (requireNamespace("openssl", quietly = TRUE)) {
+    return(as.character(openssl::sha256(file = path)))
+  }
+
+  tryCatch(
+    {
+      strsplit(system2("sha256sum", path, stdout = TRUE), "\\s+")[[1]][1]
+    },
+    error = function(e) NA_character_
+  )
 }
