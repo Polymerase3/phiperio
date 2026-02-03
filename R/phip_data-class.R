@@ -112,6 +112,9 @@ new_phip_data <- function(data_long,
         class = "phip_data"
       )
 
+      obj <- .ph_sync_peptide_con(obj)
+      obj <- .ph_attach_finalizer(obj)
+
       # --------------------------------------------------------------------------
       # Validate the objects used to construct the phip_data
       # --------------------------------------------------------------------------

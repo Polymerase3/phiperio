@@ -62,6 +62,8 @@ print.phip_data <- function(x, ...) {
     if (!DBI::dbIsValid(lib$src$con)) {
       lib <- get_peptide_meta()
       x$peptide_library <- lib # keep the fresh handle for later prints
+      x <- .ph_sync_peptide_con(x)
+      x <- .ph_refresh_finalizer(x)
     }
   }
 
@@ -505,38 +507,4 @@ add_exist <- function(phip_data,
     },
     verbose = .ph_opt("verbose", TRUE)
   )
-}
-
-################################################################################
-## helper to close duckdb connection -------------------------------
-################################################################################
-
-#' @title Disconnect backend database connections
-#'
-#' @description Closes any open database connections held inside a
-#' `phip_data` object, including the `data_long` connection and the optional
-#' `peptide_library` connection.
-#'
-#' Call this when you want to release resources explicitly; it is
-#' also safe to rely on garbage collection to close the connections
-#' automatically at the end of the R session.
-#'
-#' @param x A valid `phip_data` object.
-#'
-#' @return The input `phip_data` object, invisibly, with its
-#'   connections closed.
-#'
-#' @export
-
-disconnect <- function(x) {
-  # close data_long backend, if any
-  if (!is.null(x$meta$con) && DBI::dbIsValid(x$meta$con)) {
-    DBI::dbDisconnect(x$meta$con, shutdown = TRUE)
-  }
-  # close peptide library connection
-  if (!is.null(x$meta$peptide_con) && DBI::dbIsValid(x$meta$peptide_con)) {
-    DBI::dbDisconnect(x$meta$peptide_con, shutdown = TRUE)
-  }
-
-  invisible(x)
 }

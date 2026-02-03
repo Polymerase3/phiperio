@@ -108,9 +108,9 @@ test_that("dplyr wrappers modify data_long lazily", {
 })
 
 # ---------------------------------------------------------------------------
-# disconnect helper (mock DBI)
+# close helper (mock DBI)
 # ---------------------------------------------------------------------------
-test_that("disconnect.phip_data closes duckdb connection if present", {
+test_that("close.phip_data closes duckdb connection if present", {
   skip_if_not_installed("duckdb")
 
   con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
@@ -127,7 +127,7 @@ test_that("disconnect.phip_data closes duckdb connection if present", {
 
   expect_true(DBI::dbIsValid(con))
 
-  disconnect(pd) # should close
+  close(pd) # should close
 
   expect_false(DBI::dbIsValid(con))
 })
