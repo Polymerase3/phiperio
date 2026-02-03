@@ -24,7 +24,7 @@ database/lazy table without reading all data into memory.
 }
 \examples{
 \donttest{
-pd <- phip_load_example_data()
+pd <- load_example_data()
 out_path <- tempfile(fileext = ".parquet")
 export_parquet(pd, out_path)
 unlink(out_path)

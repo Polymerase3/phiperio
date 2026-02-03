@@ -20,7 +20,7 @@ needed for the legacy conversion.
 \description{
 \code{.ph_legacy_read_duckdb_backend()} loads legacy CSV/parquet
 inputs into temporary DuckDB tables, reshapes them into a long format, and
-prepares the final tables used by \code{phip_convert_legacy()}.
+prepares the final tables used by \code{convert_legacy()}.
 }
 \details{
 \itemize{

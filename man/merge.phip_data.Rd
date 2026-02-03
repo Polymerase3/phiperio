@@ -4,7 +4,7 @@
 \alias{merge.phip_data}
 \title{Merge or join a \code{phip_data} object}
 \usage{
-\method{merge}{phip_data}(x, y, ..., confirm = interactive())
+\method{merge}{phip_data}(x, y, ...)
 }
 \arguments{
 \item{x}{A \code{phip_data} object.}
@@ -13,10 +13,6 @@
 
 \item{...}{Arguments forwarded to either \code{\link[base:merge]{base::merge()}} or the chosen
 \strong{dplyr} join (e.g. \verb{by =}, \verb{suffix =}, etc.).}
-
-\item{confirm}{Logical.  When \code{TRUE} \emph{and} \code{type = "base"} \emph{and} the session
-is interactive, the user is asked to confirm.  Set to \code{FALSE}
-to skip the prompt (use sparingly-OOM risk remains).}
 }
 \value{
 A new \code{phip_data} whose \code{data_long} contains the merged / joined
