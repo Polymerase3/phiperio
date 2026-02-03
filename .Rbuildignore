@@ -1,3 +1,10 @@
 ^phiperio\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^\.github$
+^data-raw$
+^codemeta\.json$
+^README\.Rmd$
+^dev$
+^.pr_agent.toml$
+^CONTRIBUTING.md

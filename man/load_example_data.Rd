@@ -26,7 +26,6 @@ ex <- load_example_data()
 # Specify the dataset name explicitly
 ex2 <- load_example_data("small_mixture")
 
-# Use with plotting functions
-p = plot_enrichment_counts(ex, group_cols = "timepoint")
+# Use with downstream analysis/plotting functions as needed
 
 }
