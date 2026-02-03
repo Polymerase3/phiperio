@@ -1,1 +1,17 @@
 .Rproj.user
+.Rproj.user
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
+.Renviron
+counts_long.parquet
+
+local-data/
+local-cache/
+local-etl/
+check/
+examples/
+*.fastq
+*.csv.gz

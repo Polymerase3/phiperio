@@ -1,0 +1,7 @@
+# config.yaml
+comparisons_file: comparisons.csv
+samples_file: samples_meta.csv
+exist_file: exist.csv
+timepoints_file: samples2ind_timepoints.csv  # optional
+extra_cols: ["Sex", "Age"]                            # optional
+output_dir: reports #default reports

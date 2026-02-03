@@ -1,0 +1,4 @@
+name: phip_report_legacy
+description: >
+   Starter legacy HTML report for phip_data
+create_dir: FALSE
