@@ -1,16 +1,16 @@
 # ==============================================================================
-# phiper logging utilities (ASCII only; based on the chk and cli packages)
+# phiperio logging utilities (ASCII only; based on the chk and cli packages)
 # ==============================================================================
 # ---- user-tweakable globals (set via options() in .onLoad or zzz.R) ----------
 # options(
-#   phiper.log.verbose   = TRUE,
-#   phiper.log.time_fmt  = "%Y-%m-%d %H:%M:%S",
-#   phiper.log.width     = getOption("width", 80)
+#   phiperio.log.verbose   = TRUE,
+#   phiperio.log.time_fmt  = "%Y-%m-%d %H:%M:%S",
+#   phiperio.log.width     = getOption("width", 80)
 # )
 
 .ph_opt <- function(key,
                     default = NULL) {
-  getOption(paste0("phiper.log.", key), default)
+  getOption(paste0("phiperio.log.", key), default)
 }
 
 .ph_now <- function() {
@@ -109,7 +109,7 @@
 }
 
 # original conditional helper to not break down older code
-# upgraded to the unified phiper style
+# upgraded to the unified phiperio style
 .chk_cond <- function(condition,
                       error_message,
                       error = TRUE,
@@ -132,7 +132,7 @@
 }
 
 # ---- timing helper for sections ----------------------------------------------
-## many tasks in phiper can be long/take a while; it was important to have the
+## many tasks in phiperio can be long/take a while; it was important to have the
 ## infos on timing - this func wraps a task to get a start/end pair in the same
 ## style
 .ph_with_timing <- function(headline,
@@ -161,7 +161,7 @@
 }
 
 # ==============================================================================
-# phiper checks + additional helpers (ASCII-only, unified with phiper logger)
+# phiperio checks + additional helpers (ASCII-only, unified with phiperio logger)
 # it depends on: .ph_abort(), .ph_warn(), .chk_cond(), word_list(), add_quotes()
 # ==============================================================================
 
@@ -372,7 +372,7 @@ add_quotes <- function(x,
 `%||%` <- function(x, y) if (!is.null(x)) x else y
 
 
-#' @title Path to example PhIP-Seq datasets shipped with phiper
+#' @title Path to example PhIP-Seq datasets shipped with phiperio
 #'
 #' @param name Character scalar. Name of the example dataset.
 #'   Currently supported: `"phip_mixture"`.
@@ -391,7 +391,7 @@ phip_example_path <- function(name = c("phip_mixture")) {
     phip_mixture = "phip_mixture.parquet"
   )
 
-  path <- system.file("extdata", fname, package = "phiper")
+  path <- system.file("extdata", fname, package = "phiperio")
   if (path == "") {
     stop("File ", fname, " not found in extdata/", call. = FALSE)
   }

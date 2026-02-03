@@ -18,9 +18,9 @@
 # * two timepoints:          T1 and T2,
 # * sample sizes (subjects): A_T1 = 20; A_T2 = 18, B_T1 = 23; B_T2 = 19
 #
-# The data is exported as .parquet. To load it using phiper:
+# The data is exported as .parquet. To load it using phiperio:
 #
-# library(phiper)
+# library(phiperio)
 # sim_path <- phip_example_path("phip_mixture")
 #
 # x <- phip_convert(

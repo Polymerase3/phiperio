@@ -6,7 +6,7 @@
 #       ## test the .yaml file interface
 #       withr::with_tempdir({
 #         path <- file.path(
-#           system.file("extdata", package = "phiper"),
+#           system.file("extdata", package = "phiperio"),
 #           "config.yaml"
 #         )
 #
@@ -21,15 +21,15 @@
 #         expect_no_error(
 #           pd <- phip_convert_legacy(
 #             exist_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "exist.parquet"
 #             ),
 #             samples_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "samples_meta.csv"
 #             ),
 #             comparisons_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "comparisons.csv"
 #             ),
 #             peptide_library = FALSE
@@ -42,7 +42,7 @@
 #         expect_error(
 #           phip_convert_legacy(
 #             exist_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "exist.csv"
 #             ),
 #             peptide_library = FALSE
@@ -53,23 +53,23 @@
 #         expect_no_error(
 #           phip_convert_legacy(
 #             exist_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "exist.parquet"
 #             ),
 #             fold_change_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "fold_change.csv"
 #             ),
 #             samples_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "samples_meta.csv"
 #             ),
 #             input_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "raw_input.csv"
 #             ),
 #             hit_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "raw_hit.csv"
 #             ),
 #             peptide_library = FALSE
@@ -79,23 +79,23 @@
 #         expect_no_error(
 #           phip_convert_legacy(
 #             exist_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "exist.parquet"
 #             ),
 #             fold_change_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "fold_change.csv"
 #             ),
 #             samples_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "samples_meta.csv"
 #             ),
 #             input_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "raw_input.csv"
 #             ),
 #             hit_file = file.path(
-#               system.file("extdata", package = "phiper"),
+#               system.file("extdata", package = "phiperio"),
 #               "raw_hit.csv"
 #             ),
 #             peptide_library = FALSE
@@ -118,7 +118,7 @@
 #       ## test the .yaml file interface
 #       withr::with_tempdir({
 #         path <- file.path(
-#           system.file("extdata", package = "phiper"),
+#           system.file("extdata", package = "phiperio"),
 #           "config.yaml"
 #         )
 #         ## SMOKE TESTS -------------------------------------------------------------
@@ -146,7 +146,7 @@
 #         # ------------------------------------------------------------------#
 #         # 2. Locate original example files in your package
 #         # ------------------------------------------------------------------#
-#         pkg_ext <- function(name) system.file("extdata", name, package = "phiper")
+#         pkg_ext <- function(name) system.file("extdata", name, package = "phiperio")
 #
 #         yaml_src <- pkg_ext("config.yaml")
 #         exist_src <- pkg_ext("exist.csv")

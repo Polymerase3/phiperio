@@ -49,7 +49,7 @@
 #' @param comparisons_file Path to a **comparisons** CSV. Optional.
 #' @param output_dir       *Deprecated.* Ignored with a warning.
 #' @param peptide_library logical, defining if the `peptide_library` is to be
-#'    downloaded from the official `phiper` GitHub
+#'    downloaded from the official `phiperio` GitHub
 #' @param config_yaml      Optional YAML file containing any of the above
 #'   parameters (see example).
 #' @param n_cores Integer >= 1. Number of CPU threads DuckDB may use while
@@ -182,7 +182,7 @@ phip_convert_legacy <- function(
 .ph_legacy_read_duckdb_backend <- function(cfg,
                                            meta) {
 
-  cache_dir <- withr::local_tempdir("phiper_cache") # optional name-prefix
+  cache_dir <- withr::local_tempdir("phiperio_cache") # optional name-prefix
   duckdb_file <- file.path(cache_dir, "phip_cache.duckdb")
 
   con <- DBI::dbConnect(duckdb::duckdb(), dbdir = duckdb_file)

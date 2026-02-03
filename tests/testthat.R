@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(phiper)
+library(phiperio)
 
-test_check("phiper")
+test_check("phiperio")

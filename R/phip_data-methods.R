@@ -469,7 +469,7 @@ anti_join.phip_data <- function(x, y, ...) {
 #'
 #' @param phip_data A <phip_data> object.
 #' @param exist_col Name of the existence column to append/overwrite.
-#' @param overwrite If FALSE and the column exists, abort with a phiper-style error.
+#' @param overwrite If FALSE and the column exists, abort with a phiperio-style error.
 #' @return Modified <phip_data> with updated `data_long`.
 #' @examples
 #' pd <- phip_load_example_data()

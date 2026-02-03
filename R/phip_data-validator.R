@@ -15,7 +15,7 @@ validate_phip_data <- function(x,
       tbl <- x$data_long
       cols <- colnames(tbl)
 
-      # defining the reserved names in phiper, thay can not be used for
+      # defining the reserved names in phiperio, thay can not be used for
       # extra_cols
       reserved <- c(
         "subject_id", "sample_id", "timepoint",
@@ -358,7 +358,7 @@ validate_phip_data <- function(x,
 }
 
 # ==============================================================================
-# Full-grid expansion functions with phiper-style logging
+# Full-grid expansion functions with phiperio-style logging
 # ==============================================================================
 
 # 1) INTERNAL ENGINE: expand to full key*id grid, keep types, fill gaps
@@ -475,7 +475,7 @@ validate_phip_data <- function(x,
         }
 
         # hard abort, as no duplicates are allowed; it actually should already
-        # be checked with the phiper validator, but the auto_expand method can
+        # be checked with the phiperio validator, but the auto_expand method can
         # also be usade for data.frames, so it was important to check it here
         # too
         .ph_abort(
@@ -625,7 +625,7 @@ validate_phip_data <- function(x,
         dplyr::left_join(base_cells, by = by_both)
 
       # -- 7) Identify which columns to fill for introduced (new) rows ---------
-      # reserved measurement variable names in phiper
+      # reserved measurement variable names in phiperio
       common_measurement_names <- c(
         "exist", "fold_change",
         "input_count", "hit_count",

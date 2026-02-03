@@ -165,12 +165,12 @@ phip_convert <- function(
   )
 }
 
-#' @title Read and register "long" phiper data into a DuckDB-backed database
+#' @title Read and register "long" phiperio data into a DuckDB-backed database
 #'
 #' @description This internal function ingests one or more data files (Parquet or CSV)
 #' specified by `cfg$data_long_path` into a single DuckDB view named
 #' `data_long`, applying user-provided column mappings (`colmap`) to
-#' rename each source column to the standard PHIPER names. The resulting
+#' rename each source column to the standard PHIPERIO names. The resulting
 #' `phip_data` object contains a lazy DuckDB table that can be queried
 #' with dplyr without loading the full dataset into R until explicitly
 #' collected.
@@ -178,7 +178,7 @@ phip_convert <- function(
 #' @param cfg Named list, must contain element `data_long_path` pointing
 #'   to either a single file or a directory of files. Supported file
 #'   extensions are `.parquet`, `.parq`, `.pq`, and `.csv`.
-#' @param colmap Named character list mapping **standard** PHIPER column
+#' @param colmap Named character list mapping **standard** PHIPERIO column
 #'   names (e.g. `"sample_id"`, `"peptide_id"`, ...) to the **actual**
 #'   column names found in the source files.
 #'
@@ -202,7 +202,7 @@ phip_convert <- function(
 
   ## 0. open a DuckDB connection -------------------------------------------
   ## keep it persistent only for this R session, but ON DISK (so it can spill)
-  cache_dir <- withr::local_tempdir("phiper_cache", .local_envir = globalenv())
+  cache_dir <- withr::local_tempdir("phiperio_cache", .local_envir = globalenv())
   duckdb_file <- file.path(cache_dir, "phip_cache.duckdb")
   tmp_dir <- file.path(cache_dir, "tmp")
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
@@ -330,16 +330,16 @@ phip_convert <- function(
   invisible(con) # return the open connection
 }
 
-#' @title Rename columns to PHIPER standard names in-place
+#' @title Rename columns to PHIPERIO standard names in-place
 #'
 #' @description `.ph_rename_to_standard_inplace()` renames columns in a DuckDB
-#' table or view to the standard PHIPER schema using a mapping of standard
+#' table or view to the standard PHIPERIO schema using a mapping of standard
 #' names to source columns. For views, it recreates the view with aliased
 #' columns; for tables, it issues `ALTER TABLE ... RENAME COLUMN` statements.
 #'
 #' @param tbl Character scalar. Name of the DuckDB table or view to modify.
 #' @param con A valid DBI connection to DuckDB.
-#' @param colname_map Named character list mapping **standard** PHIPER column
+#' @param colname_map Named character list mapping **standard** PHIPERIO column
 #'   names (e.g. `"sample_id"`, `"peptide_id"`) to the **actual** column names
 #'   present in `tbl`.
 #'

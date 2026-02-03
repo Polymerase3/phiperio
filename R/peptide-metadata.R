@@ -1,6 +1,6 @@
 #' @title Retrieve the peptide metadata table into DuckDB, forcing atomic types
 #'
-#' @description This function uses the phiper logging utilities for consistent,
+#' @description This function uses the phiperio logging utilities for consistent,
 #'   ASCII-only progress messages and timing. Long-running steps are bracketed
 #'   with `.ph_with_timing()`, and informational/warning/error messages are
 #'   emitted via `.ph_log_info()`, `.ph_log_ok()`, `.ph_warn()`, and
@@ -43,7 +43,7 @@ get_peptide_meta <- function(force_refresh = FALSE) {
 
       # 1. Prep cache dir & DuckDB connection
       # a throw-away directory that vanishes when the calling environment ends
-      cache_dir <- withr::local_tempdir("phiper_cache") # optional name-prefix
+      cache_dir <- withr::local_tempdir("phiperio_cache") # optional name-prefix
       duckdb_file <- file.path(cache_dir, "phip_cache.duckdb")
       con <- DBI::dbConnect(duckdb::duckdb(), dbdir = duckdb_file)
       .ph_log_info("Opened DuckDB connection",
