@@ -113,22 +113,22 @@ test_that(".chk_path works for folders", {
 })
 
 # -------------------------------------------------------------------------
-# word_list / add_quotes ---------------------------------------------------
+# .ph_word_list / .ph_add_quotes ---------------------------------------------------
 # -------------------------------------------------------------------------
-test_that("word_list and add_quotes behave", {
+test_that(".ph_word_list and .ph_add_quotes behave", {
   expect_equal(
-    as.vector(word_list(c("a", "b", "c"), and_or = "and", quotes = TRUE)),
+    as.vector(.ph_word_list(c("a", "b", "c"), and_or = "and", quotes = TRUE)),
     '"a", "b", and "c"'
   )
 
   expect_equal(
-    attr(word_list("a"), "plural"),
+    attr(.ph_word_list("a"), "plural"),
     FALSE
   )
 
   # quotes variations
-  expect_equal(add_quotes("x", quotes = FALSE), "x")
-  expect_equal(add_quotes("x", quotes = TRUE), '"x"')
-  expect_equal(add_quotes("x", quotes = 1), "'x'")
-  expect_equal(add_quotes("x", quotes = 2), '"x"')
+  expect_equal(.ph_add_quotes("x", quotes = FALSE), "x")
+  expect_equal(.ph_add_quotes("x", quotes = TRUE), '"x"')
+  expect_equal(.ph_add_quotes("x", quotes = 1), "'x'")
+  expect_equal(.ph_add_quotes("x", quotes = 2), '"x"')
 })

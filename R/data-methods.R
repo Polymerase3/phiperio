@@ -131,13 +131,6 @@ print.phip_data <- function(x, ...) {
 ################################################################################
 ## plain accessors (cause no S3 generics) --------------------------------------
 ################################################################################
-.ph_check_pd <- function(obj) {
-  .ph_check_cond(
-    !inherits(obj, "phip_data"),
-    "`x` must be a <phip_data> object."
-  )
-}
-
 #' @title Retrieve the main PhIP-Seq counts table
 #'
 #' @description Quick accessor for the `data_long` slot of a **phip_data**
@@ -224,6 +217,9 @@ export_parquet <- function(x, path) {
 ################################################################################
 
 # helper to copy x, modify counts, and return
+#' @title Internal helper: .ph_modify_pd
+#' @description Replace `data_long` in a phip_data object and return it.
+#' @keywords internal
 .ph_modify_pd <- function(.data, new_counts) {
   .data$data_long <- new_counts
   .data
@@ -296,44 +292,12 @@ ungroup.phip_data <- function(x, ...) {
 
 # Utilities ---------------------------------------------------------------
 
+#' @title Internal helper: .ph_extract_data_long
+#' @description Return the `data_long` slot if input is phip_data; otherwise
+#'   return the input unchanged.
+#' @keywords internal
 .ph_extract_data_long <- function(obj) {
   if (inherits(obj, "phip_data")) obj$data_long else obj
-}
-
-###############################################################################
-##  Pretty, CLI-styled yes/no prompt  --------------------------------------
-###############################################################################
-.ph_cli_yesno <- function(question,
-                       yes = c("y", "yes"),
-                       no = c("n", "no")) {
-  yes <- tolower(yes)
-  no <- tolower(no)
-
-  repeat {
-    cli::cli_text(
-      "{.question {question}} {.dim [y/n]} ",
-      .envir = list(question = question)
-    )
-    answer <- tolower(trimws(readline(cli::style_dim("--> "))))
-    if (answer %in% yes) {
-      return(TRUE)
-    }
-    if (answer %in% no) {
-      return(FALSE)
-    }
-    cli::cli_alert_danger("Please answer {.strong y} or {.strong n}.")
-  }
-}
-
-###############################################################################
-##  CLI-aware warning helper  ----------------------------------------------
-###############################################################################
-.ph_cli_warn <- function(msg) {
-  if (requireNamespace("cli", quietly = TRUE)) {
-    cli::cli_alert_warning(msg)
-  } else {
-    warning(msg, call. = FALSE)
-  }
 }
 
 # Main merge() method -----------------------------------------------------
@@ -344,40 +308,23 @@ ungroup.phip_data <- function(x, ...) {
 #' @param y      A data-frame-like object *or* another `phip_data`.
 #' @param ...    Arguments forwarded to either [base::merge()] or the chosen
 #'               **dplyr** join (e.g. `by =`, `suffix =`, etc.).
-#' @param confirm Logical.  When `TRUE` *and* `type = "base"` *and* the session
-#'               is interactive, the user is asked to confirm.  Set to `FALSE`
-#'               to skip the prompt (use sparingly-OOM risk remains).
 #'
 #' @return A new `phip_data` whose `data_long` contains the merged / joined
 #'         tibble.
 #' @exportS3Method merge phip_data
 merge.phip_data <- function(x, y,
-                            ...,
-                            confirm = interactive()) {
+                            ...) {
   y <- .ph_extract_data_long(y)
 
   # -----------------------------------------------------------------------
   #  Base merge (potentially memory-hungry) ------------------------------
   # -----------------------------------------------------------------------
-  if (confirm && interactive()) {
-    .ph_cli_warn("`merge()` copies both tables in full; this may exhaust RAM.")
-    ok <- .ph_cli_yesno("Proceed with base::merge()?")
-    if (!isTRUE(ok)) {
-      chk::abort_chk("Merge aborted.  Use `dplyr` (or another join) for
-             a memory-efficient alternative.",
-        call. = FALSE
-      )
-    }
-  }
+  .ph_warn("`merge()` copies both tables in full; this may exhaust RAM.")
 
   merged_tbl <- base::merge(x$data_long, y, ...)
 
   .ph_modify_pd(x, merged_tbl)
 }
-
-# helpers (internal)
-#' @noRd
-.ph_extract_data_long <- function(y) if (inherits(y, "phip_data")) y$data_long else y
 
 #' dplyr joins for `phip_data`
 #'
@@ -439,10 +386,6 @@ anti_join.phip_data <- function(x, y, ...) {
   .ph_modify_pd(x, dplyr::anti_join(x$data_long, y, ...))
 }
 
-###############################################################################
-##  Pretty, CLI-styled yes/no prompt  --------------------------------------
-###############################################################################
-
 #' @title Ensure an existence flag (all ones) on `data_long`
 #'
 #' @description Appends/overwrites a column (default: "exist") filled with 1L on
@@ -467,7 +410,7 @@ add_exist <- function(phip_data,
     headline = "Ensuring existence flag on data_long",
     step = sprintf(
       "column: %s; overwrite: %s",
-      add_quotes(exist_col, 1L), as.character(overwrite)
+      .ph_add_quotes(exist_col, 1L), as.character(overwrite)
     ),
     expr = {
       tbl <- x$data_long
@@ -478,7 +421,7 @@ add_exist <- function(phip_data,
             headline = "Existence column already present.",
             step = "input validation",
             bullets = c(
-              sprintf("column: %s", add_quotes(exist_col, 2L)),
+              sprintf("column: %s", .ph_add_quotes(exist_col, 2L)),
               "set overwrite = TRUE to replace existing values"
             )
           )
@@ -486,13 +429,13 @@ add_exist <- function(phip_data,
           .ph_warn(
             headline = "Overwriting existing existence flag.",
             step     = "adding existence indicator",
-            bullets  = sprintf("column: %s", add_quotes(exist_col, 2L))
+            bullets  = sprintf("column: %s", .ph_add_quotes(exist_col, 2L))
           )
         }
       } else {
         .ph_log_info(
           "Adding existence flag column",
-          bullets = sprintf("column: %s", add_quotes(exist_col, 2L))
+          bullets = sprintf("column: %s", .ph_add_quotes(exist_col, 2L))
         )
       }
 

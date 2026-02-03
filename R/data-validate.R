@@ -325,6 +325,9 @@ validate_phip_data <- function(x,
 # - If add_exist=TRUE and `exist_col` already exists, it will be overwritten
 #   with a warning
 # - The key_col can be a vector: eg. c("subject_id","timepoint_factor"), etc.
+#' @title Internal helper: .ph_expand_full_grid
+#' @description Expand a table to the full key * id grid with typed fill defaults.
+#' @keywords internal
 .ph_expand_full_grid <- function(tbl,
                                    key_col = "sample_id",
                                    id_col = "peptide_id",
@@ -341,8 +344,8 @@ validate_phip_data <- function(x,
     headline = "Expanding to full key * id grid",
     step = sprintf(
       "keys: %s; id: %s",
-      paste(add_quotes(key_cols, 1L), collapse = ", "),
-      add_quotes(id_col, 1L)
+      paste(.ph_add_quotes(key_cols, 1L), collapse = ", "),
+      .ph_add_quotes(id_col, 1L)
     ),
     expr = {
       # clean eval helper vars
@@ -361,11 +364,11 @@ validate_phip_data <- function(x,
             bullets = c(
               sprintf(
                 "missing: %s",
-                paste(add_quotes(missing_cols, 2L), collapse = ", ")
+                paste(.ph_add_quotes(missing_cols, 2L), collapse = ", ")
               ),
               sprintf(
                 "available: %s",
-                paste(add_quotes(colnames(tbl), 2L), collapse = ", ")
+                paste(.ph_add_quotes(colnames(tbl), 2L), collapse = ", ")
               )
             )
           )
@@ -411,7 +414,7 @@ validate_phip_data <- function(x,
                   sprintf(
                     "%s=%s",
                     k,
-                    add_quotes(as.character(row_i[[k]]), 1L)
+                    .ph_add_quotes(as.character(row_i[[k]]), 1L)
                   )
                 },
                 character(1)
@@ -420,7 +423,7 @@ validate_phip_data <- function(x,
               kv_id <- sprintf(
                 "%s=%s", # format the id col
                 id_col,
-                add_quotes(as.character(row_i[[id_col]]), 1L)
+                .ph_add_quotes(as.character(row_i[[id_col]]), 1L)
               )
 
               kv_n <- sprintf(
@@ -708,13 +711,13 @@ validate_phip_data <- function(x,
             headline = "Overwriting existing existence flag.",
             step = "adding existence indicator",
             bullets = c(
-              sprintf("column: %s", add_quotes(exist_col, 2L)),
+              sprintf("column: %s", .ph_add_quotes(exist_col, 2L)),
               "old values will be replaced by derived 0/1 flag"
             )
           )
         } else {
           .ph_log_info("Adding existence flag column",
-            bullets = sprintf("column: %s", add_quotes(exist_col, 2L))
+            bullets = sprintf("column: %s", .ph_add_quotes(exist_col, 2L))
           )
         }
 
@@ -823,7 +826,7 @@ expand_data <- function(x,
       # -- Register back to DB ---------------------------------------------------
       .ph_log_info("Registering expanded table back to DB",
         bullets = c(
-          sprintf("name: %s", add_quotes("data_long", 1L)),
+          sprintf("name: %s", .ph_add_quotes("data_long", 1L)),
           sprintf("materialise_table: %s", as.character(x$meta$materialise_table))
         )
       )
@@ -875,7 +878,7 @@ expand_data <- function(x,
     headline = "Registering lazy table",
     step = sprintf(
       "name: %s; as %s",
-      add_quotes(name, 1L),
+      .ph_add_quotes(name, 1L),
       if (isTRUE(materialise_table)) "TABLE" else "VIEW"
     ),
     expr = {

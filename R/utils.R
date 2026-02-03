@@ -8,20 +8,35 @@
 #   phiperio.log.width     = getOption("width", 80)
 # )
 
+# ==============================================================================
+# LOGGING: OPTIONS + FORMATTING
+# ==============================================================================
+#' @title Internal helper: .ph_opt
+#' @description Read a phiperio logging option with a fallback default.
+#' @keywords internal
 .ph_opt <- function(key,
                     default = NULL) {
   getOption(paste0("phiperio.log.", key), default)
 }
 
+#' @title Internal helper: .ph_now
+#' @description Return the current time formatted for log prefixes.
+#' @keywords internal
 .ph_now <- function() {
   format(Sys.time(), .ph_opt("time_fmt", "%H:%M:%S"))
 }
 
+#' @title Internal helper: .ph_base_prefix
+#' @description Build the base log prefix for a given level label.
+#' @keywords internal
 .ph_base_prefix <- function(level = "INFO") {
   sprintf("[%s] %-5s ", .ph_now(), toupper(level)[1])
 }
 
 # wraps the text nicely, regardless of the console width
+#' @title Internal helper: .ph_wrap
+#' @description Wrap text to the configured width, preserving the prefix.
+#' @keywords internal
 .ph_wrap <- function(text,
                      prefix) {
   w <- .ph_opt("width", getOption("width", 80))
@@ -35,6 +50,9 @@
 # Compose multi-depth message lines
 # currently the maximal supported log depth is 3:
 # headline (required), step (optional), bullets (optional chr vec)
+#' @title Internal helper: .ph_compose_lines
+#' @description Compose multi-line log output with headline, step, and bullets.
+#' @keywords internal
 .ph_compose_lines <- function(level,
                               headline,
                               step = NULL,
@@ -59,8 +77,13 @@
   out
 }
 
-# ---- Public logging helpers --------------------------------------------------
+# ==============================================================================
+# LOGGING: EMITTERS
+# ==============================================================================
 ## monitor task progress
+#' @title Internal helper: .ph_log_info
+#' @description Emit an INFO log block if verbose logging is enabled.
+#' @keywords internal
 .ph_log_info <- function(headline,
                          step = NULL,
                          bullets = NULL,
@@ -74,6 +97,9 @@
 }
 
 ## monitor task progression
+#' @title Internal helper: .ph_log_ok
+#' @description Emit an OK log block if verbose logging is enabled.
+#' @keywords internal
 .ph_log_ok <- function(headline,
                        step = NULL,
                        bullets = NULL,
@@ -87,6 +113,9 @@
 }
 
 # Warnings/errors via chk, but formatted to match the style of the logger
+#' @title Internal helper: .ph_warn
+#' @description Emit a WARN log block using chk when available.
+#' @keywords internal
 .ph_warn <- function(headline, step = NULL, bullets = NULL, ...) {
   lines <- .ph_compose_lines("WARN", headline, step, bullets)
   msg <- paste(lines, collapse = "\n")
@@ -98,6 +127,9 @@
   invisible(lines)
 }
 
+#' @title Internal helper: .ph_abort
+#' @description Emit an ERROR log block and abort execution.
+#' @keywords internal
 .ph_abort <- function(headline, step = NULL, bullets = NULL, ...) {
   lines <- .ph_compose_lines("ERROR", headline, step, bullets)
   msg <- paste(lines, collapse = "\n")
@@ -108,33 +140,15 @@
   }
 }
 
-# original conditional helper to not break down older code
-# upgraded to the unified phiperio style
-.ph_check_cond <- function(condition,
-                      error_message,
-                      error = TRUE,
-                      step = NULL,
-                      bullets = NULL,
-                      ...) {
-  # log nopthing
-  if (!isTRUE(condition)) {
-    return(invisible(FALSE))
-  }
-
-  # print error and abort exec
-  if (isTRUE(error)) {
-    .ph_abort(headline = error_message, step = step, bullets = bullets, ...)
-  } else {
-    # print warning and go on
-    .ph_warn(headline = error_message, step = step, bullets = bullets, ...)
-  }
-  invisible(TRUE)
-}
-
-# ---- timing helper for sections ----------------------------------------------
+# ==============================================================================
+# LOGGING: TIMING
+# ==============================================================================
 ## many tasks in phiperio can be long/take a while; it was important to have the
 ## infos on timing - this func wraps a task to get a start/end pair in the same
 ## style
+#' @title Internal helper: .ph_with_timing
+#' @description Conditionally raise a formatted warning or error.
+#' @keywords internal
 .ph_with_timing <- function(headline,
                             step = NULL,
                             bullets = NULL,
@@ -161,13 +175,51 @@
 }
 
 # ==============================================================================
-# phiperio checks + additional helpers (ASCII-only, unified with phiperio logger)
-# it depends on: .ph_abort(), .ph_warn(), .ph_check_cond(), word_list(), add_quotes()
+# VALIDATION / CHECKS (unified with phiperio logger)
 # ==============================================================================
+
+# original conditional helper to not break down older code
+# upgraded to the unified phiperio style
+#' @title Internal helper: .ph_check_cond
+#' @description Execute an expression with start/stop timing logs.
+#' @keywords internal
+.ph_check_cond <- function(condition,
+                      error_message,
+                      error = TRUE,
+                      step = NULL,
+                      bullets = NULL,
+                      ...) {
+  # log nopthing
+  if (!isTRUE(condition)) {
+    return(invisible(FALSE))
+  }
+
+  # print error and abort exec
+  if (isTRUE(error)) {
+    .ph_abort(headline = error_message, step = step, bullets = bullets, ...)
+  } else {
+    # print warning and go on
+    .ph_warn(headline = error_message, step = step, bullets = bullets, ...)
+  }
+  invisible(TRUE)
+}
+
+#' @title Internal helper: .ph_check_pd
+#' @description Validate that an object is a phip_data instance.
+#' @keywords internal
+.ph_check_pd <- function(obj) {
+  .ph_check_cond(
+    !inherits(obj, "phip_data"),
+    "`x` must be a <phip_data> object."
+  )
+}
 
 # -- check if filename has given extension ------------------------------------
 # comes in handy when loading .csv or .parquet; provide filename and vector of
 # extensions to check (eg c(".csv", ".parquet"))
+#' @title Internal helper: .ph_check_extension
+#' @description Validate a filename extension against an allowed set.
+#' @keywords internal
 .ph_check_extension <- function(name,
                            x_name,
                            ext_vec) {
@@ -194,10 +246,10 @@
       headline = sprintf("Invalid file extension for `%s`.", x_name),
       step = sprintf("validating path: %s", name),
       bullets = c(
-        sprintf("got: %s", add_quotes(got, 2L)),
+        sprintf("got: %s", .ph_add_quotes(got, 2L)),
         sprintf(
           "allowed: %s",
-          word_list(add_quotes(norm(ext_vec), 2L), and_or = "or")
+          .ph_word_list(.ph_add_quotes(norm(ext_vec), 2L), and_or = "or")
         )
       )
     )
@@ -206,6 +258,9 @@
 }
 
 # -- check if NULL and replace with default when TRUE (warn in unified style) --
+#' @title Internal helper: .ph_check_null_default
+#' @description Replace NULL with a default, logging a warning.
+#' @keywords internal
 .ph_check_null_default <- function(x,
                               x_name,
                               method,
@@ -214,7 +269,7 @@
     # format the default for print
     fmt <- function(v) {
       if (is.character(v) && length(v) == 1L) {
-        return(add_quotes(v, 2L))
+        return(.ph_add_quotes(v, 2L))
       }
       if (is.atomic(v) && length(v) == 1L) {
         return(as.character(v))
@@ -225,7 +280,7 @@
     # generate warning and the replace
     .ph_warn(
       headline = sprintf("Argument `%s` missing; using default.", x_name),
-      step     = sprintf("method: %s", add_quotes(method, 2L)),
+      step     = sprintf("method: %s", .ph_add_quotes(method, 2L)),
       bullets  = sprintf("default: %s", fmt(default))
     )
     x <- default
@@ -234,6 +289,9 @@
 }
 
 # -- validate path to file -----------------------------------------------------
+#' @title Internal helper: .ph_check_path
+#' @description Validate a file or directory path (and optional extension).
+#' @keywords internal
 .ph_check_path <- function(path,
                       arg_name,
                       extension,
@@ -283,12 +341,19 @@
   invisible(TRUE)
 }
 
+# ==============================================================================
+# STRING FORMATTING
+# ==============================================================================
 # -- clean wordlists for message generation ------------------------------------
 # for multiple arguments/values
-word_list <- function(word_list = NULL,
-                      and_or = "and",
-                      is_are = FALSE,
-                      quotes = FALSE) {
+#' @title Internal helper: .ph_word_list
+#' @description Build a human-readable list from a character vector, with
+#'   optional quoting and conjunction handling.
+#' @keywords internal
+.ph_word_list <- function(word_list = NULL,
+                          and_or = "and",
+                          is_are = FALSE,
+                          quotes = FALSE) {
   # Make "a and b" / "a, b, and c"; optionally append "is/are".
   word_list <- setdiff(word_list, c(NA_character_, ""))
 
@@ -298,7 +363,7 @@ word_list <- function(word_list = NULL,
     return(out)
   }
 
-  word_list <- add_quotes(word_list, quotes)
+  word_list <- .ph_add_quotes(word_list, quotes)
 
   len_wl <- length(word_list)
 
@@ -332,8 +397,12 @@ word_list <- function(word_list = NULL,
 # -- quoting helper (unified error style) --------------------------------------
 # define number of quotes you want --> for printing logs/messages/warnings
 # or define the quotes itself as a string
-add_quotes <- function(x,
-                       quotes = 2L) {
+#' @title Internal helper: .ph_add_quotes
+#' @description Wrap character values in quotes for log output. Supports
+#'   FALSE/TRUE, 0/1/2, or a single-character quote string.
+#' @keywords internal
+.ph_add_quotes <- function(x,
+                           quotes = 2L) {
   if (isFALSE(quotes)) {
     return(x)
   }
@@ -346,7 +415,7 @@ add_quotes <- function(x,
   if (!chk::vld_count(quotes) || quotes > 2) {
     .ph_abort(
       headline = "Invalid `quotes` argument.",
-      step = "formatting add_quotes()",
+      step = "formatting .ph_add_quotes()",
       bullets = c(
         "allowed: FALSE, TRUE, 0, 1, 2, or a single-character string",
         sprintf("got class: %s", paste(class(quotes), collapse = "/"))
@@ -363,6 +432,9 @@ add_quotes <- function(x,
   sprintf('"%s"', x)
 }
 
+# ==============================================================================
+# OPERATORS
+# ==============================================================================
 # -- not-in operator -----------------------------------------------------------
 `%nin%` <- function(x, inx) {
   !(x %in% inx)
@@ -372,6 +444,9 @@ add_quotes <- function(x,
 `%||%` <- function(x, y) if (!is.null(x)) x else y
 
 
+# ==============================================================================
+# EXAMPLE DATA HELPERS
+# ==============================================================================
 #' @title Path to example PhIP-Seq datasets shipped with phiperio
 #'
 #' @param name Character scalar. Name of the example dataset.
@@ -469,6 +544,9 @@ load_example_data <- local({
 })
 
 
+# ==============================================================================
+# PATH RESOLUTION (FAST-FAIL)
+# ==============================================================================
 #' @title Resolve legacy-import paths and perform fast-fail argument checks
 #'
 #' @description Combines explicit arguments with a YAML config (if given),
