@@ -60,7 +60,26 @@ get_peptide_library <- function(force_refresh = FALSE) {
         )
       }
       duckdb_file <- file.path(cache_dir, "phip_cache.duckdb")
-      con <- DBI::dbConnect(duckdb::duckdb(), dbdir = duckdb_file)
+      con <- tryCatch(
+        DBI::dbConnect(duckdb::duckdb(), dbdir = duckdb_file),
+        error = function(e) {
+          # fall back to read-only if the cache is locked elsewhere
+          tryCatch(
+            DBI::dbConnect(duckdb::duckdb(), dbdir = duckdb_file, read_only = TRUE),
+            error = function(e2) {
+              # final fallback: use a temporary copy of the cache DB
+              tmp_db <- file.path(
+                withr::local_tempdir("phiperio_cache", .local_envir = globalenv()),
+                "phip_cache.duckdb"
+              )
+              if (file.exists(duckdb_file)) {
+                file.copy(duckdb_file, tmp_db, overwrite = TRUE)
+              }
+              DBI::dbConnect(duckdb::duckdb(), dbdir = tmp_db)
+            }
+          )
+        }
+      )
       .ph_log_info("Opened DuckDB connection",
         bullets = c(
           sprintf("cache dir: %s", duckdb_file),
@@ -269,10 +288,6 @@ get_peptide_library <- function(force_refresh = FALSE) {
 
 #' @keywords internal
 .ph_sha256_file <- function(path) {
-  if (requireNamespace("openssl", quietly = TRUE)) {
-    return(as.character(openssl::sha256(file = path)))
-  }
-
   tryCatch(
     {
       strsplit(system2("sha256sum", path, stdout = TRUE), "\\s+")[[1]][1]
