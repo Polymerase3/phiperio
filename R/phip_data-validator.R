@@ -285,7 +285,8 @@ validate_phip_data <- function(x,
               hit_count    = 0L,
               counts_input = 0L,
               counts_hit   = 0L
-            )
+            ),
+            validate = FALSE
           )
 
           .ph_log_ok("Auto-expansion complete; grid is now full")
@@ -329,7 +330,8 @@ validate_phip_data <- function(x,
                                    id_col = "peptide_id",
                                    fill_override = NULL,
                                    add_exist = FALSE,
-                                   exist_col = "exist") {
+                                   exist_col = "exist",
+                                   validate = TRUE) {
   # defining names
   key_cols <- as.character(key_col)
   id_col <- as.character(id_col)[1]
@@ -350,96 +352,100 @@ validate_phip_data <- function(x,
       row_exists_sym <- rlang::sym(".row_exists")
 
       # -- 0) Validate presence of required columns ----------------------------
-      missing_cols <- setdiff(c(key_cols, id_col), colnames(tbl))
-      if (length(missing_cols)) {
-        .ph_abort(
-          headline = "Required columns are missing.",
-          step = "input validation",
-          bullets = c(
-            sprintf(
-              "missing: %s",
-              paste(add_quotes(missing_cols, 2L), collapse = ", ")
-            ),
-            sprintf(
-              "available: %s",
-              paste(add_quotes(colnames(tbl), 2L), collapse = ", ")
+      if (isTRUE(validate)) {
+        missing_cols <- setdiff(c(key_cols, id_col), colnames(tbl))
+        if (length(missing_cols)) {
+          .ph_abort(
+            headline = "Required columns are missing.",
+            step = "input validation",
+            bullets = c(
+              sprintf(
+                "missing: %s",
+                paste(add_quotes(missing_cols, 2L), collapse = ", ")
+              ),
+              sprintf(
+                "available: %s",
+                paste(add_quotes(colnames(tbl), 2L), collapse = ", ")
+              )
             )
           )
-        )
+        }
       }
 
       # -- 1) Enforce uniqueness of (key, id) pairs ----------------------------
-      .ph_log_info("Checking uniqueness of (key, id) pairs")
-      dup_pairs <- tbl |>
-        dplyr::count(
-          dplyr::across(dplyr::all_of(c(
-            key_cols,
-            id_col
-          ))),
-          name = ".n"
-        ) |>
-        dplyr::filter(.data$.n > 1L)
-
-      dup_count <- dup_pairs |>
-        dplyr::tally(name = "n_dups") |>
-        dplyr::collect() |>
-        dplyr::pull(n_dups)
-      dup_count <- if (length(dup_count)) dup_count else 0L
-
-      # give examples in the error message when duplicates present
-      if (dup_count > 0L) {
-        # collect the duplicates (only 5 to keep things lean)
-        ex <- dup_pairs |>
-          dplyr::slice_head(n = 5) |>
-          dplyr::collect()
-
-        # format a few duplicate examples with vapply
-        fmt_ex <- character(0)
-        if (nrow(ex) > 0L) { # fallback
-          # loop over rows
-          fmt_ex <- vapply(seq_len(nrow(ex)), function(i) {
-            row_i <- ex[i, , drop = FALSE] # grab the row
-
-            kv_key <- vapply( # format the key columns
+      if (isTRUE(validate)) {
+        .ph_log_info("Checking uniqueness of (key, id) pairs")
+        dup_pairs <- tbl |>
+          dplyr::count(
+            dplyr::across(dplyr::all_of(c(
               key_cols,
-              function(k) {
-                sprintf(
-                  "%s=%s",
-                  k,
-                  add_quotes(as.character(row_i[[k]]), 1L)
-                )
-              },
-              character(1)
+              id_col
+            ))),
+            name = ".n"
+          ) |>
+          dplyr::filter(.data$.n > 1L)
+
+        dup_count <- dup_pairs |>
+          dplyr::tally(name = "n_dups") |>
+          dplyr::collect() |>
+          dplyr::pull(n_dups)
+        dup_count <- if (length(dup_count)) dup_count else 0L
+
+        # give examples in the error message when duplicates present
+        if (dup_count > 0L) {
+          # collect the duplicates (only 5 to keep things lean)
+          ex <- dup_pairs |>
+            dplyr::slice_head(n = 5) |>
+            dplyr::collect()
+
+          # format a few duplicate examples with vapply
+          fmt_ex <- character(0)
+          if (nrow(ex) > 0L) { # fallback
+            # loop over rows
+            fmt_ex <- vapply(seq_len(nrow(ex)), function(i) {
+              row_i <- ex[i, , drop = FALSE] # grab the row
+
+              kv_key <- vapply( # format the key columns
+                key_cols,
+                function(k) {
+                  sprintf(
+                    "%s=%s",
+                    k,
+                    add_quotes(as.character(row_i[[k]]), 1L)
+                  )
+                },
+                character(1)
+              )
+
+              kv_id <- sprintf(
+                "%s=%s", # format the id col
+                id_col,
+                add_quotes(as.character(row_i[[id_col]]), 1L)
+              )
+
+              kv_n <- sprintf(
+                ".n=%s", # how many duplicate overall
+                as.character(row_i[[".n"]])
+              )
+
+              paste(c(kv_key, kv_id, kv_n), collapse = ", ") # paste message
+            }, character(1))
+            fmt_ex <- paste0("  - ", fmt_ex)
+          }
+
+          # hard abort, as no duplicates are allowed; it actually should already
+          # be checked with the phiperio validator, but the auto_expand method can
+          # also be used for data.frames, so it was important to check it here
+          # too
+          .ph_abort(
+            headline = "Duplicate (key, id) pairs found.",
+            step = "uniqueness enforcement",
+            bullets = c(
+              sprintf("duplicates: %s", dup_count),
+              if (length(fmt_ex)) c("examples:", fmt_ex) else NULL
             )
-
-            kv_id <- sprintf(
-              "%s=%s", # format the id col
-              id_col,
-              add_quotes(as.character(row_i[[id_col]]), 1L)
-            )
-
-            kv_n <- sprintf(
-              ".n=%s", # how many duplicate overall
-              as.character(row_i[[".n"]])
-            )
-
-            paste(c(kv_key, kv_id, kv_n), collapse = ", ") # paste message
-          }, character(1))
-          fmt_ex <- paste0("  - ", fmt_ex)
-        }
-
-        # hard abort, as no duplicates are allowed; it actually should already
-        # be checked with the phiperio validator, but the auto_expand method can
-        # also be usade for data.frames, so it was important to check it here
-        # too
-        .ph_abort(
-          headline = "Duplicate (key, id) pairs found.",
-          step = "uniqueness enforcement",
-          bullets = c(
-            sprintf("duplicates: %s", dup_count),
-            if (length(fmt_ex)) c("examples:", fmt_ex) else NULL
           )
-        )
+        }
       }
 
       # -- 2) probe column types (for lazy tables: head(0) to infer classes) ---
@@ -749,6 +755,9 @@ validate_phip_data <- function(x,
 #'   whether a row was present before the expansion.
 #' @param exist_col Name for the existence flag. If this column already exists,
 #'   it will be **overwritten**.
+#' @param validate Logical; if `TRUE`, perform input checks for required
+#'   columns and uniqueness. Set to `FALSE` when these checks were already
+#'   performed upstream (e.g., inside `validate_phip_data()`).
 #' @param ... Reserved for future extensions; currently unused.
 #'
 #' @return The updated `<phip_data>` object.
@@ -764,6 +773,7 @@ expand_phip_data <- function(x,
                              fill_override = NULL,
                              add_exist = FALSE,
                              exist_col = "exist",
+                             validate = TRUE,
                              ...) {
   .ph_with_timing(
     headline = "Expanding <phip_data> to full grid",
@@ -776,7 +786,8 @@ expand_phip_data <- function(x,
         id_col        = id_col,
         fill_override = fill_override,
         add_exist     = add_exist,
-        exist_col     = exist_col
+        exist_col     = exist_col,
+        validate      = validate
       )
 
       # -- Compute grid completeness on the lazy object (small collect) ----------

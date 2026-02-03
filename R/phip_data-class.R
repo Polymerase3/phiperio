@@ -75,33 +75,6 @@ new_phip_data <- function(data_long,
       meta$peptide_con <- attr(peptide_library, "duckdb_con")
       meta$materialise_table <- materialise_table
 
-      # check if the data is a full_cross --> that means all peptide x unique_id
-      # combinations are present in the data
-      is_full_cross <- function(tbl,
-                                peptide = "peptide_id",
-                                sample = "sample_id") {
-        pep_sym <- rlang::sym(peptide)
-        smp_sym <- rlang::sym(sample)
-
-        dims <- tbl |>
-          dplyr::summarise(
-            n_pep = dplyr::n_distinct(!!pep_sym),
-            n_smp = dplyr::n_distinct(!!smp_sym),
-            n_obs = dplyr::n()
-          ) |>
-          dplyr::collect()
-
-        dims$n_obs == dims$n_pep * dims$n_smp
-      }
-
-      # pick the correct column ----------------------------------------------
-      meta$full_cross <- is_full_cross(data_long,
-        peptide = "peptide_id",
-        sample  = "sample_id"
-      )
-
-      # --------------------------------------------------------------------------
-
       # define the object
       obj <- structure(
         list(

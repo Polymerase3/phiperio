@@ -9,23 +9,11 @@
 #' `phip_data` object.
 #'
 #' @details
-#' **Validation rules**
-#' *1 – exist CSV*
-#' * First column **must** be `peptide_id` and unique.
-#' * Remaining columns are `sample_id`s found in the samples file.
-#' * Values allowed: `0`, `1`, or `NA` – anything else aborts.
-#'
-#' *2 – samples CSV*
-#' * First column **must** be `sample_id`, unique.
-#' * Extra columns kept only if listed in `extra_cols`.
-#'
-#' *3 – timepoints CSV* (optional, longitudinal)
-#' * First column **must** be `ind_id` (subject).
-#' * Other columns are time-point names; cells are `sample_id` or `NA`.
-#' * Column names must match `timepoint` values in the data; every `sample_id`
-#'   appears at most once.
-#'
-#' Files failing any rule trigger an informative `.chk_cond()` error.
+#' Input files are validated in two stages:
+#' * **Fast-fail** checks (paths, extensions, and required arguments) run during
+#'   path resolution.
+#' * **Data validation** (required columns, uniqueness, value ranges, etc.) is
+#'   centralized in `validate_phip_data()`.
 #'
 #' @param exist_file       Path to the **exist** CSV (peptide x sample binary
 #'   matrix). *Required unless given in `config_yaml`.*
