@@ -30,6 +30,10 @@
 #' when the downloaded file’s checksum does not match the expected value.
 #'
 #' @seealso [dplyr::tbl()], [DBI::dbConnect()], [duckdb::duckdb()]
+#' @examples
+#' \donttest{
+#' lib <- get_peptide_library()
+#' }
 #' @export
 get_peptide_library <- function(force_refresh = FALSE) {
   .ph_with_timing(

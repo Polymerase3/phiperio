@@ -139,6 +139,11 @@ print.phip_data <- function(x, ...) {
 #' @param x A valid `phip_data` object.
 #'
 #' @return A tibble or lazy table with one row per peptide * sample pair.
+#' @examples
+#' \donttest{
+#' pd <- load_example_data()
+#' tbl <- get_counts(pd)
+#' }
 #' @export
 get_counts <- function(x) {
   .ph_check_pd(x)
@@ -153,6 +158,11 @@ get_counts <- function(x) {
 #'
 #' @inheritParams get_counts
 #' @return A named list.
+#' @examples
+#' \donttest{
+#' pd <- load_example_data()
+#' meta <- get_meta(pd)
+#' }
 #' @export
 get_meta <- function(x) {
   .ph_check_pd(x)
@@ -311,6 +321,11 @@ ungroup.phip_data <- function(x, ...) {
 #'
 #' @return A new `phip_data` whose `data_long` contains the merged / joined
 #'         tibble.
+#' @examples
+#' \donttest{
+#' pd <- load_example_data()
+#' merged <- merge(pd, pd, by = c("sample_id", "peptide_id"))
+#' }
 #' @exportS3Method merge phip_data
 merge.phip_data <- function(x, y,
                             ...) {
@@ -332,6 +347,11 @@ merge.phip_data <- function(x, y,
 #' @param y A `phip_data` or a data frame / tbl.
 #' @param ... Passed to the corresponding `dplyr::<join>` function.
 #' @return A `phip_data` object with updated `data_long`.
+#' @examples
+#' \donttest{
+#' pd <- load_example_data()
+#' joined <- dplyr::left_join(pd, pd, by = c("sample_id", "peptide_id"))
+#' }
 #'
 #' @name phip_data_join
 NULL

@@ -9,6 +9,11 @@
 #' @param ... Unused (for S3 generic compatibility).
 #'
 #' @return The input `phip_data` object, invisibly.
+#' @examples
+#' \donttest{
+#' pd <- load_example_data()
+#' close(pd)
+#' }
 #' @exportS3Method close phip_data
 close.phip_data <- function(con, ...) {
   .ph_check_pd(con)
