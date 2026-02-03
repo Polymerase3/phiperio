@@ -6,10 +6,15 @@
 \alias{phiperio-package}
 \title{phiperio}
 \description{
-What the package does (one paragraph).
+Provides utilities to import, validate, and manage PhIP-Seq datasets, including standardized conversion pipelines, data checks, and access to cached peptide metadata.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com}
+\strong{Maintainer}: Mateusz Kolek \email{mati.kolek13@gmail.com} (\href{https://orcid.org/0000-0001-6470-4830}{ORCID}) [copyright holder]
+
+Other contributors:
+\itemize{
+  \item Alon Alexander \email{a.alexander@umcg.nl} [contributor, copyright holder]
+}
 
 }
 \keyword{internal}

@@ -1,11 +1,40 @@
 Package: phiperio
-Title: What the Package Does (One Line, Title Case)
-Version: 0.2.0
+Title: PhIP-Seq Data Import and Validation Tools
+Version: 0.3.0
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    c(
+      person(
+        "Mateusz", "Kolek",
+        email = "mati.kolek13@gmail.com",
+        role = c("aut", "cre", "cph"),
+        comment = c(ORCID = "0000-0001-6470-4830")
+      ),
+      person(
+        "Alon", "Alexander",
+        email = "a.alexander@umcg.nl",
+        role = c("ctb", "cph")
+      )
+    )
+Description: Provides utilities to import, validate, and manage PhIP-Seq
+    datasets, including standardized conversion pipelines, data checks, and
+    access to cached peptide metadata.
+License: GPL (>= 3)
 Encoding: UTF-8
+Imports:
+    chk,
+    cli,
+    DBI,
+    dbplyr,
+    dplyr,
+    duckdb,
+    rlang,
+    tibble,
+    tools,
+    withr,
+    yaml
+Suggests:
+    openssl,
+    testthat,
+    mockery
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3

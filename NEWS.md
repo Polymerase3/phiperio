@@ -1,3 +1,19 @@
+# phiperio 0.3.0
+
+- Rename exported API to verb_noun naming (e.g., `create_data`, `convert_standard`,
+  `convert_legacy`, `load_example_data`, `get_example_path`, `expand_data`) and
+  align docs/tests.
+- Rename internal helpers to `.ph_` prefix and add internal roxygen docs.
+- Reorganize `R/utils.R` into themed sections with clearer helper descriptions.
+- Centralize connection teardown via `close.phip_data()` with GC finalizer and
+  connection sync helpers.
+- Persist peptide metadata cache in user cache dir and reuse cached downloads
+  with SHA-256 validation.
+- Improve peptide library preview columns in `print.phip_data()`.
+- Update file naming under `R/` to a consistent convention.
+- Adjust validation flow to reduce duplication around full-grid checks.
+- Update DESCRIPTION metadata (title, authors, description, dependencies).
+
 # phiperio 0.2.0
 
 - Remove all comparisons/contrasts mechanics, validation, tests, and mock files.
