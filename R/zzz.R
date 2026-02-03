@@ -2,11 +2,6 @@
 #' @keywords internal
 "_PACKAGE"
 
-## usethis namespace: start
-#' @useDynLib phiperio, .registration = TRUE
-## usethis namespace: end
-NULL
-
 # There is a note for not-declared global variables in R CMD CHECK. This is a
 # little bit tricky when using dplyr to manipulate the data, as you use the
 # unquoted names of the variables to access the columns in the data. R CMD CHECK
