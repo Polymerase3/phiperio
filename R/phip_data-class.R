@@ -50,8 +50,8 @@ new_phip_data <- function(data_long,
       # Download the peptide metadata library
       # --------------------------------------------------------------------------
       if (peptide_library) {
-        .ph_log_info("Fetching peptide metadata library via get_peptide_meta()")
-        peptide_library <- get_peptide_meta()
+        .ph_log_info("Fetching peptide metadata library via get_peptide_library()")
+        peptide_library <- get_peptide_library()
         .ph_log_ok("Peptide metadata acquired")
       } else {
         peptide_library <- NULL

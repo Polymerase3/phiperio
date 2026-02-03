@@ -67,7 +67,7 @@ test_that("accessors work and .check_pd errors on wrong class", {
 
   expect_error(get_counts(list(a = 1)), "`x` must be a <phip_data> object")
 
-  expect_no_error(get_peptide_library(pd))
+  expect_no_error(get_peptide_library())
 })
 
 # ---------------------------------------------------------------------------

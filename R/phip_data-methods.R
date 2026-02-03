@@ -60,7 +60,7 @@ print.phip_data <- function(x, ...) {
   # If the DuckDB connection was closed, reopen the cached table
   if (inherits(lib, "tbl_dbi")) {
     if (!DBI::dbIsValid(lib$src$con)) {
-      lib <- get_peptide_meta()
+      lib <- get_peptide_library()
       x$peptide_library <- lib # keep the fresh handle for later prints
       x <- .ph_sync_peptide_con(x)
       x <- .ph_refresh_finalizer(x)
@@ -68,7 +68,19 @@ print.phip_data <- function(x, ...) {
   }
 
   if (!is.null(lib)) {
-    show_cols <- intersect(c("peptide_id", "pos", "len_seq"), colnames(lib))
+    show_cols <- intersect(
+      c(
+        "peptide_id",
+        "Fullname",
+        "species",
+        "genus",
+        "family",
+        "order",
+        "class",
+        "common"
+      ),
+      colnames(lib)
+    )
 
     lib_preview <- tryCatch(
       {
@@ -152,19 +164,6 @@ get_counts <- function(x) {
 get_meta <- function(x) {
   .check_pd(x)
   x$meta
-}
-
-#' @title Retrieve the peptide-library annotation table
-#'
-#' @description Quick accessor for the `peptide_library` slot of a **phip_data**
-#' object.
-#'
-#' @inheritParams get_counts
-#' @return A tibble with one row per `peptide_id` and associated annotation.
-#' @export
-get_peptide_library <- function(x) {
-  .check_pd(x)
-  x$peptide_library
 }
 
 #' @title Export a phip_data Table to Parquet
