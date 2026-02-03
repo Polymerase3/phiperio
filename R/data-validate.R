@@ -4,7 +4,7 @@ validate_phip_data <- function(x,
                                na_warn_thresh = 0.50, # warn if >50% NA / zero
                                # optionally fill missing grid
                                auto_expand = TRUE) {
-  .check_pd(x) # existing helper (assumes class & slots are sane)
+  .ph_check_pd(x) # existing helper (assumes class & slots are sane)
   .data <- rlang::.data # to silence lintr / R CMD CHECK notes
 
   # timing the whole command
@@ -39,7 +39,7 @@ validate_phip_data <- function(x,
 
       # any cols needed but not provided?
       miss <- setdiff(need, cols)
-      .chk_cond(
+      .ph_check_cond(
         length(miss) > 0,
         sprintf(
           "Missing mandatory column(s): %s",
@@ -53,7 +53,7 @@ validate_phip_data <- function(x,
         dplyr::summarise(n = dplyr::n()) |>
         dplyr::pull(.data$n)
 
-      .chk_cond(
+      .ph_check_cond(
         n_rows < 1,
         "The `data_long` has no rows!
         No peptides and/or subjects are specified.",
@@ -69,7 +69,7 @@ validate_phip_data <- function(x,
         raw_counts = all(c("input_count", "hit_count") %in% cols)
       )
       k <- sum(unlist(have))
-      .chk_cond(
+      .ph_check_cond(
         k == 0,
         "No outcome column found (need exist / fold_change / raw_counts).",
         step = "outcomes"
@@ -81,7 +81,7 @@ validate_phip_data <- function(x,
         bullets = paste(reserved, collapse = ", ")
       )
       overlap <- intersect(x$meta$extra_cols, reserved)
-      .chk_cond(
+      .ph_check_cond(
         length(overlap) > 0,
         sprintf(
           "extra_cols overlap with reserved names: %s",
@@ -103,7 +103,7 @@ validate_phip_data <- function(x,
       }
 
       bad_atomic <- names(sample0)[vapply(sample0, is.list, logical(1))]
-      .chk_cond(
+      .ph_check_cond(
         length(bad_atomic) > 0,
         sprintf(
           "Non-atomic (list) columns found: %s",
@@ -123,7 +123,7 @@ validate_phip_data <- function(x,
           utils::head(1) |>
           dplyr::collect()
 
-        .chk_cond(
+        .ph_check_cond(
           nrow(dup) > 0,
           "Each (subject_id, peptide_id, timepoint)
           must map to exactly one sample_id.",
@@ -138,7 +138,7 @@ validate_phip_data <- function(x,
           utils::head(1) |>
           dplyr::collect()
 
-        .chk_cond(
+        .ph_check_cond(
           nrow(dup) > 0,
           "Duplicate (sample_id, peptide_id) pairs found.",
           step = "uniqueness (cross-sectional)"
@@ -153,7 +153,7 @@ validate_phip_data <- function(x,
           dplyr::filter(!is.na(.data$exist) & !(.data$exist %in% c(0, 1))) |>
           utils::head(1) |>
           dplyr::collect()
-        .chk_cond(nrow(bad) > 0, "`exist` must be 0/1/NA.",
+        .ph_check_cond(nrow(bad) > 0, "`exist` must be 0/1/NA.",
           step = "value ranges: exist"
         )
       }
@@ -164,7 +164,7 @@ validate_phip_data <- function(x,
           dplyr::mutate(fold_change = .data$fold_change * 1.0) |>
           dplyr::summarise(all_finite = all(is.finite(.data$fold_change))) |>
           dplyr::pull(.data$all_finite)
-        .chk_cond(!ok, "`fold_change` contains Inf/-Inf or NA.",
+        .ph_check_cond(!ok, "`fold_change` contains Inf/-Inf or NA.",
           step = "value ranges: fold_change"
         )
       }
@@ -174,7 +174,7 @@ validate_phip_data <- function(x,
           dplyr::filter(.data$input_count < 0 | .data$hit_count < 0) |>
           utils::head(1) |>
           dplyr::collect()
-        .chk_cond(nrow(neg) > 0, "Raw counts must be non-negative.",
+        .ph_check_cond(nrow(neg) > 0, "Raw counts must be non-negative.",
           step = "value ranges: raw_counts"
         )
       }
@@ -232,7 +232,7 @@ validate_phip_data <- function(x,
 
         missing_in_lib <- missing_in_lib[order(missing_in_lib)]
 
-        .chk_cond(
+        .ph_check_cond(
           length(missing_in_lib) > 0,
           sprintf(
             "peptide_id not found in peptide_library (e.g. %s)",
@@ -267,12 +267,12 @@ validate_phip_data <- function(x,
         )
 
         if (isTRUE(auto_expand)) {
-          .ph_log_info("Auto-expanding to full grid via
-                       expand_phip_data()",
+      .ph_log_info("Auto-expanding to full grid via
+                       expand_data()",
             bullets = c("add_exist = TRUE", "exist_col = \"exist\"")
           )
 
-          x <- expand_phip_data(
+          x <- expand_data(
             x,
             key_col = "sample_id",
             id_col = "peptide_id",
@@ -325,7 +325,7 @@ validate_phip_data <- function(x,
 # - If add_exist=TRUE and `exist_col` already exists, it will be overwritten
 #   with a warning
 # - The key_col can be a vector: eg. c("subject_id","timepoint_factor"), etc.
-.phip_expand_full_grid <- function(tbl,
+.ph_expand_full_grid <- function(tbl,
                                    key_col = "sample_id",
                                    id_col = "peptide_id",
                                    fill_override = NULL,
@@ -764,10 +764,10 @@ validate_phip_data <- function(x,
 #'
 #' @examples
 #' \dontrun{
-#' pd <- expand_phip_data(pd, fill_override = list(fold_change = NA_real_))
+#' pd <- expand_data(pd, fill_override = list(fold_change = NA_real_))
 #' }
 #' @export
-expand_phip_data <- function(x,
+expand_data <- function(x,
                              key_col = "sample_id",
                              id_col = "peptide_id",
                              fill_override = NULL,
@@ -780,7 +780,7 @@ expand_phip_data <- function(x,
     step = "updating x$data_long",
     expr = {
       # -- Expand data_long lazily (keeps DB laziness) ---------------------------
-      tbl_expanded <- .phip_expand_full_grid(
+      tbl_expanded <- .ph_expand_full_grid(
         x$data_long,
         key_col       = key_col,
         id_col        = id_col,

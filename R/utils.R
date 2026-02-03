@@ -110,7 +110,7 @@
 
 # original conditional helper to not break down older code
 # upgraded to the unified phiperio style
-.chk_cond <- function(condition,
+.ph_check_cond <- function(condition,
                       error_message,
                       error = TRUE,
                       step = NULL,
@@ -162,13 +162,13 @@
 
 # ==============================================================================
 # phiperio checks + additional helpers (ASCII-only, unified with phiperio logger)
-# it depends on: .ph_abort(), .ph_warn(), .chk_cond(), word_list(), add_quotes()
+# it depends on: .ph_abort(), .ph_warn(), .ph_check_cond(), word_list(), add_quotes()
 # ==============================================================================
 
 # -- check if filename has given extension ------------------------------------
 # comes in handy when loading .csv or .parquet; provide filename and vector of
 # extensions to check (eg c(".csv", ".parquet"))
-.chk_extension <- function(name,
+.ph_check_extension <- function(name,
                            x_name,
                            ext_vec) {
   if (is.null(ext_vec) || !length(ext_vec)) {
@@ -206,7 +206,7 @@
 }
 
 # -- check if NULL and replace with default when TRUE (warn in unified style) --
-.chk_null_default <- function(x,
+.ph_check_null_default <- function(x,
                               x_name,
                               method,
                               default) {
@@ -234,12 +234,12 @@
 }
 
 # -- validate path to file -----------------------------------------------------
-.chk_path <- function(path,
+.ph_check_path <- function(path,
                       arg_name,
                       extension,
                       is_dir = FALSE) {
   ## error when path not a string
-  .chk_cond(
+  .ph_check_cond(
     !chk::vld_string(path),
     sprintf("`%s` must be a character scalar.", arg_name),
     step    = "path validation",
@@ -248,14 +248,14 @@
 
   ## error when path does not exist
   if (is_dir) {
-    .chk_cond(
+    .ph_check_cond(
       !chk::vld_dir(path),
       sprintf("Folder for `%s` does not exist.", arg_name),
       step    = "path validation",
       bullets = sprintf("path: %s", path)
     )
   } else {
-    .chk_cond(
+    .ph_check_cond(
       !chk::vld_file(path),
       sprintf("File for `%s` does not exist.", arg_name),
       step    = "path validation",
@@ -266,14 +266,14 @@
   # optionally extension check if provided
   if (!missing(extension) && length(extension)) {
       ## error when both is_dir and extension are given
-      .chk_cond(
+      .ph_check_cond(
         is_dir,
         sprintf("Can't check if `%s` is both a valid direcotry and has a certain extension", arg_name),
         step    = "path validation",
         bullets = sprintf("path: %s", path)
       )
 
-    .chk_extension(
+    .ph_check_extension(
       path,
       arg_name,
       extension
@@ -380,11 +380,11 @@ add_quotes <- function(x,
 #' @return A character scalar with an absolute path to the file.
 #'
 #' @examples
-#' sim_path <- phip_example_path("phip_mixture")
-#' # phip_obj <- phip_convert(sim_path)
+#' sim_path <- get_example_path("phip_mixture")
+#' # phip_obj <- convert_standard(sim_path)
 #'
 #' @export
-phip_example_path <- function(name = c("phip_mixture")) {
+get_example_path <- function(name = c("phip_mixture")) {
   name <- match.arg(name)
   fname <- switch(
     name,
@@ -402,7 +402,7 @@ phip_example_path <- function(name = c("phip_mixture")) {
 #'
 #' @description
 #' Convenience helper to quickly load a shipped example dataset ("phip_mixture") into a `<phip_data>` object,
-#' suitable for downstream analysis and visualization. This function wraps \code{\link{phip_convert}},
+#' suitable for downstream analysis and visualization. This function wraps \code{\link{convert_standard}},
 #' automatically supplying the correct parameters for the included example data.
 #'
 #' @param name Character scalar. Name of the shipped example dataset.
@@ -412,17 +412,17 @@ phip_example_path <- function(name = c("phip_mixture")) {
 #'
 #' @examples
 #' # Load the example data shipped with the package:
-#' ex <- phip_load_example_data()
+#' ex <- load_example_data()
 #' # ex is now a <phip_data> object ready for analysis
 #'
 #' # Specify the dataset name explicitly
-#' ex2 <- phip_load_example_data("small_mixture")
+#' ex2 <- load_example_data("small_mixture")
 #'
 #' # Use with plotting functions
 #' p = plot_enrichment_counts(ex, group_cols = "timepoint")
 #'
 #' @export
-phip_load_example_data <- local({
+load_example_data <- local({
   cache_env <- new.env(parent = emptyenv())
   cache_env$loaded <- list()
 
@@ -433,7 +433,7 @@ phip_load_example_data <- local({
     if (name %in% names(cache_env$loaded)) return(cache_env$loaded[[name]])
 
     if (name == "small_mixture") {
-      ps <- phip_load_example_data(name = "phip_mixture")
+      ps <- load_example_data(name = "phip_mixture")
 
       # small subset for speed: 5 peptides at time t1
       keep_pep <- c("16627", "5243", "24799", "16196", "18003")
@@ -448,8 +448,8 @@ phip_load_example_data <- local({
         dplyr::collect()
       
     } else {
-      ps <- phip_convert(
-        data_long_path = phip_example_path(name),
+      ps <- convert_standard(
+        data_long_path = get_example_path(name),
         peptide_library = TRUE,
         subject_id = "subject_id",
         peptide_id = "peptide_id",
@@ -539,7 +539,7 @@ phip_load_example_data <- local({
     dirname(abs_path(data_long_path))
   } else {
     # 3) Otherwise require at least a samples_file (or exist_file)
-    .chk_cond(
+    .ph_check_cond(
       is.null(samples_file) && is.null(exist_file),
       "When neither 'config_yaml' nor 'data_long_path' is provided,
       you must supply 'samples_file' or 'exist_file'."
@@ -550,7 +550,7 @@ phip_load_example_data <- local({
 
   yaml_cfg <- if (!is.null(config_yaml)) {
     ## validate the file extension
-    .chk_path(config_yaml, "config_yaml", c("yml", "yaml"))
+    .ph_check_path(config_yaml, "config_yaml", c("yml", "yaml"))
 
     ## read the yamlW
     rlang::check_installed("yaml")
@@ -573,14 +573,14 @@ phip_load_example_data <- local({
     val <- yaml_cfg[[key]] %||% arg # yaml first, then explicit
 
     # required argument have to be provided!
-    .chk_cond(
+    .ph_check_cond(
       is.null(val) && !optional,
       sprintf("Missing required argument '%s' in YAML or call.", key)
     )
 
-    # if the validator is .chk_path or absolute == TRUE, expand the path
+    # if the validator is .ph_check_path or absolute == TRUE, expand the path
     # to absolute
-    if ((!is.null(val) && identical(validate, .chk_path)) ||
+    if ((!is.null(val) && identical(validate, .ph_check_path)) ||
         (!is.null(val) && absolutize)) {
       if (!is_abs_path(val)) {
         val <- abs_path(basename(val), start = base_dir)
@@ -606,37 +606,37 @@ phip_load_example_data <- local({
   cfg <- list(
     exist_file = fetch(exist_file,
                        "exist_file",
-                       .chk_path,
+                       .ph_check_path,
                        optional = TRUE,
                        extension = c("csv", "parquet", "parq", "pq")
     ),
     fold_change_file = fetch(fold_change_file,
                              "fold_change_file",
-                             .chk_path,
+                             .ph_check_path,
                              optional = TRUE,
                              extension = c("csv", "parquet", "parq", "pq")
     ),
     input_file = fetch(input_file,
                        "input_file",
-                       .chk_path,
+                       .ph_check_path,
                        optional = TRUE,
                        extension = c("csv", "parquet", "parq", "pq")
     ),
     hit_file = fetch(hit_file,
                      "hit_file",
-                     .chk_path,
+                     .ph_check_path,
                      optional = TRUE,
                      extension = c("csv", "parquet", "parq", "pq")
     ),
     samples_file = fetch(samples_file,
                          "samples_file",
-                         .chk_path,
+                         .ph_check_path,
                          optional = samples_required,
                          extension = c("csv", "parquet", "parq", "pq")
     ),
     timepoints_file = fetch(timepoints_file,
                             "timepoints_file",
-                            .chk_path,
+                            .ph_check_path,
                             optional = TRUE,
                             extension = c("csv", "parquet", "parq", "pq")
     ),
@@ -664,7 +664,7 @@ phip_load_example_data <- local({
   ## 4.  fast-fail rules that really must hold before heavy work              ##
   ## ------------------------------------------------------------------------ ##
   #  rule 1: input_file and hit_file must be provided together ----------
-  .chk_cond(
+  .ph_check_cond(
     xor(is.null(cfg$input_file), is.null(cfg$hit_file)),
     "Arguments 'input_file' and 'hit_file' must be provided together."
   )
@@ -677,7 +677,7 @@ phip_load_example_data <- local({
       !is.null(cfg$input_file),
       !is.null(cfg$hit_file)
     )
-    .chk_cond(
+    .ph_check_cond(
       others_supplied,
       "When 'data_long_path' is supplied, do not supply 'exist_file',
       'fold_change_file', 'input_file', or 'hit_file'."
@@ -692,7 +692,7 @@ phip_load_example_data <- local({
         is.null(input_file) &&
         is.null(hit_file)
     )
-    .chk_cond(
+    .ph_check_cond(
       all_null,
       paste0(
         "Supply at least one of:\n",
@@ -704,7 +704,7 @@ phip_load_example_data <- local({
   }
 
   #  deprecation notice -------------------------------------------------
-  .chk_cond(!is.null(cfg$output_dir),
+  .ph_check_cond(!is.null(cfg$output_dir),
             error = FALSE,
             "'output_dir' is deprecated and will be ignored."
   )

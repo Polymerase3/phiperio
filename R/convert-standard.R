@@ -1,6 +1,6 @@
 #' @title Convert raw PhIP-Seq output into a `phip_data` object
 #'
-#' @description `phip_convert()` ingests a "long" table of PhIPsSeq read counts /
+#' @description `convert_standard()` ingests a "long" table of PhIPsSeq read counts /
 #' enrichment statistics, optionally expands it to the full
 #' `sample_id x peptide_id` grid, and registers the result in DuckDB.
 #' The function returns a fully initialised **`phip_data`** object that can be
@@ -32,7 +32,7 @@
 #'     `counts_input`, `counts_hit`, etc.) are initialised to 0.
 #'   The expanded table replaces the original *in place*.
 #'
-#' @param peptide_library Logical. If `TRUE` (default) `phip_convert()` will
+#' @param peptide_library Logical. If `TRUE` (default) `convert_standard()` will
 #'   attempt to locate and attach the matching peptide-library metadata for
 #'   downstream annotation. Set to `FALSE` to skip this step.
 #'
@@ -49,15 +49,15 @@
 #' checks confirm existence as well as extension validity.
 #' @examples
 #' # Basic import, auto-detecting default column names
-#' phip_obj <- phip_convert(
-#'   data_long_path = phip_example_path("phip_mixture"),
+#' phip_obj <- convert_standard(
+#'   data_long_path = get_example_path("phip_mixture"),
 #'   n_cores = 4,
 #'   materialise_table = TRUE
 #' )
 #'
 #' \dontrun{
 #' # Import a CSV and rename columns
-#' phip_mem <- phip_convert(
+#' phip_mem <- convert_standard(
 #'   data_long_path = "data/phip_long.csv",
 #'   sample_id      = "sample",
 #'   peptide_id     = "pep"
@@ -65,12 +65,12 @@
 #' }
 #'
 #' @seealso
-#' * `new_phip_data()` for the object constructor.
+#' * `create_data()` for the object constructor.
 #' * `dplyr::tbl()` to query DuckDB tables lazily.
 #'
 #' @export
 
-phip_convert <- function(
+convert_standard <- function(
   data_long_path,
   sample_id = NULL,
   peptide_id = NULL,
@@ -95,7 +95,7 @@ phip_convert <- function(
   # 2. resolving the data_long_file path to absolute
   # ------------------------------------------------------------------
   ## check if the data_long_path provided
-  .chk_cond(
+  .ph_check_cond(
     missing(data_long_path) || !nzchar(data_long_path),
     "'data_long_path' must be provided and non-empty,
             no default is set."
@@ -105,13 +105,13 @@ phip_convert <- function(
   info <- file.info(data_long_path)
 
   ## pre-check if exists
-  .chk_cond(
+  .ph_check_cond(
     all(is.na(info)),
     sprintf("Path '%s' does not exist", data_long_path)
   )
 
   if (!info$isdir || is.na(info$isdir)) {
-    .chk_path(data_long_path,
+    .ph_check_path(data_long_path,
       "data_long_path",
       extension = c("csv", "parquet", "parq", "pq")
     )
@@ -153,7 +153,7 @@ phip_convert <- function(
   long <- dplyr::tbl(con, "raw_combined")
 
   # returning the phip_data object
-  new_phip_data(
+  create_data(
     data_long = long,
     peptide_library = cfg$peptide_library,
     auto_expand = cfg$auto_expand,

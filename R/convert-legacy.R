@@ -1,7 +1,7 @@
 #' @title Convert legacy Carlos-style input to a modern **phip_data** object
 #'
 #' @description
-#' `phip_convert_legacy()` ingests the original three-file PhIP-Seq input
+#' `convert_legacy()` ingests the original three-file PhIP-Seq input
 #' (binary *exist* matrix, *samples* metadata, optional *timepoints* map).
 #' Paths can be supplied directly or via a single YAML config; explicit
 #' arguments always override the YAML.  The function normalises the chosen
@@ -43,7 +43,7 @@
 #' @examples
 #' \dontrun{
 #' ## 1. Direct-path usage
-#' pd <- phip_convert_legacy(
+#' pd <- convert_legacy(
 #'   exist_file = "legacy/exist.csv",
 #'   samples_file = "legacy/samples.csv",
 #'   timepoints_file = "legacy/timepoints.csv",
@@ -57,14 +57,14 @@
 #' # extra_cols: [sex, age]
 #' # -------------------------------
 #'
-#' pd <- phip_convert_legacy(
+#' pd <- convert_legacy(
 #'   config_yaml = "config/legacy_config.yaml"
 #' )
 #' }
 #'
 #' @export
 
-phip_convert_legacy <- function(
+convert_legacy <- function(
   exist_file = NULL,
   fold_change_file = NULL,
   samples_file = NULL,
@@ -122,7 +122,7 @@ phip_convert_legacy <- function(
   long <- dplyr::tbl(con, "final_long")
 
   # returning the phip_data object
-  new_phip_data(
+  create_data(
     data_long = long,
     peptide_library = cfg$peptide_library,
     meta = list(con = con)
@@ -133,7 +133,7 @@ phip_convert_legacy <- function(
 #'
 #' @description `.ph_legacy_read_duckdb_backend()` loads legacy CSV/parquet
 #' inputs into temporary DuckDB tables, reshapes them into a long format, and
-#' prepares the final tables used by `phip_convert_legacy()`.
+#' prepares the final tables used by `convert_legacy()`.
 #'
 #' @param cfg Named list of resolved file paths and options from
 #'   `.ph_resolve_paths()`.

@@ -19,11 +19,11 @@ counts_tbl <- tibble::tibble(
 # ---------------------------------------------------------------------------
 # constructor + meta flags
 # ---------------------------------------------------------------------------
-test_that("new_phip_data sets meta flags correctly", {
+test_that("create_data sets meta flags correctly", {
   withr::with_message_sink(
     tempfile(),
     withr::with_options(list(warn = -1), {
-      pd <- new_phip_data(counts_tbl, peptide_library = FALSE)
+      pd <- create_data(counts_tbl, peptide_library = FALSE)
     })
   )
 
@@ -40,7 +40,7 @@ test_that("print.phip_data shows previews", {
   withr::with_message_sink(
     tempfile(),
     withr::with_options(list(warn = -1), {
-      pd <- new_phip_data(counts_tbl, peptide_library = FALSE)
+      pd <- create_data(counts_tbl, peptide_library = FALSE)
     })
   )
 
@@ -56,7 +56,7 @@ test_that("accessors work and .check_pd errors on wrong class", {
   withr::with_message_sink(
     tempfile(),
     withr::with_options(list(warn = -1), {
-      pd <- new_phip_data(counts_tbl,
+      pd <- create_data(counts_tbl,
         peptide_library = FALSE, auto_expand = FALSE
       )
     })
@@ -77,7 +77,7 @@ test_that("dplyr wrappers modify data_long lazily", {
   withr::with_message_sink(
     tempfile(),
     withr::with_options(list(warn = -1), {
-      pd <- new_phip_data(counts_tbl,
+      pd <- create_data(counts_tbl,
         peptide_library = FALSE, auto_expand = FALSE
       )
     })
@@ -117,7 +117,7 @@ test_that("close.phip_data closes duckdb connection if present", {
   withr::with_message_sink(
     tempfile(),
     withr::with_options(list(warn = -1), {
-      pd <- new_phip_data(counts_tbl,
+      pd <- create_data(counts_tbl,
         materialise_table = TRUE,
         meta = list(con = con),
         peptide_library = FALSE

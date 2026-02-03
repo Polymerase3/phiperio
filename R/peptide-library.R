@@ -88,7 +88,7 @@ get_peptide_library <- function(force_refresh = FALSE) {
 
       ## safe download (fallbacks if file changed, or if download does not
       ## succeed)
-      .safe_download(url, tmp, sha, force = isTRUE(force_refresh))
+      .ph_download_file(url, tmp, sha, force = isTRUE(force_refresh))
 
       ## reading the raw RDS file --> it needs a lot of polishin (is prolly
       ## python generated, see attributes)
@@ -174,7 +174,7 @@ get_peptide_library <- function(force_refresh = FALSE) {
 }
 
 #' @keywords internal
-.safe_download <- function(url,
+.ph_download_file <- function(url,
                            dest,
                            sha_expected = NULL,
                            force = FALSE) {

@@ -29,21 +29,21 @@
 #' @examples
 #' \dontrun{
 #' ## minimal constructor call
-#' pd <- new_phip_data(
+#' pd <- create_data(
 #'   data_long = tidy_counts,
 #'   peptide_library = TRUE
 #' )
 #' }
 #'
 #' @export
-new_phip_data <- function(data_long,
+create_data <- function(data_long,
                           peptide_library = TRUE,
                           auto_expand = TRUE,
                           materialise_table = TRUE,
                           meta = list()) {
   .ph_with_timing(
     headline = "Constructing <phip_data> object",
-    step = "new_phip_data()",
+    step = "create_data()",
     expr = {
 
       # --------------------------------------------------------------------------

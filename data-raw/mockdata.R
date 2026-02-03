@@ -21,9 +21,9 @@
 # The data is exported as .parquet. To load it using phiperio:
 #
 # library(phiperio)
-# sim_path <- phip_example_path("phip_mixture")
+# sim_path <- get_example_path("phip_mixture")
 #
-# x <- phip_convert(
+# x <- convert_standard(
 #   data_long_path = sim_path,
 #   sample_id      = "sample_id",
 #   peptide_id     = "peptide_id",

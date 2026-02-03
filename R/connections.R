@@ -11,7 +11,7 @@
 #' @return The input `phip_data` object, invisibly.
 #' @exportS3Method close phip_data
 close.phip_data <- function(con, ...) {
-  .check_pd(con)
+  .ph_check_pd(con)
   con <- .ph_close_phip_data(con, clear = TRUE)
   invisible(con)
 }

@@ -131,8 +131,8 @@ print.phip_data <- function(x, ...) {
 ################################################################################
 ## plain accessors (cause no S3 generics) --------------------------------------
 ################################################################################
-.check_pd <- function(obj) {
-  .chk_cond(
+.ph_check_pd <- function(obj) {
+  .ph_check_cond(
     !inherits(obj, "phip_data"),
     "`x` must be a <phip_data> object."
   )
@@ -148,7 +148,7 @@ print.phip_data <- function(x, ...) {
 #' @return A tibble or lazy table with one row per peptide * sample pair.
 #' @export
 get_counts <- function(x) {
-  .check_pd(x)
+  .ph_check_pd(x)
   x$data_long
 }
 
@@ -162,7 +162,7 @@ get_counts <- function(x) {
 #' @return A named list.
 #' @export
 get_meta <- function(x) {
-  .check_pd(x)
+  .ph_check_pd(x)
   x$meta
 }
 
@@ -182,7 +182,7 @@ get_meta <- function(x) {
 #'
 #' @examples
 #' \donttest{
-#' pd <- phip_load_example_data()
+#' pd <- load_example_data()
 #' out_path <- tempfile(fileext = ".parquet")
 #' export_parquet(pd, out_path)
 #' unlink(out_path)
@@ -191,8 +191,8 @@ get_meta <- function(x) {
 #' @importFrom DBI sqlInterpolate dbQuoteString dbExecute
 #' @export
 export_parquet <- function(x, path) {
-  .chk_extension(path, "path", c("parquet", "parq", "pq", "pqt"))
-  .chk_path(dirname(path), "path", is_dir=TRUE)
+  .ph_check_extension(path, "path", c("parquet", "parq", "pq", "pqt"))
+  .ph_check_path(dirname(path), "path", is_dir=TRUE)
 
   if (inherits(x, "phip_data")) {
     con <- dbplyr::remote_con(x$data_long)
@@ -224,7 +224,7 @@ export_parquet <- function(x, path) {
 ################################################################################
 
 # helper to copy x, modify counts, and return
-.modify_pd <- function(.data, new_counts) {
+.ph_modify_pd <- function(.data, new_counts) {
   .data$data_long <- new_counts
   .data
 }
@@ -232,7 +232,7 @@ export_parquet <- function(x, path) {
 #' @importFrom dplyr filter
 #' @exportS3Method filter phip_data
 filter.phip_data <- function(.data, ..., .preserve = FALSE) {
-  .modify_pd(
+  .ph_modify_pd(
     .data,
     dplyr::filter(.data$data_long, ..., .preserve = .preserve)
   )
@@ -241,19 +241,19 @@ filter.phip_data <- function(.data, ..., .preserve = FALSE) {
 #' @importFrom dplyr select
 #' @exportS3Method select phip_data
 select.phip_data <- function(.data, ...) {
-  .modify_pd(.data, dplyr::select(.data$data_long, ...))
+  .ph_modify_pd(.data, dplyr::select(.data$data_long, ...))
 }
 
 #' @importFrom dplyr mutate
 #' @exportS3Method mutate phip_data
 mutate.phip_data <- function(.data, ...) {
-  .modify_pd(.data, dplyr::mutate(.data$data_long, ...))
+  .ph_modify_pd(.data, dplyr::mutate(.data$data_long, ...))
 }
 
 #' @importFrom dplyr arrange
 #' @exportS3Method arrange phip_data
 arrange.phip_data <- function(.data, ...) {
-  .modify_pd(.data, dplyr::arrange(.data$data_long, ...))
+  .ph_modify_pd(.data, dplyr::arrange(.data$data_long, ...))
 }
 
 #' @importFrom dplyr summarise
@@ -272,7 +272,7 @@ collect.phip_data <- function(x, ...) {
 #' @exportS3Method group_by phip_data
 group_by.phip_data <- function(.data, ..., .add = FALSE,
                                .drop = dplyr::group_by_drop_default(.data$data_long)) {
-  .modify_pd(
+  .ph_modify_pd(
     .data,
     dplyr::group_by(.data$data_long, ..., .add = .add, .drop = .drop)
   )
@@ -287,7 +287,7 @@ distinct.phip_data <- function(.data, ..., .keep_all = FALSE) {
 #' @importFrom dplyr ungroup
 #' @exportS3Method ungroup phip_data
 ungroup.phip_data <- function(x, ...) {
-  .modify_pd(x, dplyr::ungroup(x$data_long, ...))
+  .ph_modify_pd(x, dplyr::ungroup(x$data_long, ...))
 }
 
 ################################################################################
@@ -296,14 +296,14 @@ ungroup.phip_data <- function(x, ...) {
 
 # Utilities ---------------------------------------------------------------
 
-.extract_data_long <- function(obj) {
+.ph_extract_data_long <- function(obj) {
   if (inherits(obj, "phip_data")) obj$data_long else obj
 }
 
 ###############################################################################
 ##  Pretty, CLI-styled yes/no prompt  --------------------------------------
 ###############################################################################
-.cli_yesno <- function(question,
+.ph_cli_yesno <- function(question,
                        yes = c("y", "yes"),
                        no = c("n", "no")) {
   yes <- tolower(yes)
@@ -328,7 +328,7 @@ ungroup.phip_data <- function(x, ...) {
 ###############################################################################
 ##  CLI-aware warning helper  ----------------------------------------------
 ###############################################################################
-.cli_warn <- function(msg) {
+.ph_cli_warn <- function(msg) {
   if (requireNamespace("cli", quietly = TRUE)) {
     cli::cli_alert_warning(msg)
   } else {
@@ -354,14 +354,14 @@ ungroup.phip_data <- function(x, ...) {
 merge.phip_data <- function(x, y,
                             ...,
                             confirm = interactive()) {
-  y <- .extract_data_long(y)
+  y <- .ph_extract_data_long(y)
 
   # -----------------------------------------------------------------------
   #  Base merge (potentially memory-hungry) ------------------------------
   # -----------------------------------------------------------------------
   if (confirm && interactive()) {
-    .cli_warn("`merge()` copies both tables in full; this may exhaust RAM.")
-    ok <- .cli_yesno("Proceed with base::merge()?")
+    .ph_cli_warn("`merge()` copies both tables in full; this may exhaust RAM.")
+    ok <- .ph_cli_yesno("Proceed with base::merge()?")
     if (!isTRUE(ok)) {
       chk::abort_chk("Merge aborted.  Use `dplyr` (or another join) for
              a memory-efficient alternative.",
@@ -372,12 +372,12 @@ merge.phip_data <- function(x, y,
 
   merged_tbl <- base::merge(x$data_long, y, ...)
 
-  .modify_pd(x, merged_tbl)
+  .ph_modify_pd(x, merged_tbl)
 }
 
 # helpers (internal)
 #' @noRd
-.extract_data_long <- function(y) if (inherits(y, "phip_data")) y$data_long else y
+.ph_extract_data_long <- function(y) if (inherits(y, "phip_data")) y$data_long else y
 
 #' dplyr joins for `phip_data`
 #'
@@ -395,48 +395,48 @@ NULL
 #' @export
 #' @method left_join phip_data
 left_join.phip_data <- function(x, y, ...) {
-  y <- .extract_data_long(y)
-  .modify_pd(x, dplyr::left_join(x$data_long, y, ...))
+  y <- .ph_extract_data_long(y)
+  .ph_modify_pd(x, dplyr::left_join(x$data_long, y, ...))
 }
 
 #' @rdname phip_data_join
 #' @export
 #' @method right_join phip_data
 right_join.phip_data <- function(x, y, ...) {
-  y <- .extract_data_long(y)
-  .modify_pd(x, dplyr::right_join(x$data_long, y, ...))
+  y <- .ph_extract_data_long(y)
+  .ph_modify_pd(x, dplyr::right_join(x$data_long, y, ...))
 }
 
 #' @rdname phip_data_join
 #' @export
 #' @method inner_join phip_data
 inner_join.phip_data <- function(x, y, ...) {
-  y <- .extract_data_long(y)
-  .modify_pd(x, dplyr::inner_join(x$data_long, y, ...))
+  y <- .ph_extract_data_long(y)
+  .ph_modify_pd(x, dplyr::inner_join(x$data_long, y, ...))
 }
 
 #' @rdname phip_data_join
 #' @export
 #' @method full_join phip_data
 full_join.phip_data <- function(x, y, ...) {
-  y <- .extract_data_long(y)
-  .modify_pd(x, dplyr::full_join(x$data_long, y, ...))
+  y <- .ph_extract_data_long(y)
+  .ph_modify_pd(x, dplyr::full_join(x$data_long, y, ...))
 }
 
 #' @rdname phip_data_join
 #' @export
 #' @method semi_join phip_data
 semi_join.phip_data <- function(x, y, ...) {
-  y <- .extract_data_long(y)
-  .modify_pd(x, dplyr::semi_join(x$data_long, y, ...))
+  y <- .ph_extract_data_long(y)
+  .ph_modify_pd(x, dplyr::semi_join(x$data_long, y, ...))
 }
 
 #' @rdname phip_data_join
 #' @export
 #' @method anti_join phip_data
 anti_join.phip_data <- function(x, y, ...) {
-  y <- .extract_data_long(y)
-  .modify_pd(x, dplyr::anti_join(x$data_long, y, ...))
+  y <- .ph_extract_data_long(y)
+  .ph_modify_pd(x, dplyr::anti_join(x$data_long, y, ...))
 }
 
 ###############################################################################
@@ -453,7 +453,7 @@ anti_join.phip_data <- function(x, y, ...) {
 #' @param overwrite If FALSE and the column exists, abort with a phiperio-style error.
 #' @return Modified <phip_data> with updated `data_long`.
 #' @examples
-#' pd <- phip_load_example_data()
+#' pd <- load_example_data()
 #' pd <- add_exist(pd, overwrite = TRUE) # overwrites if present
 #' @export add_exist
 add_exist <- function(phip_data,
@@ -499,7 +499,7 @@ add_exist <- function(phip_data,
       # lazy mutate; stays in DuckDB without materialising
       tbl_new <- dplyr::mutate(tbl, !!rlang::sym(exist_col) := 1L)
 
-      x_new <- .modify_pd(x, tbl_new)
+      x_new <- .ph_modify_pd(x, tbl_new)
       # mark availability of an existence flag; don't touch full_cross/prop here
       x_new$meta$exist <- TRUE
       x_new

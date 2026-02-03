@@ -12,14 +12,14 @@
 #
 #         ## SMOKE TEST --------------------------------------------------------------
 #         expect_no_error(
-#           pd <- phip_convert_legacy(config_yaml = path)
+#           pd <- convert_legacy(config_yaml = path)
 #         )
 #
 #         expect_output(print(pd))
 #
 #         ### with explicit paths, without config file, .parquet handling
 #         expect_no_error(
-#           pd <- phip_convert_legacy(
+#           pd <- convert_legacy(
 #             exist_file = file.path(
 #               system.file("extdata", package = "phiperio"),
 #               "exist.parquet"
@@ -38,7 +38,7 @@
 #
 #         ### error when no required file present
 #         expect_error(
-#           phip_convert_legacy(
+#           convert_legacy(
 #             exist_file = file.path(
 #               system.file("extdata", package = "phiperio"),
 #               "exist.csv"
@@ -49,7 +49,7 @@
 #
 #         ### fold_change and raw counts handling
 #         expect_no_error(
-#           phip_convert_legacy(
+#           convert_legacy(
 #             exist_file = file.path(
 #               system.file("extdata", package = "phiperio"),
 #               "exist.parquet"
@@ -75,7 +75,7 @@
 #         )
 #
 #         expect_no_error(
-#           phip_convert_legacy(
+#           convert_legacy(
 #             exist_file = file.path(
 #               system.file("extdata", package = "phiperio"),
 #               "exist.parquet"
@@ -122,7 +122,7 @@
 #         ## SMOKE TESTS -------------------------------------------------------------
 #         ### default
 #         expect_no_error(
-#           phip_convert_legacy(
+#           convert_legacy(
 #             config_yaml = path,
 #             peptide_library = FALSE
 #           )
@@ -175,7 +175,7 @@
 #         # ------------------------------------------------------------------#
 #         # 5. Call the converter
 #         # ------------------------------------------------------------------#
-#         pd <- phip_convert_legacy(
+#         pd <- convert_legacy(
 #           config_yaml = yaml_dst,
 #           peptide_library = FALSE
 #         )
