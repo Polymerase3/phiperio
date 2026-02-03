@@ -28,9 +28,7 @@
 #               system.file("extdata", package = "phiperio"),
 #               "samples_meta.csv"
 #             ),
-#             comparisons_file = file.path(
 #               system.file("extdata", package = "phiperio"),
-#               "comparisons.csv"
 #             ),
 #             peptide_library = FALSE
 #           )
@@ -152,7 +150,6 @@
 #         exist_src <- pkg_ext("exist.csv")
 #         samples_src <- pkg_ext("samples_meta.csv")
 #         timepoints_src <- NULL
-#         comps_src <- pkg_ext("comparisons.csv")
 #
 #         # ------------------------------------------------------------------#
 #         # 3. Copy everything into workdir
@@ -172,7 +169,6 @@
 #         cfg$exist_file <- exist_rel # point to local file
 #         cfg$samples_file <- samples_rel
 #         cfg$timepoints_file <- NULL
-#         cfg$comparisons_file <- comps_rel
 #
 #         yaml::write_yaml(cfg, yaml_dst)
 #

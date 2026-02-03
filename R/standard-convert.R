@@ -39,8 +39,6 @@
 #' @return An S3 object of class **`phip_data`** containing:
 #' \describe{
 #'   \item{`data_long`}{The (possibly expanded) long-format table.}
-#'   \item{`comparisons`}{A tibble of pre-computed group comparisons or
-#'     `NULL` if none were supplied.}
 #'   \item{`peptide_library`}{Loaded peptide-library metadata (if
 #'     `peptide_library = TRUE`).}
 #'   \item{`meta`}{List with DuckDB connection handles.}
@@ -157,7 +155,6 @@ phip_convert <- function(
   # returning the phip_data object
   new_phip_data(
     data_long = long,
-    comparisons = NULL,
     peptide_library = cfg$peptide_library,
     auto_expand = cfg$auto_expand,
     materialise_table = cfg$materialise_table,

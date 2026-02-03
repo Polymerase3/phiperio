@@ -488,7 +488,7 @@ phip_load_example_data <- local({
 #'  All deeper table-content validation is deferred to `phip_data` class
 #'  validation.
 #'
-#' @param exist_file,fold_change_file,input_file,hit_file,samples_file,timepoints_file,comparisons_file
+#' @param exist_file,fold_change_file,input_file,hit_file,samples_file,timepoints_file
 #'  Character paths (relative or absolute) to the respective CSV/Parquet inputs.
 #'  `NULL` means "not supplied".
 #' @param extra_cols Character vector of extra metadata columns to keep; may be
@@ -510,7 +510,6 @@ phip_load_example_data <- local({
     hit_file = NULL,
     timepoints_file = NULL,
     extra_cols = NULL,
-    comparisons_file = NULL,
     output_dir = NULL, # deprecated
     data_long_path = NULL,
     peptide_library = TRUE,
@@ -640,12 +639,6 @@ phip_load_example_data <- local({
                             .chk_path,
                             optional = TRUE,
                             extension = c("csv", "parquet", "parq", "pq")
-    ),
-    comparisons_file = fetch(comparisons_file,
-                             "comparisons_file",
-                             .chk_path,
-                             optional = TRUE,
-                             extension = c("csv", "parquet", "parq", "pq")
     ),
     extra_cols = fetch(extra_cols,
                        "extra_cols",

@@ -243,52 +243,6 @@ validate_phip_data <- function(x,
         )
       }
 
-      ## --------------------------------------------- 9  COMPARISONS TABLE ----
-      .ph_log_info("Validating comparisons table (if provided)")
-      cmp <- x$comparisons
-      if (nrow(cmp) > 0) {
-        allowed_cmp_cols <- c("comparison", "group1", "group2", "variable")
-        extra_cmp <- setdiff(colnames(cmp), allowed_cmp_cols)
-        .chk_cond(
-          length(extra_cmp) > 0,
-          sprintf(
-            "Unexpected columns in comparisons: %s",
-            paste(extra_cmp, collapse = ", ")
-          ),
-          step = "comparisons: schema"
-        )
-
-        valid_labels <- if (is_long) {
-          # which of the two exist? (timepoint / group)
-          valid_cols <- dplyr::intersect(c("timepoint", "group"), colnames(tbl))
-
-          tbl |> # keep only the existing ones
-            dplyr::select(dplyr::all_of(valid_cols)) |>
-            dplyr::distinct() |> # unique row-wise combinations
-            dplyr::collect() |> # pull the tiny result into R
-            unlist(use.names = FALSE) |> # flatten to one vector
-            unique() # final de-dup
-        } else {
-          tbl |>
-            dplyr::distinct(.data$group) |>
-            dplyr::pull(.data$group)
-        }
-
-        bad_cmp <- unique(c(
-          setdiff(cmp$group1, valid_labels),
-          setdiff(cmp$group2, valid_labels)
-        ))
-
-        .chk_cond(
-          length(bad_cmp) > 0,
-          sprintf(
-            "comparisons refer to unknown group labels (e.g. %s)",
-            bad_cmp[1]
-          ),
-          step = "comparisons: labels"
-        )
-      }
-
       ## ---------------------------------------------- 10 FULL GRID -----------
       .ph_log_info("Checking full grid completeness (peptide * sample)")
 

@@ -2,8 +2,7 @@
 #'
 #' @description
 #' `phip_convert_legacy()` ingests the original three-file PhIP-Seq input
-#' (binary *exist* matrix, *samples* metadata, optional *timepoints* map) plus
-#' an optional *comparisons* file.
+#' (binary *exist* matrix, *samples* metadata, optional *timepoints* map).
 #' Paths can be supplied directly or via a single YAML config; explicit
 #' arguments always override the YAML.  The function normalises the chosen
 #' DuckDB storage, validates every file, and returns a ready-to-use
@@ -19,19 +18,12 @@
 #' *2 – samples CSV*
 #' * First column **must** be `sample_id`, unique.
 #' * Extra columns kept only if listed in `extra_cols`.
-#' * If dummy group columns are referenced by `comparisons_file`, each row’s
-#'   dummy sum must equal **1**.
 #'
 #' *3 – timepoints CSV* (optional, longitudinal)
 #' * First column **must** be `ind_id` (subject).
 #' * Other columns are time-point names; cells are `sample_id` or `NA`.
 #' * Column names must match `timepoint` values in the data; every `sample_id`
 #'   appears at most once.
-#'
-#' *4 – comparisons CSV* (optional)
-#' * Columns required: `comparison`, `group1`, `group2`, `variable`.
-#' * Labels in `group1`/`group2` must exist in the derived `group` column or the
-#'   `timepoint` column (for longitudinal data).
 #'
 #' Files failing any rule trigger an informative `.chk_cond()` error.
 #'
@@ -46,7 +38,6 @@
 #' @param timepoints_file  Path to the **timepoints** CSV (subject <-> sample
 #'   mapping). Optional for cross-sectional data.
 #' @param extra_cols       Character vector of extra metadata columns to retain.
-#' @param comparisons_file Path to a **comparisons** CSV. Optional.
 #' @param output_dir       *Deprecated.* Ignored with a warning.
 #' @param peptide_library logical, defining if the `peptide_library` is to be
 #'    downloaded from the official `phiperio` GitHub
@@ -68,7 +59,6 @@
 #'   exist_file = "legacy/exist.csv",
 #'   samples_file = "legacy/samples.csv",
 #'   timepoints_file = "legacy/timepoints.csv",
-#'   comparisons_file = "legacy/comparisons.csv"
 #' )
 #'
 #' ## 2. YAML-driven usage (explicit args override YAML)
@@ -76,7 +66,6 @@
 #' # exist_file:       data/exist.csv
 #' # samples_file:     meta/samples.csv
 #' # timepoints_file:  meta/timepoints.csv
-#' # comparisons_file: meta/comparisons.csv
 #' # extra_cols: [sex, age]
 #' # -------------------------------
 #'
@@ -95,7 +84,6 @@ phip_convert_legacy <- function(
   hit_file = NULL,
   timepoints_file = NULL,
   extra_cols = NULL,
-  comparisons_file = NULL,
   output_dir = NULL, # hard deprecation
   peptide_library = TRUE,
   n_cores = 8,
@@ -121,7 +109,6 @@ phip_convert_legacy <- function(
     hit_file = hit_file,
     timepoints_file = timepoints_file,
     extra_cols = extra_cols,
-    comparisons_file = comparisons_file,
     output_dir = output_dir,
     peptide_library = peptide_library,
     config_yaml = config_yaml,
@@ -134,7 +121,6 @@ phip_convert_legacy <- function(
   # ------------------------------------------------------------------
   meta_list <- .ph_legacy_prepare_metadata(
     cfg$samples_file,
-    cfg$comparisons_file,
     cfg$timepoints_file,
     cfg$extra_cols
   )
@@ -147,14 +133,9 @@ phip_convert_legacy <- function(
   ## duckdb-specific code
   long <- dplyr::tbl(con, "final_long")
 
-  comps <- if (DBI::dbExistsTable(con, "comparisons")) {
-    dplyr::tbl(con, "comparisons") |> dplyr::collect()
-  }
-
   # returning the phip_data object
   new_phip_data(
     data_long = long,
-    comparisons = comps,
     peptide_library = cfg$peptide_library,
     meta = list(con = con)
   )
@@ -360,10 +341,6 @@ phip_convert_legacy <- function(
 
   # -----------------------------------------------------------------------
 
-  if (!is.null(meta$comparisons)) {
-    duckdb::duckdb_register(con, "comparisons", meta$comparisons)
-  }
-
   invisible(con)
 }
 
@@ -426,75 +403,23 @@ phip_convert_legacy <- function(
   }
 }
 
-#' @title Prepare sample metadata and (optional) comparisons for legacy import
+#' @title Prepare sample metadata for legacy import
 #'
-#' @description Reads the `samples_file`, optionally reads `comparisons_file`
-#'   and `timepoints_file`, verifies that any dummy-coded grouping columns are
-#'   mutually exclusive (row sum == 1), and collapses them into a single `group`
-#'   column. When `timepoints_file` present, it merges tha `samples` with
-#'   `timepoints` and adds an person identifier and timepoint variable.
+#' @description Reads the `samples_file` and `timepoints_file`, and merges
+#'   them when present to add a subject identifier and timepoint variable.
 #'
 #' @param samples_file      Absolute path to the samples CSV/Parquet.
-#' @param comparisons_file  Absolute path to comparisons CSV/Parquet, or `NULL`.
 #' @param timepoints_file   Absolute path to timepoints CSV/Parquet, or `NULL`.
 #' @param extra_cols        Character vector of extra metadata columns to keep.
 #'
-#' @return A list with elements `samples`, `comparisons` (or `NULL`), and
-#'   `extra_cols` (possibly augmented).
+#' @return A list with elements `samples`, `timepoints`, and `extra_cols`.
 #' @keywords internal
 .ph_legacy_prepare_metadata <- function(samples_file,
-                                     comparisons_file = NULL,
                                      timepoints_file = NULL,
                                      extra_cols = character()) {
   # ---- samples -------------------------------------------------------------
   samples <- .ph_auto_read_file(samples_file) # small table
   names(samples)[1] <- "sample_id" # rename first var
-
-  # this is my personal discussion with myself, maybe somebody will find this
-  # entertaining in the future:
-
-  # ----
-  # the legacy workflow has an important limitation: the comparisons specified
-  # in the comparisons_file are suitable only for the longitudinal data -->
-  # this means that both timepoints_file and comparisons_file have to be
-  # provided at the same time --> log error if only one provided
-
-  ## ==> this is actually wrong, solution: see long comment around line 180 with
-  ## XXX at the beginning
-
-  # XXX
-  # soooo, if i get it right, the groups in Carlos's script have to be defined
-  # in the comparisons file and in the metadata as columns; so my idea to
-  # solve this and allow comparisons for both long and cross-sectional data is
-  # to first pull all unique values from the group1 and group2 cols in the
-  # comparisons file, then select respective column from the metadata table.
-  # They are dummy-coded so we can merge them into one single column: group
-  # ----
-
-  # ---- comparisons (optional) ---------------------------------------------
-  if (is.null(comparisons_file)) {
-    comparisons <- NULL
-  } else {
-    comparisons <- .ph_auto_read_file(comparisons_file)
-
-    # collect dummy-coded column names referenced in comparisons
-    dummy_cols <- unique(c(comparisons$group1, comparisons$group2))
-
-    # sanity-check: each row must belong to exactly one dummy group
-    .chk_cond(
-      any(rowSums(samples[, dummy_cols]) != 1),
-      "Grouping columns in samples_file must be
-      mutually exclusive (row sum != 1)."
-    )
-
-    # collapse dummies --> ‘group’
-    which_max <- max.col(samples[, dummy_cols], ties.method = "first")
-    samples$group <- names(samples[, dummy_cols])[which_max]
-    samples <- samples[, !(names(samples) %in% dummy_cols)]
-
-    comparisons$variable <- "group"
-  }
-
   ## delete the columns: only sample_id and group are allowed to stay
   keep <- colnames(samples) %in% c("sample_id", "group", extra_cols)
   samples <- samples[keep]
@@ -522,42 +447,6 @@ phip_convert_legacy <- function(
 
     # filter the NAs out
     tp_long <- tp_long[!is.na(tp_long$sample_id), ]
-
-    # ---- reconcile comparisons --------------------------------------------
-    if (!is.null(comparisons)) {
-      # ---------- 1. reference sets -------------------------------------------
-      valid_vals <- union(
-        tp_long$timepoint,
-        unique(samples$group %||% character())
-      )
-
-      # ---------- 2. sanity-check comparisons ---------------------------------
-      bad <- setdiff(
-        unique(c(comparisons$group1, comparisons$group2)),
-        valid_vals
-      )
-
-      .chk_cond(
-        length(bad) > 0,
-        sprintf(
-          "Comparisons refer to unknown group/timepoint: %s",
-          paste(bad, collapse = ", ")
-        )
-      )
-
-      # if group duplicates timepoint drop it
-      if ("group" %in% names(samples) &&
-          identical(
-            samples$group,
-            tp_long$timepoint[match(
-              samples$sample_id,
-              tp_long$sample_id
-            )]
-          )) {
-        samples$group <- NULL
-        comparisons$variable <- "timepoint"
-      }
-    }
     # ---------- 3. merge ------------------------------------------------------
     # add the time-point info if present
     samples <- merge(samples,
@@ -570,7 +459,6 @@ phip_convert_legacy <- function(
 
   list(
     samples = samples,
-    comparisons = comparisons,
     timepoints = timepoints
   )
 }

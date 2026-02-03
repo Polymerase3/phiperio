@@ -1,17 +1,11 @@
 #' @title Construct a **phip_data** object
 #'
 #' @description Creates a fully-validated S3 object that bundles the tidy
-#'   PhIP-Seq counts (`data_long`), optional comparison definitions, a
-#'   peptide-library annotation table, and other metadata. The function
-#'   performs a minimal sanity check on *comparisons* before returning the
-#'   object (validation of the data itself happens via `validate_phip_data()`
-#'   helper).
+#'   PhIP-Seq counts (`data_long`), a peptide-library annotation table, and
+#'   other metadata. The data itself is validated via `validate_phip_data()`.
 #'
 #' @param data_long A tidy data frame (or `tbl_lazy`) with one row per
 #'   `peptide_id` x `sample_id` combination. **Required.**
-#' @param comparisons A data frame describing two-way contrasts
-#'   (\code{comparison}, \code{group1}, \code{group2}, \code{variable});
-#'   defaults to an empty tibble if \code{NULL}.
 #' @param peptide_library A data frame with one row per \code{peptide_id}
 #'   and its annotations.  If \code{NULL}, the package’s current default
 #'   library is used.
@@ -37,14 +31,12 @@
 #' ## minimal constructor call
 #' pd <- new_phip_data(
 #'   data_long = tidy_counts,
-#'   comparisons = NULL,
 #'   peptide_library = TRUE
 #' )
 #' }
 #'
 #' @export
 new_phip_data <- function(data_long,
-                          comparisons,
                           peptide_library = TRUE,
                           auto_expand = TRUE,
                           materialise_table = TRUE,
@@ -53,21 +45,6 @@ new_phip_data <- function(data_long,
     headline = "Constructing <phip_data> object",
     step = "new_phip_data()",
     expr = {
-      # quick sanity check
-      if (!is.null(comparisons)) {
-        .chk_cond(
-          !inherits(comparisons, "data.frame"),
-          "`comparisons` must be a data.frame (or NULL).",
-          step = "sanity check: comparisons"
-        )
-      } else {
-        comparisons <- tibble::tibble( # empty placeholder
-          comparison = character(),
-          group1     = character(),
-          group2     = character(),
-          variable   = character()
-        )
-      }
 
       # --------------------------------------------------------------------------
       # Download the peptide metadata library
@@ -129,7 +106,6 @@ new_phip_data <- function(data_long,
       obj <- structure(
         list(
           data_long       = data_long, # lazy tbl or tibble
-          comparisons     = tibble::as_tibble(comparisons),
           peptide_library = peptide_library,
           meta            = meta
         ),

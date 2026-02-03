@@ -52,13 +52,6 @@ print.phip_data <- function(x, ...) {
     format(x_dim[1], big.mark = ","), x_dim[2]
   ))
 
-  # ---- contrasts ------------------------------------------------------------
-  if (!is.null(x$comparisons)) {
-    cat(cli::col_cyan("contrasts:"), "\n")
-    cat(paste0(utils::capture.output(print(x$comparisons, row.names = FALSE)), collapse = "\n"))
-    cat("\n\n")
-  }
-
   # ---- peptide library preview ---------------------------------------------
   cat(cli::col_cyan("peptide library preview (first 5 rows):"), "\n")
 
@@ -145,19 +138,6 @@ get_counts <- function(x) {
   x$data_long
 }
 
-#' @title Retrieve the comparisons definition table
-#'
-#' @description Returns the two-way comparison specifications stored inside a
-#' **phip_data** object.
-#'
-#' @inheritParams get_counts
-#' @return A tibble with columns: `comparison`, `group1`, `group2`,
-#'   and `variable`.
-#' @export
-get_comparisons <- function(x) {
-  .check_pd(x)
-  x$comparisons
-}
 
 #' @title Retrieve the metadata list
 #'
