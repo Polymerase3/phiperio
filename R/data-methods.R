@@ -94,7 +94,7 @@ print.phip_data <- function(x, ...) {
 
     print(lib_preview)
 
-    # summary: extra-column count + overall dim ---------------------------------
+    # summary: extra-column count + overall dim --------------------------------
     n_cols <- length(colnames(lib))
     extra_nc <- n_cols - length(show_cols)
 
@@ -140,10 +140,9 @@ print.phip_data <- function(x, ...) {
 #'
 #' @return A tibble or lazy table with one row per peptide * sample pair.
 #' @examples
-#' \donttest{
 #' pd <- load_example_data()
 #' tbl <- get_counts(pd)
-#' }
+#'
 #' @export
 get_counts <- function(x) {
   .ph_check_pd(x)
@@ -159,10 +158,9 @@ get_counts <- function(x) {
 #' @inheritParams get_counts
 #' @return A named list.
 #' @examples
-#' \donttest{
 #' pd <- load_example_data()
 #' meta <- get_meta(pd)
-#' }
+#'
 #' @export
 get_meta <- function(x) {
   .ph_check_pd(x)
@@ -184,12 +182,10 @@ get_meta <- function(x) {
 #' @return NULL (invisibly).
 #'
 #' @examples
-#' \donttest{
 #' pd <- load_example_data()
 #' out_path <- tempfile(fileext = ".parquet")
 #' export_parquet(pd, out_path)
 #' unlink(out_path)
-#' }
 #'
 #' @importFrom DBI sqlInterpolate dbQuoteString dbExecute
 #' @export
@@ -203,7 +199,8 @@ export_parquet <- function(x, path) {
   } else if (is.data.frame(x)) {
 
     con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
-    on.exit(try(DBI::dbDisconnect(con, shutdown = TRUE), silent = TRUE), add = TRUE)
+    on.exit(try(DBI::dbDisconnect(con, shutdown = TRUE), silent = TRUE),
+            add = TRUE)
     tmp_name <- paste0("ph_tmp_long_", format(Sys.time(), "%Y%m%d_%H%M%S"))
     DBI::dbWriteTable(con, tmp_name, tibble::as_tibble(x), temporary = TRUE)
     whole_file_qry <- dbplyr::sql_render(dplyr::tbl(con, tmp_name))
@@ -276,8 +273,11 @@ collect.phip_data <- function(x, ...) {
 
 #' @importFrom dplyr group_by
 #' @exportS3Method group_by phip_data
-group_by.phip_data <- function(.data, ..., .add = FALSE,
-                               .drop = dplyr::group_by_drop_default(.data$data_long)) {
+group_by.phip_data <- function(.data,
+                               ...,
+                               .add = FALSE,
+                               .drop = dplyr::group_by_drop_default(
+                                 .data$data_long)) {
   .ph_modify_pd(
     .data,
     dplyr::group_by(.data$data_long, ..., .add = .add, .drop = .drop)
@@ -322,10 +322,9 @@ ungroup.phip_data <- function(x, ...) {
 #' @return A new `phip_data` whose `data_long` contains the merged / joined
 #'         tibble.
 #' @examples
-#' \donttest{
 #' pd <- load_example_data()
 #' merged <- merge(pd, pd, by = c("sample_id", "peptide_id"))
-#' }
+#'
 #' @exportS3Method merge phip_data
 merge.phip_data <- function(x, y,
                             ...) {
@@ -348,10 +347,8 @@ merge.phip_data <- function(x, y,
 #' @param ... Passed to the corresponding `dplyr::<join>` function.
 #' @return A `phip_data` object with updated `data_long`.
 #' @examples
-#' \donttest{
 #' pd <- load_example_data()
 #' joined <- dplyr::left_join(pd, pd, by = c("sample_id", "peptide_id"))
-#' }
 #'
 #' @name phip_data_join
 NULL
@@ -413,7 +410,8 @@ anti_join.phip_data <- function(x, y, ...) {
 #'
 #' @param phip_data A <phip_data> object.
 #' @param exist_col Name of the existence column to append/overwrite.
-#' @param overwrite If FALSE and the column exists, abort with a phiperio-style error.
+#' @param overwrite If FALSE and the column exists, abort with a phiperio-style
+#'   error.
 #' @return Modified <phip_data> with updated `data_long`.
 #' @examples
 #' pd <- load_example_data()

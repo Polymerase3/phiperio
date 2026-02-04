@@ -155,7 +155,8 @@
                             expr,
                             verbose = .ph_opt("verbose", TRUE)) {
   t0 <- Sys.time()
-  .ph_log_info(headline = headline, step = step, bullets = bullets, verbose = verbose)
+  .ph_log_info(headline = headline, step = step, bullets = bullets,
+               verbose = verbose)
 
   res <- tryCatch(
     {
@@ -214,7 +215,7 @@
   )
 }
 
-# -- check if filename has given extension ------------------------------------
+# -- check if filename has given extension -------------------------------------
 # comes in handy when loading .csv or .parquet; provide filename and vector of
 # extensions to check (eg c(".csv", ".parquet"))
 #' @title Internal helper: .ph_check_extension
@@ -326,7 +327,8 @@
       ## error when both is_dir and extension are given
       .ph_check_cond(
         is_dir,
-        sprintf("Can't check if `%s` is both a valid direcotry and has a certain extension", arg_name),
+        sprintf("Can't check if `%s` is both a valid direcotry and has a
+                certain extension", arg_name),
         step    = "path validation",
         bullets = sprintf("path: %s", path)
       )
@@ -475,10 +477,11 @@ get_example_path <- function(name = c("phip_mixture")) {
 
 #' @title Load Example PhIP-Seq Dataset as <phip_data>
 #'
-#' @description
-#' Convenience helper to quickly load a shipped example dataset ("phip_mixture") into a `<phip_data>` object,
-#' suitable for downstream analysis and visualization. This function wraps \code{\link{convert_standard}},
-#' automatically supplying the correct parameters for the included example data.
+#' @description Convenience helper to quickly load a shipped example dataset
+#' ("phip_mixture") into a `<phip_data>` object, suitable for downstream
+#' analysis and visualization. This function wraps
+#' \code{\link{convert_standard}}, automatically supplying the correct
+#' parameters for the included example data.
 #'
 #' @param name Character scalar. Name of the shipped example dataset.
 #'  Currently supported: \code{"phip_mixture"}, \code{"small_mixture"}.
@@ -504,7 +507,16 @@ load_example_data <- local({
     name <- match.arg(name)
 
     # Check if already in cache
-    if (name %in% names(cache_env$loaded)) return(cache_env$loaded[[name]])
+    if (name %in% names(cache_env$loaded)) {
+      cached <- cache_env$loaded[[name]]
+      if (inherits(cached, "phip_data")) {
+        con <- try(dbplyr::remote_con(cached$data_long), silent = TRUE)
+        if (!inherits(con, "try-error") && DBI::dbIsValid(con)) {
+          return(cached)
+        }
+      }
+      cache_env$loaded[[name]] <- NULL
+    }
 
     if (name == "small_mixture") {
       ps <- load_example_data(name = "phip_mixture")
@@ -513,14 +525,14 @@ load_example_data <- local({
       keep_pep <- c("16627", "5243", "24799", "16196", "18003")
       dat_cols <- dplyr::tbl_vars(ps$data_long)
       tp_col <- "timepoint"
-        
+
       ps <- ps |>
         dplyr::filter(
           peptide_id %in% keep_pep,
           !!rlang::sym(tp_col) == "T1"
         ) |>
         dplyr::collect()
-      
+
     } else {
       ps <- convert_standard(
         data_long_path = get_example_path(name),

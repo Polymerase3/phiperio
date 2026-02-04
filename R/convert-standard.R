@@ -1,7 +1,7 @@
 #' @title Convert raw PhIP-Seq output into a `phip_data` object
 #'
-#' @description `convert_standard()` ingests a "long" table of PhIPsSeq read counts /
-#' enrichment statistics, optionally expands it to the full
+#' @description `convert_standard()` ingests a "long" table of PhIPsSeq read
+#' counts / enrichment statistics, optionally expands it to the full
 #' `sample_id x peptide_id` grid, and registers the result in DuckDB.
 #' The function returns a fully initialised **`phip_data`** object that can be
 #' queried with the tidy API used throughout the package.
@@ -55,14 +55,25 @@
 #'   materialise_table = TRUE
 #' )
 #'
-#' \donttest{
 #' # Import a CSV and rename columns
-#' phip_mem <- convert_standard(
-#'   data_long_path = "data/phip_long.csv",
-#'   sample_id      = "sample",
-#'   peptide_id     = "pep"
+#' tmp_csv <- tempfile(fileext = ".csv")
+#' utils::write.csv(
+#'   data.frame(
+#'     sample = c("s1", "s1"),
+#'     pep = c("p1", "p2"),
+#'     exist = c(1, 0),
+#'     stringsAsFactors = FALSE
+#'   ),
+#'   tmp_csv,
+#'   row.names = FALSE
 #' )
-#' }
+#' phip_mem <- convert_standard(
+#'   data_long_path = tmp_csv,
+#'   sample_id      = "sample",
+#'   peptide_id     = "pep",
+#'   peptide_library = FALSE,
+#'   materialise_table = FALSE
+#' )
 #'
 #' @seealso
 #' * `create_data()` for the object constructor.
@@ -164,13 +175,12 @@ convert_standard <- function(
 
 #' @title Read and register "long" phiperio data into a DuckDB-backed database
 #'
-#' @description This internal function ingests one or more data files (Parquet or CSV)
-#' specified by `cfg$data_long_path` into a single DuckDB view named
-#' `data_long`, applying user-provided column mappings (`colmap`) to
-#' rename each source column to the standard PHIPERIO names. The resulting
-#' `phip_data` object contains a lazy DuckDB table that can be queried
-#' with dplyr without loading the full dataset into R until explicitly
-#' collected.
+#' @description This internal function ingests one or more data files (Parquet
+#'   or CSV) specified by `cfg$data_long_path` into a single DuckDB view named
+#'   `data_long`, applying user-provided column mappings (`colmap`) to rename
+#'   each source column to the standard PHIPERIO names. The resulting
+#'   `phip_data` object contains a lazy DuckDB table that can be queried with
+#'   dplyr without loading the full dataset into R until explicitly collected.
 #'
 #' @param cfg Named list, must contain element `data_long_path` pointing
 #'   to either a single file or a directory of files. Supported file
@@ -197,9 +207,10 @@ convert_standard <- function(
 #' @keywords internal
 .ph_standard_read_duckdb_backend <- function(cfg, colmap) {
 
-  ## 0. open a DuckDB connection -------------------------------------------
+  ## 0. open a DuckDB connection -----------------------------------------------
   ## keep it persistent only for this R session, but ON DISK (so it can spill)
-  cache_dir <- withr::local_tempdir("phiperio_cache", .local_envir = globalenv())
+  cache_dir <- withr::local_tempdir("phiperio_cache",
+                                    .local_envir = globalenv())
   duckdb_file <- file.path(cache_dir, "phip_cache.duckdb")
   tmp_dir <- file.path(cache_dir, "tmp")
   dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)

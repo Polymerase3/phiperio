@@ -50,7 +50,8 @@ test_that("export_parquet exports as expected", {
     )
   )
 
-  expect_true(all.equal(df$data_long |> collect() |> as.data.frame(), exported_df))
+  expect_true(all.equal(df$data_long |> collect() |> as.data.frame(),
+                        exported_df))
 })
 
 test_that("head/dim/print work on phip_data (data.frame backend)", {
@@ -192,7 +193,8 @@ test_that("add_exist appends or overwrites exist flag", {
   expect_true("exist" %in% colnames(pd3$data_long))
 })
 
-test_that("print refreshes invalid peptide_library tbl_dbi and prints preview", {
+test_that("print refreshes invalid peptide_library tbl_dbi and prints
+          preview", {
   skip_if_not_installed("mockery")
 
   df <- data.frame(

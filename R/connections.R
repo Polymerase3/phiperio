@@ -10,10 +10,9 @@
 #'
 #' @return The input `phip_data` object, invisibly.
 #' @examples
-#' \donttest{
 #' pd <- load_example_data()
 #' close(pd)
-#' }
+#'
 #' @exportS3Method close phip_data
 close.phip_data <- function(con, ...) {
   .ph_check_pd(con)
@@ -144,7 +143,8 @@ close.phip_data <- function(con, ...) {
 
 #' @title Sync peptide connection handle
 #'
-#' @description Ensures `meta$peptide_con` mirrors the peptide library attribute.
+#' @description Ensures `meta$peptide_con` mirrors the peptide library
+#' attribute.
 #'
 #' @param x A valid `phip_data` object.
 #'

@@ -35,8 +35,10 @@ test_that(".ph_refresh_finalizer updates finalizer connection list", {
 
   expect_true(is.environment(pd$meta$finalizer_env))
   expect_equal(length(pd$meta$finalizer_env$connections), 2)
-  expect_true(any(vapply(pd$meta$finalizer_env$connections, identical, logical(1), con1)))
-  expect_true(any(vapply(pd$meta$finalizer_env$connections, identical, logical(1), con2)))
+  expect_true(any(vapply(pd$meta$finalizer_env$connections, identical,
+                         logical(1), con1)))
+  expect_true(any(vapply(pd$meta$finalizer_env$connections, identical,
+                         logical(1), con2)))
 })
 
 test_that(".ph_clear_connections clears peptide_con and library attr", {

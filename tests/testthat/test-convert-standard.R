@@ -95,7 +95,8 @@ test_that(".ph_rename_to_standard_inplace no-ops when no columns match", {
   )
 })
 
-test_that(".ph_rename_to_standard_inplace recreates view via SHOW CREATE VIEW", {
+test_that(".ph_rename_to_standard_inplace recreates view via
+          SHOW CREATE VIEW", {
   skip_if_not_installed("mockery")
 
   con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
@@ -114,7 +115,8 @@ test_that(".ph_rename_to_standard_inplace recreates view via SHOW CREATE VIEW", 
         return(data.frame(view_definition = NA_character_))
       }
       if (grepl("SHOW CREATE VIEW", statement, fixed = TRUE)) {
-        return(data.frame(sql = "CREATE VIEW v AS SELECT old_col, keep FROM base"))
+        return(data.frame(
+          sql = "CREATE VIEW v AS SELECT old_col, keep FROM base"))
       }
       orig_dbGetQuery(con, statement, ...)
     }
@@ -130,7 +132,8 @@ test_that(".ph_rename_to_standard_inplace recreates view via SHOW CREATE VIEW", 
   expect_true("sample_id" %in% cols)
 })
 
-test_that(".ph_rename_to_standard_inplace errors when view definition is missing", {
+test_that(".ph_rename_to_standard_inplace errors when view definition
+          is missing", {
   con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
   on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
 

@@ -54,7 +54,8 @@ test_that(".ph_expand_full_grid aborts on duplicate (key, id) pairs", {
   )
 })
 
-test_that(".ph_expand_full_grid fills numeric/logical defaults on lazy tables", {
+test_that(".ph_expand_full_grid fills numeric/logical defaults on lazy
+          tables", {
   con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
   on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
 
@@ -132,7 +133,8 @@ test_that(".ph_register_phip_data_tbl creates a view when requested", {
 
   obj_type <- DBI::dbGetQuery(
     con,
-    "SELECT table_type FROM information_schema.tables WHERE table_name = 'data_long_view'"
+    "SELECT table_type FROM information_schema.tables
+    WHERE table_name = 'data_long_view'"
   )$table_type[1]
   expect_identical(toupper(obj_type), "VIEW")
 })

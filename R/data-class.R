@@ -27,13 +27,18 @@
 #' @return An object of class \code{"phip_data"}.
 #'
 #' @examples
-#' \donttest{
 #' ## minimal constructor call
+#' tidy_counts <- data.frame(
+#'   sample_id = c("s1", "s1"),
+#'   peptide_id = c("p1", "p2"),
+#'   exist = c(1, 0),
+#'   stringsAsFactors = FALSE
+#' )
 #' pd <- create_data(
 #'   data_long = tidy_counts,
-#'   peptide_library = TRUE
+#'   peptide_library = FALSE,
+#'   materialise_table = FALSE
 #' )
-#' }
 #'
 #' @export
 create_data <- function(data_long,
@@ -46,20 +51,21 @@ create_data <- function(data_long,
     step = "create_data()",
     expr = {
 
-      # --------------------------------------------------------------------------
+      # ------------------------------------------------------------------------
       # Download the peptide metadata library
-      # --------------------------------------------------------------------------
+      # ------------------------------------------------------------------------
       if (peptide_library) {
-        .ph_log_info("Fetching peptide metadata library via get_peptide_library()")
+        .ph_log_info("Fetching peptide metadata library via
+                     get_peptide_library()")
         peptide_library <- get_peptide_library()
         .ph_log_ok("Peptide metadata acquired")
       } else {
         peptide_library <- NULL
       }
 
-      # --------------------------------------------------------------------------
+      # ------------------------------------------------------------------------
       # Scan column names for automatic meta flags
-      # --------------------------------------------------------------------------
+      # ------------------------------------------------------------------------
       # colnames() works for tibble, tbl_dbi, and arrow_dplyr_query
       cols <- colnames(data_long)
       standard_cols <- c(
@@ -88,9 +94,9 @@ create_data <- function(data_long,
       obj <- .ph_sync_peptide_con(obj)
       obj <- .ph_attach_finalizer(obj)
 
-      # --------------------------------------------------------------------------
+      # ------------------------------------------------------------------------
       # Validate the objects used to construct the phip_data
-      # --------------------------------------------------------------------------
+      # ------------------------------------------------------------------------
       # will stop on error, warn on non-fatal issues
       obj <- validate_phip_data(obj, auto_expand = auto_expand)
 

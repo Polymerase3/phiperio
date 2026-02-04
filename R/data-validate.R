@@ -326,7 +326,8 @@ validate_phip_data <- function(x,
 #   with a warning
 # - The key_col can be a vector: eg. c("subject_id","timepoint_factor"), etc.
 #' @title Internal helper: .ph_expand_full_grid
-#' @description Expand a table to the full key * id grid with typed fill defaults.
+#' @description Expand a table to the full key * id grid with typed fill
+#'   defaults.
 #' @keywords internal
 .ph_expand_full_grid <- function(tbl,
                                    key_col = "sample_id",
@@ -437,9 +438,9 @@ validate_phip_data <- function(x,
           }
 
           # hard abort, as no duplicates are allowed; it actually should already
-          # be checked with the phiperio validator, but the auto_expand method can
-          # also be used for data.frames, so it was important to check it here
-          # too
+          # be checked with the phiperio validator, but the auto_expand method
+          # can also be used for data.frames, so it was important to check it
+          # here too
           .ph_abort(
             headline = "Duplicate (key, id) pairs found.",
             step = "uniqueness enforcement",
@@ -766,9 +767,9 @@ validate_phip_data <- function(x,
 #' @return The updated `<phip_data>` object.
 #'
 #' @examples
-#' \donttest{
+#' pd <- load_example_data()
 #' pd <- expand_data(pd, fill_override = list(fold_change = NA_real_))
-#' }
+#'
 #' @export
 expand_data <- function(x,
                              key_col = "sample_id",
@@ -782,7 +783,7 @@ expand_data <- function(x,
     headline = "Expanding <phip_data> to full grid",
     step = "updating x$data_long",
     expr = {
-      # -- Expand data_long lazily (keeps DB laziness) ---------------------------
+      # -- Expand data_long lazily (keeps DB laziness) -------------------------
       tbl_expanded <- .ph_expand_full_grid(
         x$data_long,
         key_col       = key_col,
@@ -793,7 +794,7 @@ expand_data <- function(x,
         validate      = validate
       )
 
-      # -- Compute grid completeness on the lazy object (small collect) ----------
+      # -- Compute grid completeness on the lazy object (small collect) --------
       n_pep <- tbl_expanded |>
         dplyr::summarise(n_pep = dplyr::n_distinct(.data[[id_col]])) |>
         dplyr::collect() |>
@@ -813,7 +814,7 @@ expand_data <- function(x,
       expected <- n_pep * n_smp
       x$meta$full_cross <- (n_obs == expected)
 
-      # -- If we added an existence flag, also store the observed share ----------
+      # -- If we added an existence flag, also store the observed share --------
       if (isTRUE(add_exist)) {
         exist_prop <- tbl_expanded |>
           dplyr::summarise(prop = mean(.data[[exist_col]] * 1.0)) |>
@@ -823,11 +824,12 @@ expand_data <- function(x,
         x$meta$exist <- TRUE
       }
 
-      # -- Register back to DB ---------------------------------------------------
+      # -- Register back to DB -------------------------------------------------
       .ph_log_info("Registering expanded table back to DB",
         bullets = c(
           sprintf("name: %s", .ph_add_quotes("data_long", 1L)),
-          sprintf("materialise_table: %s", as.character(x$meta$materialise_table))
+          sprintf("materialise_table: %s",
+                  as.character(x$meta$materialise_table))
         )
       )
       x$data_long <- .ph_register_phip_data_tbl(
@@ -860,14 +862,6 @@ expand_data <- function(x,
 #'
 #' @return A lazy `dplyr::tbl` referencing the new TABLE/VIEW.
 #'
-#' @examples
-#' \donttest{
-#' lazy <- dplyr::tbl(con, "data_long") |> dplyr::filter(fold_change > 0)
-#' .ph_register_phip_data_tbl(lazy, con,
-#'   name = "data_long_pos",
-#'   materialise_table = TRUE
-#' )
-#' }
 #' @keywords internal
 .ph_register_phip_data_tbl <- function(tbl,
                                        con,

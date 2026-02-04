@@ -1,10 +1,10 @@
 #' @title Retrieve the peptide metadata table into DuckDB, forcing atomic types
 #'
-#' @description This function uses the phiperio logging utilities for consistent,
-#'   ASCII-only progress messages and timing. Long-running steps are bracketed
-#'   with `.ph_with_timing()`, and informational/warning/error messages are
-#'   emitted via `.ph_log_info()`, `.ph_log_ok()`, `.ph_warn()`, and
-#'   `.ph_abort()`.
+#' @description This function uses the phiperio logging utilities for
+#'   consistent, ASCII-only progress messages and timing. Long-running steps are
+#'   bracketed with `.ph_with_timing()`, and informational/warning/error
+#'   messages are emitted via `.ph_log_info()`, `.ph_log_ok()`, `.ph_warn()`,
+#'   and `.ph_abort()`.
 #' * Downloads the RDS once, sanitizes types (logical, character, numeric),
 #'   and writes into a DuckDB cache on disk.
 #' * Subsequent calls return a lazy `tbl_dbi` without loading into R memory.
@@ -21,19 +21,18 @@
 #' `force_refresh` argument bypasses the fast path and rebuilds the cache.
 #'
 #' **Sanitization:** Columns are stripped of attributes, list-columns are
-#' flattened, textual `"NaN"` and numeric `NaN` are coerced to `NA`. Binary
-#' 0/1 fields are converted to `logical`, `"TRUE"/"FALSE"` (case-insensitive)
-#' are converted to `logical`, and numeric-looking character columns (beyond
-#' trivial 0/1) are converted to `numeric`. All other atomic types are preserved.
+#' flattened, textual `"NaN"` and numeric `NaN` are coerced to `NA`. Binary 0/1
+#' fields are converted to `logical`, `"TRUE"/"FALSE"` (case-insensitive) are
+#' converted to `logical`, and numeric-looking character columns (beyond trivial
+#' 0/1) are converted to `numeric`. All other atomic types are preserved.
 #'
 #' **Integrity check:** If a SHA-256 checksum is provided, a warning is logged
 #' when the downloaded file’s checksum does not match the expected value.
 #'
 #' @seealso [dplyr::tbl()], [DBI::dbConnect()], [duckdb::duckdb()]
 #' @examples
-#' \donttest{
 #' lib <- get_peptide_library()
-#' }
+#'
 #' @export
 get_peptide_library <- function(force_refresh = FALSE) {
   .ph_with_timing(
@@ -69,11 +68,13 @@ get_peptide_library <- function(force_refresh = FALSE) {
         error = function(e) {
           # fall back to read-only if the cache is locked elsewhere
           tryCatch(
-            DBI::dbConnect(duckdb::duckdb(), dbdir = duckdb_file, read_only = TRUE),
+            DBI::dbConnect(duckdb::duckdb(), dbdir = duckdb_file,
+                           read_only = TRUE),
             error = function(e2) {
               # final fallback: use a temporary copy of the cache DB
               tmp_db <- file.path(
-                withr::local_tempdir("phiperio_cache", .local_envir = globalenv()),
+                withr::local_tempdir("phiperio_cache",
+                                     .local_envir = globalenv()),
                 "phip_cache.duckdb"
               )
               if (file.exists(duckdb_file)) {
