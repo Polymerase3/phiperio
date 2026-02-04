@@ -21,3 +21,9 @@ tibble.
 \description{
 Merge or join a \code{phip_data} object
 }
+\examples{
+\donttest{
+pd <- load_example_data()
+merged <- merge(pd, pd, by = c("sample_id", "peptide_id"))
+}
+}

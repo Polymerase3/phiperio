@@ -766,7 +766,7 @@ validate_phip_data <- function(x,
 #' @return The updated `<phip_data>` object.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' pd <- expand_data(pd, fill_override = list(fold_change = NA_real_))
 #' }
 #' @export
@@ -861,7 +861,7 @@ expand_data <- function(x,
 #' @return A lazy `dplyr::tbl` referencing the new TABLE/VIEW.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' lazy <- dplyr::tbl(con, "data_long") |> dplyr::filter(fold_change > 0)
 #' .ph_register_phip_data_tbl(lazy, con,
 #'   name = "data_long_pos",

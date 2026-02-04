@@ -35,3 +35,10 @@ A \code{phip_data} object with updated \code{data_long}.
 \description{
 dplyr joins for \code{phip_data}
 }
+\examples{
+\donttest{
+pd <- load_example_data()
+joined <- dplyr::left_join(pd, pd, by = c("sample_id", "peptide_id"))
+}
+
+}

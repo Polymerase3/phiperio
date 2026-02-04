@@ -16,3 +16,9 @@ A tibble or lazy table with one row per peptide * sample pair.
 Quick accessor for the \code{data_long} slot of a \strong{phip_data}
 object.
 }
+\examples{
+\donttest{
+pd <- load_example_data()
+tbl <- get_counts(pd)
+}
+}

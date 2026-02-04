@@ -40,6 +40,11 @@ trivial 0/1) are converted to \code{numeric}. All other atomic types are preserv
 \strong{Integrity check:} If a SHA-256 checksum is provided, a warning is logged
 when the downloaded file’s checksum does not match the expected value.
 }
+\examples{
+\donttest{
+lib <- get_peptide_library()
+}
+}
 \seealso{
 \code{\link[dplyr:tbl]{dplyr::tbl()}}, \code{\link[DBI:dbConnect]{DBI::dbConnect()}}, \code{\link[duckdb:duckdb]{duckdb::duckdb()}}
 }

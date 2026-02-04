@@ -27,7 +27,7 @@
 #' @return An object of class \code{"phip_data"}.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' ## minimal constructor call
 #' pd <- create_data(
 #'   data_long = tidy_counts,

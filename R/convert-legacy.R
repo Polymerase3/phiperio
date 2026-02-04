@@ -41,7 +41,7 @@
 #'   DuckDB connection.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' ## 1. Direct-path usage
 #' pd <- convert_legacy(
 #'   exist_file = "legacy/exist.csv",

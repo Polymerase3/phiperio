@@ -55,7 +55,7 @@
 #'   materialise_table = TRUE
 #' )
 #'
-#' \dontrun{
+#' \donttest{
 #' # Import a CSV and rename columns
 #' phip_mem <- convert_standard(
 #'   data_long_path = "data/phip_long.csv",

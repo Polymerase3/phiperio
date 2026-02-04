@@ -8,6 +8,14 @@
 \description{
 Provides utilities to import, validate, and manage PhIP-Seq datasets, including standardized conversion pipelines, data checks, and access to cached peptide metadata.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Polymerase3/phiperio}
+  \item Report bugs at \url{https://github.com/Polymerase3/phiperio/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Mateusz Kolek \email{mati.kolek13@gmail.com} (\href{https://orcid.org/0000-0001-6470-4830}{ORCID}) [copyright holder]
 
