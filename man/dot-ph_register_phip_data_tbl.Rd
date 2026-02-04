@@ -32,13 +32,4 @@ Convenience wrapper that either materialises a lazy pipeline via
 \code{dplyr::compute()} (creating a TABLE) or emits a \verb{CREATE [TEMP] VIEW AS ...} (creating a VIEW). Returns a \code{dplyr::tbl()}
 pointing to the created object.
 }
-\examples{
-\donttest{
-lazy <- dplyr::tbl(con, "data_long") |> dplyr::filter(fold_change > 0)
-.ph_register_phip_data_tbl(lazy, con,
-  name = "data_long_pos",
-  materialise_table = TRUE
-)
-}
-}
 \keyword{internal}

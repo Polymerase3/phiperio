@@ -17,8 +17,7 @@ Accesses the \code{meta} slot, which holds flags such as whether the
 table is a full peptide * sample grid, the available outcome columns, etc.
 }
 \examples{
-\donttest{
 pd <- load_example_data()
 meta <- get_meta(pd)
-}
+
 }

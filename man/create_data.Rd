@@ -48,12 +48,17 @@ PhIP-Seq counts (\code{data_long}), a peptide-library annotation table, and
 other metadata. The data itself is validated via \code{validate_phip_data()}.
 }
 \examples{
-\donttest{
 ## minimal constructor call
+tidy_counts <- data.frame(
+  sample_id = c("s1", "s1"),
+  peptide_id = c("p1", "p2"),
+  exist = c(1, 0),
+  stringsAsFactors = FALSE
+)
 pd <- create_data(
   data_long = tidy_counts,
-  peptide_library = TRUE
+  peptide_library = FALSE,
+  materialise_table = FALSE
 )
-}
 
 }

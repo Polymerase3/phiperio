@@ -81,14 +81,25 @@ phip_obj <- convert_standard(
   materialise_table = TRUE
 )
 
-\donttest{
 # Import a CSV and rename columns
-phip_mem <- convert_standard(
-  data_long_path = "data/phip_long.csv",
-  sample_id      = "sample",
-  peptide_id     = "pep"
+tmp_csv <- tempfile(fileext = ".csv")
+utils::write.csv(
+  data.frame(
+    sample = c("s1", "s1"),
+    pep = c("p1", "p2"),
+    exist = c(1, 0),
+    stringsAsFactors = FALSE
+  ),
+  tmp_csv,
+  row.names = FALSE
 )
-}
+phip_mem <- convert_standard(
+  data_long_path = tmp_csv,
+  sample_id      = "sample",
+  peptide_id     = "pep",
+  peptide_library = FALSE,
+  materialise_table = FALSE
+)
 
 }
 \seealso{

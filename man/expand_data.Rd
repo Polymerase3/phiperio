@@ -53,7 +53,7 @@ Updates \code{x$data_long} in place (preserving laziness unless you later
 \code{compute()} / \code{collect()}).
 }
 \examples{
-\donttest{
+pd <- load_example_data()
 pd <- expand_data(pd, fill_override = list(fold_change = NA_real_))
-}
+
 }

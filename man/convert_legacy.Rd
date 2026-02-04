@@ -74,25 +74,20 @@ centralized in \code{validate_phip_data()}.
 }
 }
 \examples{
-\donttest{
-## 1. Direct-path usage
+## 1. Direct-path usage (package example files)
+ext <- system.file("extdata", package = "phiperio")
 pd <- convert_legacy(
-  exist_file = "legacy/exist.csv",
-  samples_file = "legacy/samples.csv",
-  timepoints_file = "legacy/timepoints.csv",
+  exist_file = file.path(ext, "exist.csv"),
+  samples_file = file.path(ext, "samples_meta.csv"),
+  timepoints_file = file.path(ext, "samples2ind_timepoints.csv"),
+  peptide_library = FALSE
 )
 
 ## 2. YAML-driven usage (explicit args override YAML)
-# --- config/legacy_config.yaml ---
-# exist_file:       data/exist.csv
-# samples_file:     meta/samples.csv
-# timepoints_file:  meta/timepoints.csv
-# extra_cols: [sex, age]
-# -------------------------------
-
 pd <- convert_legacy(
-  config_yaml = "config/legacy_config.yaml"
+  config_yaml = file.path(ext, "config.yaml"),
+  peptide_library = FALSE
 )
-}
+
 
 }

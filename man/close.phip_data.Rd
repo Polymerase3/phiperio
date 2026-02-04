@@ -21,8 +21,7 @@ peptide-library connection stored in attributes or metadata. The method is
 idempotent and safe to call multiple times.
 }
 \examples{
-\donttest{
 pd <- load_example_data()
 close(pd)
-}
+
 }
