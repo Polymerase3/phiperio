@@ -152,44 +152,44 @@ need to supply <code>subject_id</code>.</p>
 <span>  materialise_table <span class="op">=</span> <span class="cn">FALSE</span>    <span class="co"># keep as a view for fast iterations</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Skipping ANALYZE - raw_combined is a view.</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Constructing &lt;phip_data&gt; object</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Constructing &lt;phip_data&gt; object</span></span>
 <span><span class="co">#&gt;                  -&gt; create_data()</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Fetching peptide metadata library via get_peptide_library()</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Retrieving peptide metadata into DuckDB cache</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Fetching peptide metadata library via get_peptide_library()</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Retrieving peptide metadata into DuckDB cache</span></span>
 <span><span class="co">#&gt;                  -&gt; get_peptide_library(force_refresh = FALSE)</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Opened DuckDB connection</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Opened DuckDB connection</span></span>
 <span><span class="co">#&gt;                    - cache dir:</span></span>
 <span><span class="co">#&gt;                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb</span></span>
 <span><span class="co">#&gt;                    - table: peptide_meta</span></span>
-<span><span class="co">#&gt; [11:52:13] OK    Using cached peptide_meta (fast path)</span></span>
-<span><span class="co">#&gt; [11:52:13] OK    Retrieving peptide metadata into DuckDB cache - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.229s</span></span>
-<span><span class="co">#&gt; [11:52:13] OK    Peptide metadata acquired</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Validating &lt;phip_data&gt;</span></span>
+<span><span class="co">#&gt; [12:00:33] OK    Using cached peptide_meta (fast path)</span></span>
+<span><span class="co">#&gt; [12:00:33] OK    Retrieving peptide metadata into DuckDB cache - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.24s</span></span>
+<span><span class="co">#&gt; [12:00:33] OK    Peptide metadata acquired</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Validating &lt;phip_data&gt;</span></span>
 <span><span class="co">#&gt;                  -&gt; validate_phip_data()</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Checking outcome family availability (exist / fold_change /</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Checking outcome family availability (exist / fold_change /</span></span>
 <span><span class="co">#&gt;                  raw_counts)</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Checking collisions with reserved names</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Checking collisions with reserved names</span></span>
 <span><span class="co">#&gt;                    - subject_id, sample_id, timepoint, peptide_id, exist,</span></span>
 <span><span class="co">#&gt;                      fold_change, counts_input, counts_hit</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Checking key uniqueness</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Validating value ranges &amp; types for outcomes</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Checking key uniqueness</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Validating value ranges &amp; types for outcomes</span></span>
 <span><span class="co">#&gt; Warning: Missing values are always removed in SQL aggregation functions.</span></span>
 <span><span class="co">#&gt; Use `na.rm = TRUE` to silence this warning</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
 <span><span class="co">#&gt;                    - warn threshold: 50%</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Checking peptide_id coverage against peptide_library</span></span>
-<span><span class="co">#&gt; Warning: [11:52:13] WARN  peptide_id not found in peptide_library (e.g. p1)</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Checking peptide_id coverage against peptide_library</span></span>
+<span><span class="co">#&gt; Warning: [12:00:33] WARN  peptide_id not found in peptide_library (e.g. p1)</span></span>
 <span><span class="co">#&gt;                  -&gt; peptide library coverage.</span></span>
-<span><span class="co">#&gt; [11:52:13] INFO  Checking full grid completeness (peptide * sample)</span></span>
-<span><span class="co">#&gt; [11:52:13] OK    Counts table is a full peptide * sample grid</span></span>
-<span><span class="co">#&gt; [11:52:13] OK    Validating &lt;phip_data&gt; - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.658s</span></span>
-<span><span class="co">#&gt; [11:52:13] OK    Constructing &lt;phip_data&gt; object - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.89s</span></span>
+<span><span class="co">#&gt; [12:00:33] INFO  Checking full grid completeness (peptide * sample)</span></span>
+<span><span class="co">#&gt; [12:00:33] OK    Counts table is a full peptide * sample grid</span></span>
+<span><span class="co">#&gt; [12:00:33] OK    Validating &lt;phip_data&gt; - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.679s</span></span>
+<span><span class="co">#&gt; [12:00:33] OK    Constructing &lt;phip_data&gt; object - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.923s</span></span>
 <span><span class="co"># The peptide library comes from the companion repo</span></span>
 <span><span class="co"># https://github.com/Polymerase3/phiper and is maintained by our group with</span></span>
 <span><span class="co"># collaborator-provided annotations. Setting peptide_library = TRUE pulls the</span></span>
@@ -240,7 +240,7 @@ need to supply <code>subject_id</code>.</p>
 <span><span class="co"># get_counts() returns the same table as pd_xc$data_long</span></span>
 <span><span class="fu"><a href="../reference/get_counts.html">get_counts</a></span><span class="op">(</span><span class="va">pd_xc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Source:   table&lt;raw_combined&gt; [?? x 6]</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Database: DuckDB 1.4.4 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpEuh0tR/phiperio_cache1f717f69cc09/phip_cache.duckdb]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Database: DuckDB 1.4.4 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpURoYj3/phiperio_cache1ea93de57bdc/phip_cache.duckdb]</span></span></span>
 <span><span class="co">#&gt;   sample_id peptide_id exist fold_change   age sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> s1        p1             1         1.2    34 F    </span></span>
@@ -267,7 +267,7 @@ need to supply <code>subject_id</code>.</p>
 <code class="sourceCode R"><span><span class="va">out_parquet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".parquet"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/export_parquet.html">export_parquet</a></span><span class="op">(</span><span class="va">pd_xc</span>, <span class="va">out_parquet</span><span class="op">)</span></span>
 <span><span class="va">out_parquet</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpEuh0tR/file1f716feb8c05.parquet"</span></span>
+<span><span class="co">#&gt; [1] "/tmp/RtmpURoYj3/file1ea9bad6d83.parquet"</span></span>
 <span></span>
 <span><span class="co"># Re-import the Parquet file directly with convert_standard()</span></span>
 <span><span class="va">pd_xc_again</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/convert_standard.html">convert_standard</a></span><span class="op">(</span></span>
@@ -276,41 +276,41 @@ need to supply <code>subject_id</code>.</p>
 <span>  materialise_table <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Skipping ANALYZE - raw_combined is a view.</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Constructing &lt;phip_data&gt; object</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Constructing &lt;phip_data&gt; object</span></span>
 <span><span class="co">#&gt;                  -&gt; create_data()</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Fetching peptide metadata library via get_peptide_library()</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Retrieving peptide metadata into DuckDB cache</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Fetching peptide metadata library via get_peptide_library()</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Retrieving peptide metadata into DuckDB cache</span></span>
 <span><span class="co">#&gt;                  -&gt; get_peptide_library(force_refresh = FALSE)</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Opened DuckDB connection</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Opened DuckDB connection</span></span>
 <span><span class="co">#&gt;                    - cache dir:</span></span>
 <span><span class="co">#&gt;                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb</span></span>
 <span><span class="co">#&gt;                    - table: peptide_meta</span></span>
-<span><span class="co">#&gt; [11:52:14] OK    Using cached peptide_meta (fast path)</span></span>
-<span><span class="co">#&gt; [11:52:14] OK    Retrieving peptide metadata into DuckDB cache - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.208s</span></span>
-<span><span class="co">#&gt; [11:52:14] OK    Peptide metadata acquired</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Validating &lt;phip_data&gt;</span></span>
+<span><span class="co">#&gt; [12:00:34] OK    Using cached peptide_meta (fast path)</span></span>
+<span><span class="co">#&gt; [12:00:34] OK    Retrieving peptide metadata into DuckDB cache - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.214s</span></span>
+<span><span class="co">#&gt; [12:00:34] OK    Peptide metadata acquired</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Validating &lt;phip_data&gt;</span></span>
 <span><span class="co">#&gt;                  -&gt; validate_phip_data()</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Checking outcome family availability (exist / fold_change /</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Checking outcome family availability (exist / fold_change /</span></span>
 <span><span class="co">#&gt;                  raw_counts)</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Checking collisions with reserved names</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Checking collisions with reserved names</span></span>
 <span><span class="co">#&gt;                    - subject_id, sample_id, timepoint, peptide_id, exist,</span></span>
 <span><span class="co">#&gt;                      fold_change, counts_input, counts_hit</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Checking key uniqueness</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Validating value ranges &amp; types for outcomes</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Checking key uniqueness</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Validating value ranges &amp; types for outcomes</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
 <span><span class="co">#&gt;                    - warn threshold: 50%</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Checking peptide_id coverage against peptide_library</span></span>
-<span><span class="co">#&gt; Warning: [11:52:14] WARN  peptide_id not found in peptide_library (e.g. p1)</span></span>
+<span><span class="co">#&gt; [12:00:34] INFO  Checking peptide_id coverage against peptide_library</span></span>
+<span><span class="co">#&gt; Warning: [12:00:35] WARN  peptide_id not found in peptide_library (e.g. p1)</span></span>
 <span><span class="co">#&gt;                  -&gt; peptide library coverage.</span></span>
-<span><span class="co">#&gt; [11:52:14] INFO  Checking full grid completeness (peptide * sample)</span></span>
-<span><span class="co">#&gt; [11:52:14] OK    Counts table is a full peptide * sample grid</span></span>
-<span><span class="co">#&gt; [11:52:14] OK    Validating &lt;phip_data&gt; - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.463s</span></span>
-<span><span class="co">#&gt; [11:52:14] OK    Constructing &lt;phip_data&gt; object - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.673s</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Checking full grid completeness (peptide * sample)</span></span>
+<span><span class="co">#&gt; [12:00:35] OK    Counts table is a full peptide * sample grid</span></span>
+<span><span class="co">#&gt; [12:00:35] OK    Validating &lt;phip_data&gt; - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.479s</span></span>
+<span><span class="co">#&gt; [12:00:35] OK    Constructing &lt;phip_data&gt; object - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.695s</span></span>
 <span><span class="va">pd_xc_again</span></span>
 <span><span class="co">#&gt; ── &lt;phip_data&gt; ───────────────────────────────────────────────────────────────── </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -388,35 +388,35 @@ a <code>timepoint</code> column so you can track visits.</p>
 <span>  materialise_table <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Skipping ANALYZE - raw_combined is a view.</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Constructing &lt;phip_data&gt; object</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Constructing &lt;phip_data&gt; object</span></span>
 <span><span class="co">#&gt;                  -&gt; create_data()</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Validating &lt;phip_data&gt;</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Validating &lt;phip_data&gt;</span></span>
 <span><span class="co">#&gt;                  -&gt; validate_phip_data()</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Checking outcome family availability (exist / fold_change /</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Checking outcome family availability (exist / fold_change /</span></span>
 <span><span class="co">#&gt;                  raw_counts)</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Checking collisions with reserved names</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Checking collisions with reserved names</span></span>
 <span><span class="co">#&gt;                    - subject_id, sample_id, timepoint, peptide_id, exist,</span></span>
 <span><span class="co">#&gt;                      fold_change, counts_input, counts_hit</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Checking key uniqueness</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Validating value ranges &amp; types for outcomes</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Checking key uniqueness</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Validating value ranges &amp; types for outcomes</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
 <span><span class="co">#&gt;                    - warn threshold: 50%</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Checking peptide_id coverage against peptide_library</span></span>
-<span><span class="co">#&gt; [11:52:15] INFO  Checking full grid completeness (peptide * sample)</span></span>
-<span><span class="co">#&gt; Warning: [11:52:15] WARN  Counts table is not a full peptide * sample grid.</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Checking peptide_id coverage against peptide_library</span></span>
+<span><span class="co">#&gt; [12:00:35] INFO  Checking full grid completeness (peptide * sample)</span></span>
+<span><span class="co">#&gt; Warning: [12:00:35] WARN  Counts table is not a full peptide * sample grid.</span></span>
 <span><span class="co">#&gt;                  -&gt; grid completeness</span></span>
 <span><span class="co">#&gt;                    - observed rows: 6</span></span>
 <span><span class="co">#&gt;                    - expected rows: 12.</span></span>
-<span><span class="co">#&gt; Warning: [11:52:15] WARN  Grid remains incomplete (auto_expand = FALSE).</span></span>
+<span><span class="co">#&gt; Warning: [12:00:35] WARN  Grid remains incomplete (auto_expand = FALSE).</span></span>
 <span><span class="co">#&gt;                  -&gt; grid completeness</span></span>
 <span><span class="co">#&gt;                    - observed rows: 6</span></span>
 <span><span class="co">#&gt;                    - expected rows: 12.</span></span>
-<span><span class="co">#&gt; [11:52:15] OK    Validating &lt;phip_data&gt; - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.341s</span></span>
-<span><span class="co">#&gt; [11:52:15] OK    Constructing &lt;phip_data&gt; object - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.342s</span></span></code></pre></div>
+<span><span class="co">#&gt; [12:00:35] OK    Validating &lt;phip_data&gt; - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.35s</span></span>
+<span><span class="co">#&gt; [12:00:35] OK    Constructing &lt;phip_data&gt; object - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.351s</span></span></code></pre></div>
 <p>Work with the longitudinal data:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Look at the object summary</span></span>
@@ -483,7 +483,7 @@ a <code>timepoint</code> column so you can track visits.</p>
 <code class="sourceCode R"><span><span class="va">out_parquet_lg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".parquet"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/export_parquet.html">export_parquet</a></span><span class="op">(</span><span class="va">pd_lg</span>, <span class="va">out_parquet_lg</span><span class="op">)</span></span>
 <span><span class="va">out_parquet_lg</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpEuh0tR/file1f713c822a9b.parquet"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpURoYj3/file1ea96053adf6.parquet"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="tips-and-gotchas">Tips and gotchas<a class="anchor" aria-label="anchor" href="#tips-and-gotchas"></a>
@@ -514,48 +514,48 @@ fill missing <code>sample_id × peptide_id</code> combinations
 </h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_example_data.html">load_example_data</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Constructing &lt;phip_data&gt; object</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Constructing &lt;phip_data&gt; object</span></span>
 <span><span class="co">#&gt;                  -&gt; create_data()</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Fetching peptide metadata library via get_peptide_library()</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Retrieving peptide metadata into DuckDB cache</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Fetching peptide metadata library via get_peptide_library()</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Retrieving peptide metadata into DuckDB cache</span></span>
 <span><span class="co">#&gt;                  -&gt; get_peptide_library(force_refresh = FALSE)</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Opened DuckDB connection</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Opened DuckDB connection</span></span>
 <span><span class="co">#&gt;                    - cache dir:</span></span>
 <span><span class="co">#&gt;                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb</span></span>
 <span><span class="co">#&gt;                    - table: peptide_meta</span></span>
-<span><span class="co">#&gt; [11:52:16] OK    Using cached peptide_meta (fast path)</span></span>
-<span><span class="co">#&gt; [11:52:16] OK    Retrieving peptide metadata into DuckDB cache - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.203s</span></span>
-<span><span class="co">#&gt; [11:52:16] OK    Peptide metadata acquired</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Validating &lt;phip_data&gt;</span></span>
+<span><span class="co">#&gt; [12:00:36] OK    Using cached peptide_meta (fast path)</span></span>
+<span><span class="co">#&gt; [12:00:36] OK    Retrieving peptide metadata into DuckDB cache - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.207s</span></span>
+<span><span class="co">#&gt; [12:00:36] OK    Peptide metadata acquired</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Validating &lt;phip_data&gt;</span></span>
 <span><span class="co">#&gt;                  -&gt; validate_phip_data()</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Checking outcome family availability (exist / fold_change /</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Checking outcome family availability (exist / fold_change /</span></span>
 <span><span class="co">#&gt;                  raw_counts)</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Checking collisions with reserved names</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Checking collisions with reserved names</span></span>
 <span><span class="co">#&gt;                    - subject_id, sample_id, timepoint, peptide_id, exist,</span></span>
 <span><span class="co">#&gt;                      fold_change, counts_input, counts_hit</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Checking key uniqueness</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Validating value ranges &amp; types for outcomes</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Checking key uniqueness</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Validating value ranges &amp; types for outcomes</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
 <span><span class="co">#&gt;                    - warn threshold: 50%</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Checking peptide_id coverage against peptide_library</span></span>
-<span><span class="co">#&gt; Warning: [11:52:16] WARN  peptide_id not found in peptide_library (e.g. 10003)</span></span>
+<span><span class="co">#&gt; [12:00:36] INFO  Checking peptide_id coverage against peptide_library</span></span>
+<span><span class="co">#&gt; Warning: [12:00:37] WARN  peptide_id not found in peptide_library (e.g. 10003)</span></span>
 <span><span class="co">#&gt;                  -&gt; peptide library coverage.</span></span>
-<span><span class="co">#&gt; [11:52:16] INFO  Checking full grid completeness (peptide * sample)</span></span>
-<span><span class="co">#&gt; Warning: [11:52:16] WARN  Counts table is not a full peptide * sample grid.</span></span>
+<span><span class="co">#&gt; [12:00:37] INFO  Checking full grid completeness (peptide * sample)</span></span>
+<span><span class="co">#&gt; Warning: [12:00:37] WARN  Counts table is not a full peptide * sample grid.</span></span>
 <span><span class="co">#&gt;                  -&gt; grid completeness</span></span>
 <span><span class="co">#&gt;                    - observed rows: 78200</span></span>
 <span><span class="co">#&gt;                    - expected rows: 156000.</span></span>
-<span><span class="co">#&gt; Warning: [11:52:16] WARN  Grid remains incomplete (auto_expand = FALSE).</span></span>
+<span><span class="co">#&gt; Warning: [12:00:37] WARN  Grid remains incomplete (auto_expand = FALSE).</span></span>
 <span><span class="co">#&gt;                  -&gt; grid completeness</span></span>
 <span><span class="co">#&gt;                    - observed rows: 78200</span></span>
 <span><span class="co">#&gt;                    - expected rows: 156000.</span></span>
-<span><span class="co">#&gt; [11:52:16] OK    Validating &lt;phip_data&gt; - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.545s</span></span>
-<span><span class="co">#&gt; [11:52:16] OK    Constructing &lt;phip_data&gt; object - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.75s</span></span>
+<span><span class="co">#&gt; [12:00:37] OK    Validating &lt;phip_data&gt; - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.571s</span></span>
+<span><span class="co">#&gt; [12:00:37] OK    Constructing &lt;phip_data&gt; object - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.779s</span></span>
 <span><span class="va">ex</span></span>
 <span><span class="co">#&gt; ── &lt;phip_data&gt; ───────────────────────────────────────────────────────────────── </span></span>
 <span><span class="co">#&gt; </span></span>

@@ -132,82 +132,82 @@ performed upstream (e.g., inside <code><a href="validate_phip_data.html">validat
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pd</span> <span class="op">&lt;-</span> <span class="fu"><a href="load_example_data.html">load_example_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Constructing &lt;phip_data&gt; object</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Constructing &lt;phip_data&gt; object</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; create_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Fetching peptide metadata library via get_peptide_library()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Retrieving peptide metadata into DuckDB cache</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Fetching peptide metadata library via get_peptide_library()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Retrieving peptide metadata into DuckDB cache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; get_peptide_library(force_refresh = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Opened DuckDB connection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Opened DuckDB connection</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - cache dir:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - table: peptide_meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] OK    Using cached peptide_meta (fast path)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] OK    Retrieving peptide metadata into DuckDB cache - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.047s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] OK    Peptide metadata acquired</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Validating &lt;phip_data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] OK    Using cached peptide_meta (fast path)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] OK    Retrieving peptide metadata into DuckDB cache - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.052s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] OK    Peptide metadata acquired</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Validating &lt;phip_data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; validate_phip_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Checking outcome family availability (exist / fold_change /</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Checking outcome family availability (exist / fold_change /</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  raw_counts)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Checking collisions with reserved names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Checking collisions with reserved names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - subject_id, sample_id, timepoint, peptide_id, exist,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      fold_change, counts_input, counts_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Ensuring all columns are atomic (no list-cols)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Checking key uniqueness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Validating value ranges &amp; types for outcomes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Ensuring all columns are atomic (no list-cols)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:26] INFO  Checking key uniqueness</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Validating value ranges &amp; types for outcomes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - warn threshold: 50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Checking peptide_id coverage against peptide_library</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[11:52:07] WARN  peptide_id not found in peptide_library (e.g. 10003)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Checking peptide_id coverage against peptide_library</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:27] WARN  peptide_id not found in peptide_library (e.g. 10003)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; peptide library coverage.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Checking full grid completeness (peptide * sample)</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[11:52:07] WARN  Counts table is not a full peptide * sample grid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Checking full grid completeness (peptide * sample)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:27] WARN  Counts table is not a full peptide * sample grid.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; grid completeness</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - observed rows: 78200</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - expected rows: 156000.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[11:52:07] WARN  Grid remains incomplete (auto_expand = FALSE).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:27] WARN  Grid remains incomplete (auto_expand = FALSE).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; grid completeness</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - observed rows: 78200</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - expected rows: 156000.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] OK    Validating &lt;phip_data&gt; - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.503s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] OK    Constructing &lt;phip_data&gt; object - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.551s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] OK    Validating &lt;phip_data&gt; - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.537s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] OK    Constructing &lt;phip_data&gt; object - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.59s</span>
 <span class="r-in"><span><span class="va">pd</span> <span class="op">&lt;-</span> <span class="fu">expand_data</span><span class="op">(</span><span class="va">pd</span>, fill_override <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fold_change <span class="op">=</span> <span class="cn">NA_real_</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Expanding &lt;phip_data&gt; to full grid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Expanding &lt;phip_data&gt; to full grid</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; updating x$data_long</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Expanding to full key * id grid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Expanding to full key * id grid</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; keys: 'sample_id'; id: 'peptide_id'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Checking uniqueness of (key, id) pairs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Type probe on lazy table</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Checking uniqueness of (key, id) pairs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Type probe on lazy table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; collect(head 0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Building Cartesian product of keys and ids</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:07] INFO  Detecting per-key constant (recyclable) columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Building Cartesian product of keys and ids</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Detecting per-key constant (recyclable) columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - candidates: subject_id, group, timepoint, exist,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      counts_control, counts_hits, fold_change</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:08] OK    Column split decided</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] OK    Column split decided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - recyclable: subject_id, group, timepoint</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - non-recyclable: exist, counts_control, counts_hits,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      fold_change</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:08] INFO  Preparing fill defaults for introduced rows</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Preparing fill defaults for introduced rows</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - numeric/integer: exist, fold_change, counts_control,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      counts_hits</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - logical: &lt;none&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:08] INFO  Applying user-provided fill overrides</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] INFO  Applying user-provided fill overrides</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - overrides: fold_change</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:08] OK    Expanding to full key * id grid - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.461s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:08] INFO  Registering expanded table back to DB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:27] OK    Expanding to full key * id grid - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.477s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:28] INFO  Registering expanded table back to DB</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - name: 'data_long'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - materialise_table: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:08] INFO  Registering lazy table</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:28] INFO  Registering lazy table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; name: 'data_long'; as TABLE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:08] INFO  Materialising via dplyr::compute()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:09] OK    Registering lazy table - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.268s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:52:09] OK    Expanding &lt;phip_data&gt; to full grid - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 1.346s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:28] INFO  Materialising via dplyr::compute()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:28] OK    Registering lazy table - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.278s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:28] OK    Expanding &lt;phip_data&gt; to full grid - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 1.381s</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
