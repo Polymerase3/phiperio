@@ -1,228 +1,54 @@
-# # testing the legacy workflow for loading the data from separate files
-# test_that("convert legacy: duckdb", {
-#   withr::with_message_sink(
-#     tempfile(),
-#     withr::with_options(list(warn = -1), {
-#       ## test the .yaml file interface
-#       withr::with_tempdir({
-#         path <- file.path(
-#           system.file("extdata", package = "phiperio"),
-#           "config.yaml"
-#         )
-#
-#         ## SMOKE TEST --------------------------------------------------------------
-#         expect_no_error(
-#           pd <- convert_legacy(config_yaml = path)
-#         )
-#
-#         expect_output(print(pd))
-#
-#         ### with explicit paths, without config file, .parquet handling
-#         expect_no_error(
-#           pd <- convert_legacy(
-#             exist_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "exist.parquet"
-#             ),
-#             samples_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "samples_meta.csv"
-#             ),
-#               system.file("extdata", package = "phiperio"),
-#             ),
-#             peptide_library = FALSE
-#           )
-#         )
-#
-#         expect_output(print(pd))
-#
-#         ### error when no required file present
-#         expect_error(
-#           convert_legacy(
-#             exist_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "exist.csv"
-#             ),
-#             peptide_library = FALSE
-#           ), "samples_file"
-#         )
-#
-#         ### fold_change and raw counts handling
-#         expect_no_error(
-#           convert_legacy(
-#             exist_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "exist.parquet"
-#             ),
-#             fold_change_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "fold_change.csv"
-#             ),
-#             samples_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "samples_meta.csv"
-#             ),
-#             input_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "raw_input.csv"
-#             ),
-#             hit_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "raw_hit.csv"
-#             ),
-#             peptide_library = FALSE
-#           )
-#         )
-#
-#         expect_no_error(
-#           convert_legacy(
-#             exist_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "exist.parquet"
-#             ),
-#             fold_change_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "fold_change.csv"
-#             ),
-#             samples_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "samples_meta.csv"
-#             ),
-#             input_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "raw_input.csv"
-#             ),
-#             hit_file = file.path(
-#               system.file("extdata", package = "phiperio"),
-#               "raw_hit.csv"
-#             ),
-#             peptide_library = FALSE
-#           )
-#         )
-#       })
-#     })
-#   )
-# })
-#
-# ## duckdb-only tests
-# skip_if_not_installed("duckdb")
-# skip_if_not_installed("DBI")
-# skip_if_not_installed("dbplyr")
-#
-# test_that("convert legacy: duckdb", {
-#   withr::with_message_sink(
-#     tempfile(),
-#     withr::with_options(list(warn = -1), {
-#       ## test the .yaml file interface
-#       withr::with_tempdir({
-#         path <- file.path(
-#           system.file("extdata", package = "phiperio"),
-#           "config.yaml"
-#         )
-#         ## SMOKE TESTS -------------------------------------------------------------
-#         ### default
-#         expect_no_error(
-#           convert_legacy(
-#             config_yaml = path,
-#             peptide_library = FALSE
-#           )
-#         )
-#
-#         ### works without extra_cols -----------------------------------------------
-#         # ------------------------------------------------------------------#
-#         # 1. Build a sandbox directory in tempdir()
-#         # ------------------------------------------------------------------#
-#         workdir <- withr::local_tempdir()
-#
-#         # helper: copy a file into workdir, keep basename
-#         copy_to_workdir <- function(src) {
-#           dst <- file.path(workdir, basename(src))
-#           file.copy(src, dst, overwrite = TRUE)
-#           basename(src) # return relative path
-#         }
-#
-#         # ------------------------------------------------------------------#
-#         # 2. Locate original example files in your package
-#         # ------------------------------------------------------------------#
-#         pkg_ext <- function(name) system.file("extdata", name, package = "phiperio")
-#
-#         yaml_src <- pkg_ext("config.yaml")
-#         exist_src <- pkg_ext("exist.csv")
-#         samples_src <- pkg_ext("samples_meta.csv")
-#         timepoints_src <- NULL
-#
-#         # ------------------------------------------------------------------#
-#         # 3. Copy everything into workdir
-#         # ------------------------------------------------------------------#
-#         yaml_dst <- file.path(workdir, "config.yaml")
-#         exist_rel <- copy_to_workdir(exist_src)
-#         samples_rel <- copy_to_workdir(samples_src)
-#         comps_rel <- copy_to_workdir(comps_src)
-#         file.copy(yaml_src, yaml_dst, overwrite = TRUE)
-#
-#         # ------------------------------------------------------------------#
-#         # 4. Edit the YAML: remove extra_cols, fix paths to be local
-#         # ------------------------------------------------------------------#
-#         cfg <- yaml::read_yaml(yaml_dst)
-#
-#         cfg$extra_cols <- NULL # drop the key
-#         cfg$exist_file <- exist_rel # point to local file
-#         cfg$samples_file <- samples_rel
-#         cfg$timepoints_file <- NULL
-#
-#         yaml::write_yaml(cfg, yaml_dst)
-#
-#         # ------------------------------------------------------------------#
-#         # 5. Call the converter
-#         # ------------------------------------------------------------------#
-#         pd <- convert_legacy(
-#           config_yaml = yaml_dst,
-#           peptide_library = FALSE
-#         )
-#
-#
-#         # ------------------------------------------------------------------#
-#         # 6. Expectations
-#         # ------------------------------------------------------------------#
-#         expect_s3_class(pd, "phip_data")
-#         expect_gt(ncol(get_counts(pd)), 3) # additional columns from meta,
-#
-#         # as there is no extra_cols
-#         expect_false(isTRUE(pd$meta$fold_change))
-#         expect_false(isTRUE(pd$meta$longitudinal))
-#       })
-#     })
-#   )
-# })
-#
-# ## .ph_auto_read_file
-# tmp_csv <- withr::local_tempfile(fileext = ".csv")
-# write.csv(data.frame(a = 1:3, b = 4:6), tmp_csv, row.names = FALSE)
-#
-# # ------------------------------------------------------------------
-# # 1) branch where data.table IS available
-# # ------------------------------------------------------------------
-# test_that(".ph_auto_read_file uses data.table::fread when available", {
-#   skip_if_not_installed("data.table") # ensures branch can run
-#
-#   res <- .ph_auto_read_file(tmp_csv)
-#
-#   expect_s3_class(res, "data.frame")
-#   expect_equal(nrow(res), 3)
-#   expect_true(attr(res, "class")[1] != "data.frame" ||
-#                 # fread returns data.frame if data.table=FALSE
-#                 TRUE)
-# })
-#
-# # ------------------------------------------------------------------
-# # 2) branch where data.table is *pretended* to be missing
-# # ------------------------------------------------------------------
-# test_that(".ph_auto_read_file falls back to read.csv when data.table is absent", {
-#   # Mock requireNamespace() so it always returns FALSE inside this call
-#   mockery::stub(.ph_auto_read_file, "requireNamespace", function(pkg, ...) FALSE)
-#
-#   res <- .ph_auto_read_file(tmp_csv)
-#
-#   expect_s3_class(res, "data.frame")
-#   expect_equal(nrow(res), 3)
-# })
+test_that("convert_legacy reads config yaml with timepoints", {
+
+  ext <- system.file("extdata", package = "phiperio")
+  cfg <- file.path(ext, "config.yaml")
+
+  pd <- expect_warning(
+    withr::with_message_sink(tempfile(), {
+      convert_legacy(
+        config_yaml = cfg,
+        peptide_library = FALSE
+      )
+    }),
+    "output_dir"
+  )
+
+  expect_s3_class(pd, "phip_data")
+
+  cols <- colnames(pd$data_long)
+  expect_true(all(c("sample_id", "peptide_id", "exist") %in% cols))
+  expect_true(all(c("subject_id", "timepoint") %in% cols))
+
+  expect_true(isTRUE(pd$meta$exist))
+  expect_true(isTRUE(pd$meta$longitudinal))
+  expect_false(isTRUE(pd$meta$fold_change))
+  expect_true(all(c("Sex", "Age") %in% pd$meta$extra_cols))
+})
+
+test_that("convert_legacy accepts explicit paths and parquet inputs", {
+  ext <- system.file("extdata", package = "phiperio")
+
+  pd <- withr::with_message_sink(tempfile(), {
+    convert_legacy(
+      exist_file = file.path(ext, "exist.parquet"),
+      fold_change_file = file.path(ext, "fold_change.csv"),
+      input_file = file.path(ext, "raw_input.csv"),
+      hit_file = file.path(ext, "raw_hit.csv"),
+      samples_file = file.path(ext, "samples_meta.csv"),
+      timepoints_file = NULL,
+      peptide_library = FALSE
+    )
+  })
+
+  expect_s3_class(pd, "phip_data")
+
+  cols <- colnames(pd$data_long)
+  expect_true(all(c("exist", "fold_change") %in% cols))
+  expect_true(all(c("input_count", "hit_count") %in% cols))
+  expect_false(any(c("Sex", "Age") %in% cols))
+
+  expect_true(isTRUE(pd$meta$exist))
+  expect_true(isTRUE(pd$meta$fold_change))
+  expect_false(isTRUE(pd$meta$longitudinal))
+  expect_true(all(c("input_count", "hit_count") %in% pd$meta$extra_cols))
+})
