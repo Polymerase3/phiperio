@@ -8,3 +8,9 @@
 ^dev$
 ^.pr_agent.toml$
 ^CONTRIBUTING.md
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^doc$
+^Meta$
+^dev$

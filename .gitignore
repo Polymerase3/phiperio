@@ -15,3 +15,7 @@ check/
 examples/
 *.fastq
 *.csv.gz
+docs
+inst/doc
+/doc/
+/Meta/

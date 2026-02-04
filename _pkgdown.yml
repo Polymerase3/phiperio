@@ -1,0 +1,18 @@
+url: https://polymerase3.github.io/phiperio/
+
+home:
+  title: phiperio - PhIP-Seq tidy data pipeline
+
+authors:
+  Mateusz Franciszek Kolek: https://github.com/Polymerase3
+
+template:
+  bootstrap: 5
+  math-rendering: mathjax
+  light-switch: true
+  bslib:
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    danger: "#A6081A"
+
