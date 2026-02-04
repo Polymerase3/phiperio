@@ -33,7 +33,7 @@ Convenience wrapper that either materialises a lazy pipeline via
 pointing to the created object.
 }
 \examples{
-\dontrun{
+\donttest{
 lazy <- dplyr::tbl(con, "data_long") |> dplyr::filter(fold_change > 0)
 .ph_register_phip_data_tbl(lazy, con,
   name = "data_long_pos",

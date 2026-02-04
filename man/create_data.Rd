@@ -48,7 +48,7 @@ PhIP-Seq counts (\code{data_long}), a peptide-library annotation table, and
 other metadata. The data itself is validated via \code{validate_phip_data()}.
 }
 \examples{
-\dontrun{
+\donttest{
 ## minimal constructor call
 pd <- create_data(
   data_long = tidy_counts,

@@ -74,7 +74,7 @@ centralized in \code{validate_phip_data()}.
 }
 }
 \examples{
-\dontrun{
+\donttest{
 ## 1. Direct-path usage
 pd <- convert_legacy(
   exist_file = "legacy/exist.csv",
