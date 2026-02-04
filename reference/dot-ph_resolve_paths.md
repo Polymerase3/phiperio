@@ -34,6 +34,7 @@ validation.
   n_cores = NULL,
   materialise_table = NULL,
   auto_expand = NULL,
+  sample_id_from_filenames = NULL,
   config_yaml = NULL
 )
 ```

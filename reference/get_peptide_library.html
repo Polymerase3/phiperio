@@ -5,20 +5,20 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Retrieve the peptide metadata table into DuckDB, forcing atomic types — get_peptide_library"><meta name="description" content="This function uses the phiperio logging utilities for consistent,
-ASCII-only progress messages and timing. Long-running steps are bracketed
-with .ph_with_timing(), and informational/warning/error messages are
-emitted via .ph_log_info(), .ph_log_ok(), .ph_warn(), and
-.ph_abort().
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Retrieve the peptide metadata table into DuckDB, forcing atomic types — get_peptide_library"><meta name="description" content="This function uses the phiperio logging utilities for
+consistent, ASCII-only progress messages and timing. Long-running steps are
+bracketed with .ph_with_timing(), and informational/warning/error
+messages are emitted via .ph_log_info(), .ph_log_ok(), .ph_warn(),
+and .ph_abort().
 Downloads the RDS once, sanitizes types (logical, character, numeric),
 and writes into a DuckDB cache on disk.
 Subsequent calls return a lazy tbl_dbi without loading into R memory.
 
-"><meta property="og:description" content="This function uses the phiperio logging utilities for consistent,
-ASCII-only progress messages and timing. Long-running steps are bracketed
-with .ph_with_timing(), and informational/warning/error messages are
-emitted via .ph_log_info(), .ph_log_ok(), .ph_warn(), and
-.ph_abort().
+"><meta property="og:description" content="This function uses the phiperio logging utilities for
+consistent, ASCII-only progress messages and timing. Long-running steps are
+bracketed with .ph_with_timing(), and informational/warning/error
+messages are emitted via .ph_log_info(), .ph_log_ok(), .ph_warn(),
+and .ph_abort().
 Downloads the RDS once, sanitizes types (logical, character, numeric),
 and writes into a DuckDB cache on disk.
 Subsequent calls return a lazy tbl_dbi without loading into R memory.
@@ -31,7 +31,7 @@ Subsequent calls return a lazy tbl_dbi without loading into R memory.
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,10 +40,7 @@ Subsequent calls return a lazy tbl_dbi without loading into R memory.
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/importing-long-tidy-data.html">Importing cross-sectional and longitudinal tidy data with phiperio</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -68,11 +65,11 @@ Subsequent calls return a lazy tbl_dbi without loading into R memory.
     </div>
 
     <div class="ref-description section level2">
-    <p>This function uses the phiperio logging utilities for consistent,
-ASCII-only progress messages and timing. Long-running steps are bracketed
-with <code><a href="dot-ph_with_timing.html">.ph_with_timing()</a></code>, and informational/warning/error messages are
-emitted via <code><a href="dot-ph_log_info.html">.ph_log_info()</a></code>, <code><a href="dot-ph_log_ok.html">.ph_log_ok()</a></code>, <code><a href="dot-ph_warn.html">.ph_warn()</a></code>, and
-<code><a href="dot-ph_abort.html">.ph_abort()</a></code>.</p><ul><li><p>Downloads the RDS once, sanitizes types (logical, character, numeric),
+    <p>This function uses the phiperio logging utilities for
+consistent, ASCII-only progress messages and timing. Long-running steps are
+bracketed with <code><a href="dot-ph_with_timing.html">.ph_with_timing()</a></code>, and informational/warning/error
+messages are emitted via <code><a href="dot-ph_log_info.html">.ph_log_info()</a></code>, <code><a href="dot-ph_log_ok.html">.ph_log_ok()</a></code>, <code><a href="dot-ph_warn.html">.ph_warn()</a></code>,
+and <code><a href="dot-ph_abort.html">.ph_abort()</a></code>.</p><ul><li><p>Downloads the RDS once, sanitizes types (logical, character, numeric),
 and writes into a DuckDB cache on disk.</p></li>
 <li><p>Subsequent calls return a lazy <code>tbl_dbi</code> without loading into R memory.</p></li>
 </ul></div>
@@ -102,10 +99,10 @@ directory (via <code>tools::R_user_dir("phiperio", "cache")</code>). You can ove
 this location with <code>options(phiperio.cache_dir = \"...\")</code>. The
 <code>force_refresh</code> argument bypasses the fast path and rebuilds the cache.</p>
 <p><strong>Sanitization:</strong> Columns are stripped of attributes, list-columns are
-flattened, textual <code>"NaN"</code> and numeric <code>NaN</code> are coerced to <code>NA</code>. Binary
-0/1 fields are converted to <code>logical</code>, <code>"TRUE"/"FALSE"</code> (case-insensitive)
-are converted to <code>logical</code>, and numeric-looking character columns (beyond
-trivial 0/1) are converted to <code>numeric</code>. All other atomic types are preserved.</p>
+flattened, textual <code>"NaN"</code> and numeric <code>NaN</code> are coerced to <code>NA</code>. Binary 0/1
+fields are converted to <code>logical</code>, <code>"TRUE"/"FALSE"</code> (case-insensitive) are
+converted to <code>logical</code>, and numeric-looking character columns (beyond trivial
+0/1) are converted to <code>numeric</code>. All other atomic types are preserved.</p>
 <p><strong>Integrity check:</strong> If a SHA-256 checksum is provided, a warning is logged
 when the downloaded file’s checksum does not match the expected value.</p>
     </div>
@@ -117,15 +114,15 @@ when the downloaded file’s checksum does not match the expected value.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">lib</span> <span class="op">&lt;-</span> <span class="fu">get_peptide_library</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:29] INFO  Retrieving peptide metadata into DuckDB cache</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:33] INFO  Retrieving peptide metadata into DuckDB cache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; get_peptide_library(force_refresh = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:29] INFO  Opened DuckDB connection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:33] INFO  Opened DuckDB connection</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - cache dir:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - table: peptide_meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:29] OK    Using cached peptide_meta (fast path)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:29] OK    Retrieving peptide metadata into DuckDB cache - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.044s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:33] OK    Using cached peptide_meta (fast path)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:33] OK    Retrieving peptide metadata into DuckDB cache - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.045s</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -20,15 +20,19 @@ devtools::install_github("Polymerase3/phiperio")
 
 ## Usage
 
-For a guided walk-through (cross-sectional and longitudinal imports),
-see the vignette on the pkgdown site: **[Importing long tidy data with
-phiperio](https://polymerase3.github.io/phiperio/articles/importing-long-tidy-data.html)**.
+For guided walk-throughs, see the pkgdown vignettes:
 
-Minimal one-liner to load the package:
-
-``` r
-library(phiperio)
-```
+- **[Importing long tidy data
+  (convert_standard)](https://polymerase3.github.io/phiperio/articles/importing-long-tidy-data.html)**
+  — cross-sectional and longitudinal tidy inputs.
+- **[Importing multiple files at
+  once](https://polymerase3.github.io/phiperio/articles/importing-multiple-files.html)**
+  — batch ingest of many CSV/Parquet files with
+  `sample_id_from_filenames`.
+- **[Importing legacy PhIP-Seq data
+  (convert_legacy)](https://polymerase3.github.io/phiperio/articles/importing-legacy-data.html)**
+  — classic wide matrices (exist/fold_change/raw counts) plus
+  sample/timepoint metadata.
 
 ## Aim and key features
 
@@ -49,15 +53,6 @@ features include:
   early.
 - **Lightweight, reproducible pipelines** to standardize raw inputs into
   `<phip_data>` objects.
-
-## Minimal usage
-
-``` r
-library(phiperio)
-
-# See available helpers and functions
-?phiperio
-```
 
 ## Issues
 

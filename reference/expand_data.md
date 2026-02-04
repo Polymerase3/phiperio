@@ -75,80 +75,80 @@ Updates `x$data_long` in place (preserving laziness unless you later
 
 ``` r
 pd <- load_example_data()
-#> [12:00:26] INFO  Constructing <phip_data> object
+#> [13:45:30] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [12:00:26] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [12:00:26] INFO  Retrieving peptide metadata into DuckDB cache
+#> [13:45:30] INFO  Fetching peptide metadata library via get_peptide_library()
+#> [13:45:30] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(force_refresh = FALSE)
-#> [12:00:26] INFO  Opened DuckDB connection
+#> [13:45:30] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - table: peptide_meta
-#> [12:00:26] OK    Using cached peptide_meta (fast path)
-#> [12:00:26] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.052s
-#> [12:00:26] OK    Peptide metadata acquired
-#> [12:00:26] INFO  Validating <phip_data>
+#> [13:45:30] OK    Using cached peptide_meta (fast path)
+#> [13:45:30] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.054s
+#> [13:45:30] OK    Peptide metadata acquired
+#> [13:45:30] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [12:00:26] INFO  Checking structural requirements (shape & mandatory columns)
-#> [12:00:26] INFO  Checking outcome family availability (exist / fold_change /
+#> [13:45:30] INFO  Checking structural requirements (shape & mandatory columns)
+#> [13:45:30] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [12:00:26] INFO  Checking collisions with reserved names
+#> [13:45:30] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [12:00:26] INFO  Ensuring all columns are atomic (no list-cols)
-#> [12:00:26] INFO  Checking key uniqueness
-#> [12:00:27] INFO  Validating value ranges & types for outcomes
-#> [12:00:27] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [13:45:30] INFO  Ensuring all columns are atomic (no list-cols)
+#> [13:45:30] INFO  Checking key uniqueness
+#> [13:45:30] INFO  Validating value ranges & types for outcomes
+#> [13:45:30] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [12:00:27] INFO  Checking peptide_id coverage against peptide_library
-#> Warning: [12:00:27] WARN  peptide_id not found in peptide_library (e.g. 10003)
+#> [13:45:30] INFO  Checking peptide_id coverage against peptide_library
+#> Warning: [13:45:30] WARN  peptide_id not found in peptide_library (e.g. 10003)
 #>                  -> peptide library coverage.
-#> [12:00:27] INFO  Checking full grid completeness (peptide * sample)
-#> Warning: [12:00:27] WARN  Counts table is not a full peptide * sample grid.
+#> [13:45:30] INFO  Checking full grid completeness (peptide * sample)
+#> Warning: [13:45:30] WARN  Counts table is not a full peptide * sample grid.
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> Warning: [12:00:27] WARN  Grid remains incomplete (auto_expand = FALSE).
+#> Warning: [13:45:30] WARN  Grid remains incomplete (auto_expand = FALSE).
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> [12:00:27] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.537s
-#> [12:00:27] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.59s
+#> [13:45:30] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.669s
+#> [13:45:30] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.724s
 pd <- expand_data(pd, fill_override = list(fold_change = NA_real_))
-#> [12:00:27] INFO  Expanding <phip_data> to full grid
+#> [13:45:30] INFO  Expanding <phip_data> to full grid
 #>                  -> updating x$data_long
-#> [12:00:27] INFO  Expanding to full key * id grid
+#> [13:45:30] INFO  Expanding to full key * id grid
 #>                  -> keys: 'sample_id'; id: 'peptide_id'
-#> [12:00:27] INFO  Checking uniqueness of (key, id) pairs
-#> [12:00:27] INFO  Type probe on lazy table
+#> [13:45:30] INFO  Checking uniqueness of (key, id) pairs
+#> [13:45:31] INFO  Type probe on lazy table
 #>                  -> collect(head 0)
-#> [12:00:27] INFO  Building Cartesian product of keys and ids
-#> [12:00:27] INFO  Detecting per-key constant (recyclable) columns
+#> [13:45:31] INFO  Building Cartesian product of keys and ids
+#> [13:45:31] INFO  Detecting per-key constant (recyclable) columns
 #>                    - candidates: subject_id, group, timepoint, exist,
 #>                      counts_control, counts_hits, fold_change
-#> [12:00:27] OK    Column split decided
+#> [13:45:31] OK    Column split decided
 #>                    - recyclable: subject_id, group, timepoint
 #>                    - non-recyclable: exist, counts_control, counts_hits,
 #>                      fold_change
-#> [12:00:27] INFO  Preparing fill defaults for introduced rows
+#> [13:45:31] INFO  Preparing fill defaults for introduced rows
 #>                    - numeric/integer: exist, fold_change, counts_control,
 #>                      counts_hits
 #>                    - logical: <none>
-#> [12:00:27] INFO  Applying user-provided fill overrides
+#> [13:45:31] INFO  Applying user-provided fill overrides
 #>                    - overrides: fold_change
-#> [12:00:27] OK    Expanding to full key * id grid - done
-#>                  -> elapsed: 0.477s
-#> [12:00:28] INFO  Registering expanded table back to DB
+#> [13:45:31] OK    Expanding to full key * id grid - done
+#>                  -> elapsed: 0.526s
+#> [13:45:32] INFO  Registering expanded table back to DB
 #>                    - name: 'data_long'
 #>                    - materialise_table: TRUE
-#> [12:00:28] INFO  Registering lazy table
+#> [13:45:32] INFO  Registering lazy table
 #>                  -> name: 'data_long'; as TABLE
-#> [12:00:28] INFO  Materialising via dplyr::compute()
-#> [12:00:28] OK    Registering lazy table - done
-#>                  -> elapsed: 0.278s
-#> [12:00:28] OK    Expanding <phip_data> to full grid - done
-#>                  -> elapsed: 1.381s
+#> [13:45:32] INFO  Materialising via dplyr::compute()
+#> [13:45:32] OK    Registering lazy table - done
+#>                  -> elapsed: 0.315s
+#> [13:45:32] OK    Expanding <phip_data> to full grid - done
+#>                  -> elapsed: 1.533s
 ```

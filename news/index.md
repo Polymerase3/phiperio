@@ -1,5 +1,21 @@
 # Changelog
 
+## phiperio 0.5.0
+
+- Added `sample_id_from_filenames` to
+  [`convert_standard()`](https://polymerase3.github.io/phiperio/reference/convert_standard.md)
+  to derive sample IDs from file stems when ingesting a directory of
+  CSV/Parquet files; added tests.
+- New vignettes: “Importing multiple files with phiperio” (batch
+  ingest + filename-derived sample IDs), and “Importing legacy PhIP-Seq
+  data (convert_legacy)” for compact cross-sectional/longitudinal
+  examples; updated “Importing long tidy data” with clearer workflows.
+- README/pkgdown refreshed: links to all vignettes, navigation updated,
+  minimal section removed.
+- Robustified example handling and filename conflicts for vignette
+  builds.
+- Version bumped to 0.5.0.
+
 ## phiperio 0.4.0
 
 - Make examples self-contained and reliable: fix

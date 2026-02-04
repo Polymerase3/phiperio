@@ -5,12 +5,12 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Convert raw PhIP-Seq output into a phip_data object — convert_standard"><meta name="description" content='convert_standard() ingests a "long" table of PhIPsSeq read counts /
-enrichment statistics, optionally expands it to the full
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Convert raw PhIP-Seq output into a phip_data object — convert_standard"><meta name="description" content='convert_standard() ingests a "long" table of PhIPsSeq read
+counts / enrichment statistics, optionally expands it to the full
 sample_id x peptide_id grid, and registers the result in DuckDB.
 The function returns a fully initialised phip_data object that can be
-queried with the tidy API used throughout the package.'><meta property="og:description" content='convert_standard() ingests a "long" table of PhIPsSeq read counts /
-enrichment statistics, optionally expands it to the full
+queried with the tidy API used throughout the package.'><meta property="og:description" content='convert_standard() ingests a "long" table of PhIPsSeq read
+counts / enrichment statistics, optionally expands it to the full
 sample_id x peptide_id grid, and registers the result in DuckDB.
 The function returns a fully initialised phip_data object that can be
 queried with the tidy API used throughout the package.'></head><body>
@@ -21,7 +21,7 @@ queried with the tidy API used throughout the package.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,10 +30,7 @@ queried with the tidy API used throughout the package.'></head><body>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/importing-long-tidy-data.html">Importing cross-sectional and longitudinal tidy data with phiperio</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -58,8 +55,8 @@ queried with the tidy API used throughout the package.'></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p><code>convert_standard()</code> ingests a "long" table of PhIPsSeq read counts /
-enrichment statistics, optionally expands it to the full
+    <p><code>convert_standard()</code> ingests a "long" table of PhIPsSeq read
+counts / enrichment statistics, optionally expands it to the full
 <code>sample_id x peptide_id</code> grid, and registers the result in DuckDB.
 The function returns a fully initialised <strong><code>phip_data</code></strong> object that can be
 queried with the tidy API used throughout the package.</p>
@@ -77,6 +74,7 @@ queried with the tidy API used throughout the package.</p>
 <span>  fold_change <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  counts_input <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  counts_hit <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sample_id_from_filenames <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  n_cores <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>  materialise_table <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  auto_expand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -100,6 +98,14 @@ from the defaults (<code>"sample_id"</code>, <code>"peptide_id"</code>, <code>"s
 <code>"timepoint"</code>, <code>"exist"</code>, <code>"fold_change"</code>, <code>"counts_input"</code>,
 <code>"counts_hit"</code>). Each argument should contain the <em>name</em> of the column in the
 incoming data; <code>NULL</code> lets the default stand.</p></dd>
+
+
+<dt id="arg-sample-id-from-filenames">sample_id_from_filenames<a class="anchor" aria-label="anchor" href="#arg-sample-id-from-filenames"></a></dt>
+<dd><p>Logical. If <code>TRUE</code> and <code>data_long_path</code> is a
+<strong>directory of files</strong> (CSV or Parquet), automatically derive
+<code>sample_id</code> from each filename (basename without extension). Requires that
+no <code>sample_id</code> mapping is provided and that the input files do not already
+contain a <code>sample_id</code> column. Default: <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-n-cores">n_cores<a class="anchor" aria-label="anchor" href="#arg-n-cores"></a></dt>
@@ -165,48 +171,48 @@ checks confirm existence as well as extension validity.</p>
 <span class="r-in"><span>  n_cores <span class="op">=</span> <span class="fl">4</span>,</span></span>
 <span class="r-in"><span>  materialise_table <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Constructing &lt;phip_data&gt; object</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Constructing &lt;phip_data&gt; object</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; create_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Fetching peptide metadata library via get_peptide_library()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Retrieving peptide metadata into DuckDB cache</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Fetching peptide metadata library via get_peptide_library()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Retrieving peptide metadata into DuckDB cache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; get_peptide_library(force_refresh = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Opened DuckDB connection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Opened DuckDB connection</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - cache dir:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - table: peptide_meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] OK    Using cached peptide_meta (fast path)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] OK    Retrieving peptide metadata into DuckDB cache - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.05s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] OK    Peptide metadata acquired</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Validating &lt;phip_data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] OK    Using cached peptide_meta (fast path)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] OK    Retrieving peptide metadata into DuckDB cache - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.053s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] OK    Peptide metadata acquired</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Validating &lt;phip_data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; validate_phip_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking outcome family availability (exist / fold_change /</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking outcome family availability (exist / fold_change /</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  raw_counts)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking collisions with reserved names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking collisions with reserved names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - subject_id, sample_id, timepoint, peptide_id, exist,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      fold_change, counts_input, counts_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Ensuring all columns are atomic (no list-cols)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking key uniqueness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Validating value ranges &amp; types for outcomes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Ensuring all columns are atomic (no list-cols)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking key uniqueness</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Validating value ranges &amp; types for outcomes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - warn threshold: 50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking peptide_id coverage against peptide_library</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:21] WARN  peptide_id not found in peptide_library (e.g. 10003)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking peptide_id coverage against peptide_library</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[13:45:24] WARN  peptide_id not found in peptide_library (e.g. 10003)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; peptide library coverage.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking full grid completeness (peptide * sample)</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:21] WARN  Counts table is not a full peptide * sample grid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking full grid completeness (peptide * sample)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[13:45:24] WARN  Counts table is not a full peptide * sample grid.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; grid completeness</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - observed rows: 78200</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - expected rows: 156000.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:21] WARN  Grid remains incomplete (auto_expand = FALSE).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[13:45:24] WARN  Grid remains incomplete (auto_expand = FALSE).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; grid completeness</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - observed rows: 78200</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - expected rows: 156000.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] OK    Validating &lt;phip_data&gt; - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.628s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] OK    Constructing &lt;phip_data&gt; object - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.679s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] OK    Validating &lt;phip_data&gt; - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.662s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] OK    Constructing &lt;phip_data&gt; object - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.717s</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import a CSV and rename columns</span></span></span>
 <span class="r-in"><span><span class="va">tmp_csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span></span>
@@ -228,28 +234,28 @@ checks confirm existence as well as extension validity.</p>
 <span class="r-in"><span>  materialise_table <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Skipping ANALYZE - raw_combined is a view.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Constructing &lt;phip_data&gt; object</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Constructing &lt;phip_data&gt; object</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; create_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Validating &lt;phip_data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Validating &lt;phip_data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; validate_phip_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking outcome family availability (exist / fold_change /</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking outcome family availability (exist / fold_change /</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  raw_counts)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking collisions with reserved names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking collisions with reserved names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - subject_id, sample_id, timepoint, peptide_id, exist,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      fold_change, counts_input, counts_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Ensuring all columns are atomic (no list-cols)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking key uniqueness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Validating value ranges &amp; types for outcomes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Ensuring all columns are atomic (no list-cols)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Checking key uniqueness</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Validating value ranges &amp; types for outcomes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:24] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - warn threshold: 50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking peptide_id coverage against peptide_library</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:21] INFO  Checking full grid completeness (peptide * sample)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:22] OK    Counts table is a full peptide * sample grid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:22] OK    Validating &lt;phip_data&gt; - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.273s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:22] OK    Constructing &lt;phip_data&gt; object - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.274s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:25] INFO  Checking peptide_id coverage against peptide_library</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:25] INFO  Checking full grid completeness (peptide * sample)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:25] OK    Counts table is a full peptide * sample grid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:25] OK    Validating &lt;phip_data&gt; - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.279s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:25] OK    Constructing &lt;phip_data&gt; object - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.28s</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

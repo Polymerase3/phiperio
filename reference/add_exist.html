@@ -15,7 +15,7 @@ the lazy data_long table. Preserves laziness; no collection is forced.'></head><
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,10 +24,7 @@ the lazy data_long table. Preserves laziness; no collection is forced.'></head><
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/importing-long-tidy-data.html">Importing cross-sectional and longitudinal tidy data with phiperio</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -74,7 +71,8 @@ the lazy <code>data_long</code> table. Preserves laziness; no collection is forc
 
 
 <dt id="arg-overwrite">overwrite<a class="anchor" aria-label="anchor" href="#arg-overwrite"></a></dt>
-<dd><p>If FALSE and the column exists, abort with a phiperio-style error.</p></dd>
+<dd><p>If FALSE and the column exists, abort with a phiperio-style
+error.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -85,66 +83,66 @@ the lazy <code>data_long</code> table. Preserves laziness; no collection is forc
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pd</span> <span class="op">&lt;-</span> <span class="fu"><a href="load_example_data.html">load_example_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:08] INFO  Constructing &lt;phip_data&gt; object</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:11] INFO  Constructing &lt;phip_data&gt; object</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; create_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:08] INFO  Fetching peptide metadata library via get_peptide_library()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:08] INFO  Retrieving peptide metadata into DuckDB cache</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:11] INFO  Fetching peptide metadata library via get_peptide_library()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:11] INFO  Retrieving peptide metadata into DuckDB cache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; get_peptide_library(force_refresh = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:08] INFO  Opened DuckDB connection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:11] INFO  Opened DuckDB connection</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - cache dir:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - table: peptide_meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:08] INFO  Starting download</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:11] INFO  Starting download</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - dest:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      /home/runner/.cache/R/phiperio/peptide_meta/combined_library_15.01.26.rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:08] OK    Download succeeded (method = &lt;getOption()&gt;)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:09] OK    Checksum verified (SHA-256 match)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:11] OK    Download complete and loaded into R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:17] INFO  Importing sanitized metadata into DuckDB cache...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] OK    peptide_meta table created in DuckDB cache</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] OK    Retrieving peptide metadata into DuckDB cache - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 9.995s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] OK    Peptide metadata acquired</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] INFO  Validating &lt;phip_data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:11] OK    Download succeeded (method = &lt;getOption()&gt;)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:12] OK    Checksum verified (SHA-256 match)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:14] OK    Download complete and loaded into R</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:20] INFO  Importing sanitized metadata into DuckDB cache...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] OK    peptide_meta table created in DuckDB cache</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] OK    Retrieving peptide metadata into DuckDB cache - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 10.214s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] OK    Peptide metadata acquired</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] INFO  Validating &lt;phip_data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; validate_phip_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] INFO  Checking outcome family availability (exist / fold_change /</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] INFO  Checking outcome family availability (exist / fold_change /</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  raw_counts)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] INFO  Checking collisions with reserved names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] INFO  Checking collisions with reserved names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - subject_id, sample_id, timepoint, peptide_id, exist,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      fold_change, counts_input, counts_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] INFO  Ensuring all columns are atomic (no list-cols)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] INFO  Checking key uniqueness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] INFO  Validating value ranges &amp; types for outcomes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] INFO  Ensuring all columns are atomic (no list-cols)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] INFO  Checking key uniqueness</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] INFO  Validating value ranges &amp; types for outcomes</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Missing values are always removed in SQL aggregation functions.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Use `na.rm = TRUE` to silence this warning</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:18] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:21] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - warn threshold: 50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:19] INFO  Checking peptide_id coverage against peptide_library</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:19] WARN  peptide_id not found in peptide_library (e.g. 10003)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:22] INFO  Checking peptide_id coverage against peptide_library</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[13:45:22] WARN  peptide_id not found in peptide_library (e.g. 10003)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; peptide library coverage.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:19] INFO  Checking full grid completeness (peptide * sample)</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:19] WARN  Counts table is not a full peptide * sample grid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:22] INFO  Checking full grid completeness (peptide * sample)</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[13:45:22] WARN  Counts table is not a full peptide * sample grid.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; grid completeness</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - observed rows: 78200</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - expected rows: 156000.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:19] WARN  Grid remains incomplete (auto_expand = FALSE).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[13:45:22] WARN  Grid remains incomplete (auto_expand = FALSE).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; grid completeness</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - observed rows: 78200</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - expected rows: 156000.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:19] OK    Validating &lt;phip_data&gt; - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.664s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:19] OK    Constructing &lt;phip_data&gt; object - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 10.662s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:22] OK    Validating &lt;phip_data&gt; - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.667s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:22] OK    Constructing &lt;phip_data&gt; object - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 10.884s</span>
 <span class="r-in"><span><span class="va">pd</span> <span class="op">&lt;-</span> <span class="fu">add_exist</span><span class="op">(</span><span class="va">pd</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># overwrites if present</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:19] INFO  Ensuring existence flag on data_long</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:22] INFO  Ensuring existence flag on data_long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; column: 'exist'; overwrite: TRUE</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[12:00:19] WARN  Overwriting existing existence flag.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[13:45:22] WARN  Overwriting existing existence flag.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; adding existence indicator</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - column: "exist".</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12:00:19] OK    Ensuring existence flag on data_long - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.008s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13:45:22] OK    Ensuring existence flag on data_long - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.009s</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
