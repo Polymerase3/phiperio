@@ -1,0 +1,30 @@
+name: pkgcheck
+
+# This will cancel running jobs once a new run is triggered
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    paths:
+      - "R/**"              # any R source file
+      - "tests/**"          # testthat files
+      - "DESCRIPTION"       # bumping version, deps, etc.
+      - "NAMESPACE"         # roxygenise output
+  pull_request:
+    paths:
+      - "R/**"
+      - "tests/**"
+      - "DESCRIPTION"
+      - "NAMESPACE"
+
+permissions: read-all
+
+jobs:
+  pkgcheck:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: ropensci-review-tools/pkgcheck-action@main
