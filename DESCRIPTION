@@ -1,6 +1,6 @@
 Package: phiperio
 Title: PhIP-Seq Data Import and Validation Tools
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: 
     c(
       person(
@@ -20,6 +20,8 @@ Description: Provides utilities to import, validate, and manage PhIP-Seq
     access to cached peptide metadata.
 License: GPL (>= 3)
 Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
 Imports:
     chk,
     cli,

@@ -1,3 +1,14 @@
+# phiperio 0.4.0
+
+- Make examples self-contained and reliable: fix `convert_standard()` example
+  to use a temp CSV, switch `expand_data()` example to `load_example_data()`,
+  and remove examples for internal helpers.
+- Remove all `\donttest{}` / `\dontrun{}` wrappers from examples in R and Rd
+  files so they run during checks.
+- Harden `load_example_data()` caching by rebuilding when a cached object’s
+  DuckDB connection is no longer valid.
+- Significantly improved coverage.
+
 # phiperio 0.3.0
 
 - Rename exported API to verb_noun naming (e.g., `create_data`, `convert_standard`,
