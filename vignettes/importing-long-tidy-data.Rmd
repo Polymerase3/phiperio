@@ -1,0 +1,203 @@
+---
+title: "Importing cross-sectional and longitudinal tidy data with phiperio"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Importing cross-sectional and longitudinal tidy data with phiperio}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(phiperio)
+```
+
+# Overview
+
+This vignette shows, step by step, how to import **cross-sectional** and
+**longitudinal** PhIP-Seq data with `convert_standard()`, inspect and manipulate
+the resulting `<phip_data>` object, and export it. Explanations are written for
+first‑time users - plenty of comments and plain language.
+
+# Key concepts (read first)
+
+- `sample_id`  -  **must be unique per sample/assay run.** For example: 
+   identifies a single well in 96-well plate.
+- `subject_id`  -  identifies the person/test subject. In cross-sectional data
+  `subject_id == sample_id`, so you can omit it. In longitudinal data, the same
+  `subject_id` appears across multiple `sample_id`s (different timepoints).
+- Outcomes: you need at least one of `exist`, `fold_change`, or raw counts
+  (`counts_input`, `counts_hit`).
+- Format: **long** table (one row per `sample_id × peptide_id`).
+
+# Cross-sectional workflow (simpler)
+
+In cross-sectional data each subject has exactly one sample, so
+`subject_id == sample_id` and you do **not** need to supply `subject_id`.
+
+```{r}
+# ---- 1) Make a tiny cross-sectional long table ----------------------------
+# One subject = one sample; sample_id is unique and also identifies the subject
+cross_long <- data.frame(
+  sample_id   = c("s1", "s1", "s2", "s2"),  # unique sample IDs
+  peptide_id  = c("p1", "p2", "p1", "p2"),  # peptide identifiers
+  exist       = c(1, 0, 0, 1),              # example outcome (binary)
+  fold_change = c(1.2, 0.8, 0.4, 2.0),      # non‑negative fold-change
+  age         = c(34, 34, 58, 58),          # per-sample metadata
+  sex         = c("F", "F", "M", "M"),      # per-sample metadata
+  stringsAsFactors = FALSE
+)
+
+# Print the tiny table so you can see the structure:
+cross_long
+# Each row is a sample_id × peptide_id combination.
+# exist/fold_change are measurements; age/sex are sample-level metadata.
+
+# Save to CSV (you could also use Parquet). convert_standard reads either.
+xc_csv <- tempfile(fileext = ".csv")
+utils::write.csv(cross_long, xc_csv, row.names = FALSE)
+
+# ---- 2) Import with convert_standard --------------------------------------
+# Because column names already match the defaults, we only pass the file path.
+pd_xc <- convert_standard(
+  data_long_path    = xc_csv,
+  peptide_library   = TRUE,    # attach peptide annotations
+  materialise_table = FALSE    # keep as a view for fast iterations
+)
+# The peptide library comes from the companion repo
+# https://github.com/Polymerase3/phiper and is maintained by our group with
+# collaborator-provided annotations. Setting peptide_library = TRUE pulls the
+# current cached version automatically.
+```
+
+Inspect and manipulate:
+
+```{r}
+# Show the phip_data object (prints a concise summary)
+pd_xc
+
+# Peek at the long table lazily (no data pulled yet)
+# get_counts() returns the same table as pd_xc$data_long
+get_counts(pd_xc)
+
+# Filter to positive fold_change and collect to R
+pd_xc_pos <- pd_xc |>
+  dplyr::filter(fold_change > 0) |>
+  dplyr::select(sample_id, peptide_id, fold_change) |>
+  dplyr::collect()
+
+pd_xc_pos
+```
+
+Export to Parquet:
+
+```{r}
+out_parquet <- tempfile(fileext = ".parquet")
+export_parquet(pd_xc, out_parquet)
+out_parquet
+
+# Re-import the Parquet file directly with convert_standard()
+pd_xc_again <- convert_standard(
+  data_long_path = out_parquet,
+  peptide_library = TRUE,
+  materialise_table = FALSE
+)
+pd_xc_again
+```
+
+# Longitudinal workflow (subjects with multiple samples)
+
+Here, `subject_id` must be provided to link multiple `sample_id`s that belong to
+the same subject. We also include a `timepoint` column so you can track visits.
+
+```{r}
+# ---- 1) Build a tiny longitudinal long table ------------------------------
+# subject_id repeats across samples; sample_id stays unique per draw/run
+long_long <- data.frame(
+  subject_id   = c("subj1", "subj1", "subj1", "subj2", "subj2", "subj2"),
+  sample_id    = c("s1_t1", "s1_t2", "s1_t3", "s2_t1", "s2_t2", "s2_t3"),
+  timepoint    = c("T1", "T2", "T3", "T1", "T2", "T3"),     # visit labels
+  peptide_id   = c("p1", "p1", "p2", "p1", "p2", "p2"),
+  exist        = c(1, 1, 0, 0, 1, 1),
+  fold_change  = c(1.5, 1.1, 0.2, 0.8, 1.9, 2.5),            # non‑negative
+  input_reads  = c(1200, 1300, 800, 900, 1500, 1700),        # counts_input (custom name)
+  hit_reads    = c(12, 15, 4, 5, 22, 28),                    # counts_hit (custom name)
+  run_id       = c("runA", "runA", "runA", "runB", "runB", "runB"),
+  plate_id     = c("plate1", "plate1", "plate1", "plate2", "plate2", "plate2"),
+  stringsAsFactors = FALSE
+)
+
+lg_csv <- tempfile(fileext = ".csv")
+utils::write.csv(long_long, lg_csv, row.names = FALSE)
+
+# ---- 2) Import with subject_id and timepoint ------------------------------
+pd_lg <- convert_standard(
+  data_long_path    = lg_csv,
+  subject_id        = "subject_id",  # explicitly map subject_id
+  timepoint         = "timepoint",   # map timepoint column
+  counts_input      = "input_reads", # map custom raw-count columns
+  counts_hit        = "hit_reads",
+  peptide_library   = FALSE,
+  auto_expand       = FALSE,         # keep as-is; set TRUE to fill full grid
+  materialise_table = FALSE
+)
+```
+
+Work with the longitudinal data:
+
+```{r}
+# Look at the object summary
+pd_lg
+
+# Filter to one subject and collect
+pd_lg_subj1 <- pd_lg |>
+  dplyr::filter(subject_id == "subj1") |>
+  dplyr::collect()
+
+pd_lg_subj1
+
+# Compute average fold_change per subject across timepoints (lazy until collect)
+pd_lg_avg <- pd_lg |>
+  dplyr::group_by(subject_id) |>
+  dplyr::summarise(mean_fc = mean(fold_change, na.rm = TRUE)) |>
+  dplyr::collect()
+
+pd_lg_avg
+
+# Inspect extra columns (metadata not part of the standard set)
+pd_lg$meta$extra_cols  # should list run_id and plate_id
+```
+
+Export longitudinal data:
+
+```{r}
+out_parquet_lg <- tempfile(fileext = ".parquet")
+export_parquet(pd_lg, out_parquet_lg)
+out_parquet_lg
+```
+
+# Tips and gotchas
+
+- **Uniqueness:** `sample_id` must be unique per sample. In cross-sectional
+  data that also serves as the subject identifier; in longitudinal data use
+  `subject_id` to connect multiple `sample_id`s.
+- **Column mapping:** If your column names differ, map them with the function
+  arguments (`sample_id`, `peptide_id`, `subject_id`, `timepoint`, etc.).
+- **Auto-expand:** set `auto_expand = TRUE` to fill missing
+  `sample_id × peptide_id` combinations (measurement columns filled with 0 or
+  overrides).
+- **Peptide library:** set `peptide_library = TRUE` to attach metadata; keep
+  `FALSE` for quick examples or offline runs.
+
+# Using the built-in example
+
+```{r}
+ex <- load_example_data()
+ex
+```
