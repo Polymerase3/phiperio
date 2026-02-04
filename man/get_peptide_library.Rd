@@ -14,11 +14,11 @@ A \code{dplyr::tbl_dbi} pointing to the \code{peptide_meta} table. The returned
 object carries an attribute \code{"duckdb_con"} with the open \code{DBI} connection.
 }
 \description{
-This function uses the phiperio logging utilities for consistent,
-ASCII-only progress messages and timing. Long-running steps are bracketed
-with \code{.ph_with_timing()}, and informational/warning/error messages are
-emitted via \code{.ph_log_info()}, \code{.ph_log_ok()}, \code{.ph_warn()}, and
-\code{.ph_abort()}.
+This function uses the phiperio logging utilities for
+consistent, ASCII-only progress messages and timing. Long-running steps are
+bracketed with \code{.ph_with_timing()}, and informational/warning/error
+messages are emitted via \code{.ph_log_info()}, \code{.ph_log_ok()}, \code{.ph_warn()},
+and \code{.ph_abort()}.
 \itemize{
 \item Downloads the RDS once, sanitizes types (logical, character, numeric),
 and writes into a DuckDB cache on disk.
@@ -32,10 +32,10 @@ this location with \verb{options(phiperio.cache_dir = \\"...\\")}. The
 \code{force_refresh} argument bypasses the fast path and rebuilds the cache.
 
 \strong{Sanitization:} Columns are stripped of attributes, list-columns are
-flattened, textual \code{"NaN"} and numeric \code{NaN} are coerced to \code{NA}. Binary
-0/1 fields are converted to \code{logical}, \code{"TRUE"/"FALSE"} (case-insensitive)
-are converted to \code{logical}, and numeric-looking character columns (beyond
-trivial 0/1) are converted to \code{numeric}. All other atomic types are preserved.
+flattened, textual \code{"NaN"} and numeric \code{NaN} are coerced to \code{NA}. Binary 0/1
+fields are converted to \code{logical}, \code{"TRUE"/"FALSE"} (case-insensitive) are
+converted to \code{logical}, and numeric-looking character columns (beyond trivial
+0/1) are converted to \code{numeric}. All other atomic types are preserved.
 
 \strong{Integrity check:} If a SHA-256 checksum is provided, a warning is logged
 when the downloaded file’s checksum does not match the expected value.

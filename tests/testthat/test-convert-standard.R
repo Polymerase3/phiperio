@@ -65,6 +65,39 @@ test_that("convert_standard loads a single CSV file", {
   expect_equal(nrow(dplyr::collect(pd$data_long)), 2)
 })
 
+test_that("convert_standard can derive sample_id from filenames", {
+  tmp_dir <- withr::local_tempdir()
+
+  df1 <- data.frame(
+    peptide_id = c("p1", "p2"),
+    exist = c(1, 0),
+    stringsAsFactors = FALSE
+  )
+  df2 <- data.frame(
+    peptide_id = c("p1", "p2"),
+    exist = c(0, 1),
+    stringsAsFactors = FALSE
+  )
+
+  write_long_csv(file.path(tmp_dir, "sampleA.csv"), df1)
+  write_long_csv(file.path(tmp_dir, "sampleB.csv"), df2)
+
+  pd <- withr::with_options(
+    list(phiperio.log.verbose = FALSE),
+    phiperio::convert_standard(
+      data_long_path = tmp_dir,
+      sample_id_from_filenames = TRUE,
+      materialise_table = FALSE,
+      auto_expand = FALSE,
+      peptide_library = FALSE
+    )
+  )
+
+  collected <- dplyr::collect(pd$data_long)
+  expect_true("sample_id" %in% names(collected))
+  expect_equal(sort(unique(collected$sample_id)), c("sampleA", "sampleB"))
+})
+
 test_that(".ph_rename_to_standard_inplace errors for missing object", {
   con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
   on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)

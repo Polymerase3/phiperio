@@ -14,6 +14,7 @@ convert_standard(
   fold_change = NULL,
   counts_input = NULL,
   counts_hit = NULL,
+  sample_id_from_filenames = FALSE,
   n_cores = 8,
   materialise_table = TRUE,
   auto_expand = FALSE,
@@ -30,6 +31,12 @@ from the defaults (\code{"sample_id"}, \code{"peptide_id"}, \code{"subject_id"},
 \code{"timepoint"}, \code{"exist"}, \code{"fold_change"}, \code{"counts_input"},
 \code{"counts_hit"}). Each argument should contain the \emph{name} of the column in the
 incoming data; \code{NULL} lets the default stand.}
+
+\item{sample_id_from_filenames}{Logical. If \code{TRUE} and \code{data_long_path} is a
+\strong{directory of files} (CSV or Parquet), automatically derive
+\code{sample_id} from each filename (basename without extension). Requires that
+no \code{sample_id} mapping is provided and that the input files do not already
+contain a \code{sample_id} column. Default: \code{FALSE}.}
 
 \item{n_cores}{Integer >= 1. Number of CPU threads DuckDB may use while
 reading and writing files.}
@@ -63,8 +70,8 @@ An S3 object of class \strong{\code{phip_data}} containing:
 }
 }
 \description{
-\code{convert_standard()} ingests a "long" table of PhIPsSeq read counts /
-enrichment statistics, optionally expands it to the full
+\code{convert_standard()} ingests a "long" table of PhIPsSeq read
+counts / enrichment statistics, optionally expands it to the full
 \verb{sample_id x peptide_id} grid, and registers the result in DuckDB.
 The function returns a fully initialised \strong{\code{phip_data}} object that can be
 queried with the tidy API used throughout the package.

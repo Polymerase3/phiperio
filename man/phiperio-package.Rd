@@ -12,6 +12,7 @@ Provides utilities to import, validate, and manage PhIP-Seq datasets, including 
 Useful links:
 \itemize{
   \item \url{https://github.com/Polymerase3/phiperio}
+  \item \url{https://polymerase3.github.io/phiperio/}
   \item Report bugs at \url{https://github.com/Polymerase3/phiperio/issues}
 }
 

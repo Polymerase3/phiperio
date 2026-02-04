@@ -605,6 +605,7 @@ load_example_data <- local({
     n_cores = NULL,
     materialise_table = NULL,
     auto_expand = NULL,
+    sample_id_from_filenames = NULL,
     config_yaml = NULL
 ) {
   ## ------------------------------------------------------------------------ ##
@@ -746,6 +747,7 @@ load_example_data <- local({
     n_cores = n_cores,
     materialise_table = materialise_table,
     auto_expand = auto_expand,
+    sample_id_from_filenames = sample_id_from_filenames,
     base_dir = base_dir # for downstream helpers
   )
 

@@ -16,6 +16,12 @@
 #' `"counts_hit"`). Each argument should contain the *name* of the column in the
 #' incoming data; `NULL` lets the default stand.
 #'
+#' @param sample_id_from_filenames Logical. If `TRUE` and `data_long_path` is a
+#'   **directory of files** (CSV or Parquet), automatically derive
+#'   `sample_id` from each filename (basename without extension). Requires that
+#'   no `sample_id` mapping is provided and that the input files do not already
+#'   contain a `sample_id` column. Default: `FALSE`.
+#'
 #' @param n_cores Integer >= 1. Number of CPU threads DuckDB may use while
 #'   reading and writing files.
 #'
@@ -91,6 +97,7 @@ convert_standard <- function(
   fold_change = NULL,
   counts_input = NULL,
   counts_hit = NULL,
+  sample_id_from_filenames = FALSE,
   n_cores = 8,
   materialise_table = TRUE,
   auto_expand = FALSE,
@@ -128,13 +135,26 @@ convert_standard <- function(
     )
   }
 
+  ## filenames -> sample_id is only allowed for directories
+  .ph_check_cond(
+    isTRUE(sample_id_from_filenames) && (!isTRUE(info$isdir)),
+    "'sample_id_from_filenames' requires 'data_long_path' to be a directory."
+  )
+
+  ## do not allow explicit sample_id mapping when deriving from filenames
+  .ph_check_cond(
+    isTRUE(sample_id_from_filenames) && !is.null(sample_id),
+    "When sample_id_from_filenames = TRUE, do not supply 'sample_id'."
+  )
+
   ## resolve the path to data_long_path
   cfg <- .ph_resolve_paths(
     data_long_path = data_long_path,
     peptide_library = peptide_library,
     n_cores = n_cores,
     materialise_table = materialise_table,
-    auto_expand = auto_expand
+    auto_expand = auto_expand,
+    sample_id_from_filenames = sample_id_from_filenames
   )
 
   ## filter the NULLs
@@ -242,13 +262,20 @@ convert_standard <- function(
   ## -- 2. Helper: load a single file into a (disk-backed) TABLE ---------------
   load_file <- function(path, tbl_name) {
     path_q <- gsub("'", "''", path)
+    sample_sql <- ""
+    if (isTRUE(cfg$sample_id_from_filenames)) {
+      sid <- tools::file_path_sans_ext(basename(path))
+      sid_q <- gsub("'", "''", sid)
+      sample_sql <- sprintf(", '%s' AS sample_id", sid_q)
+    }
+
     if (grepl("\\.csv$", path, ignore.case = TRUE)) {
       DBI::dbExecute(
         con,
         sprintf(
           "CREATE TABLE %s AS
-             SELECT * FROM read_csv_auto('%s', HEADER=TRUE);",
-          tbl_name, path_q
+             SELECT *%s FROM read_csv_auto('%s', HEADER=TRUE);",
+          tbl_name, sample_sql, path_q
         )
       )
     } else {
@@ -256,8 +283,8 @@ convert_standard <- function(
         con,
         sprintf(
           "CREATE TABLE %s AS
-             SELECT * FROM parquet_scan('%s');",
-          tbl_name, path_q
+             SELECT *%s FROM parquet_scan('%s');",
+          tbl_name, sample_sql, path_q
         )
       )
     }

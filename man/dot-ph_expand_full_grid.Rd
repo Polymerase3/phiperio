@@ -15,6 +15,7 @@
 )
 }
 \description{
-Expand a table to the full key * id grid with typed fill defaults.
+Expand a table to the full key * id grid with typed fill
+defaults.
 }
 \keyword{internal}

@@ -14,9 +14,11 @@ Currently supported: \code{"phip_mixture"}, \code{"small_mixture"}.}
 A \verb{<phip_data>} object created from the chosen example dataset.
 }
 \description{
-Convenience helper to quickly load a shipped example dataset ("phip_mixture") into a \verb{<phip_data>} object,
-suitable for downstream analysis and visualization. This function wraps \code{\link{convert_standard}},
-automatically supplying the correct parameters for the included example data.
+Convenience helper to quickly load a shipped example dataset
+("phip_mixture") into a \verb{<phip_data>} object, suitable for downstream
+analysis and visualization. This function wraps
+\code{\link{convert_standard}}, automatically supplying the correct
+parameters for the included example data.
 }
 \examples{
 # Load the example data shipped with the package:

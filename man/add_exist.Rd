@@ -11,7 +11,8 @@ add_exist(phip_data, exist_col = "exist", overwrite = FALSE)
 
 \item{exist_col}{Name of the existence column to append/overwrite.}
 
-\item{overwrite}{If FALSE and the column exists, abort with a phiperio-style error.}
+\item{overwrite}{If FALSE and the column exists, abort with a phiperio-style
+error.}
 }
 \value{
 Modified <phip_data> with updated \code{data_long}.

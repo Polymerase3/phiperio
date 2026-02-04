@@ -22,13 +22,12 @@ representing the union of all source files. Calculations against
 \code{data_long} remain lazy until \code{collect()} is called.
 }
 \description{
-This internal function ingests one or more data files (Parquet or CSV)
-specified by \code{cfg$data_long_path} into a single DuckDB view named
-\code{data_long}, applying user-provided column mappings (\code{colmap}) to
-rename each source column to the standard PHIPERIO names. The resulting
-\code{phip_data} object contains a lazy DuckDB table that can be queried
-with dplyr without loading the full dataset into R until explicitly
-collected.
+This internal function ingests one or more data files (Parquet
+or CSV) specified by \code{cfg$data_long_path} into a single DuckDB view named
+\code{data_long}, applying user-provided column mappings (\code{colmap}) to rename
+each source column to the standard PHIPERIO names. The resulting
+\code{phip_data} object contains a lazy DuckDB table that can be queried with
+dplyr without loading the full dataset into R until explicitly collected.
 }
 \details{
 \itemize{

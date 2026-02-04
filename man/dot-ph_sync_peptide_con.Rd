@@ -13,6 +13,7 @@
 A \code{phip_data} object with \code{meta$peptide_con} updated.
 }
 \description{
-Ensures \code{meta$peptide_con} mirrors the peptide library attribute.
+Ensures \code{meta$peptide_con} mirrors the peptide library
+attribute.
 }
 \keyword{internal}
