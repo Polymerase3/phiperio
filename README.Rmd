@@ -42,21 +42,25 @@ pak::pak("Polymerase3/phiperio")
 devtools::install_github("Polymerase3/phiperio")
 ```
 
+## Usage
+
+For a guided walk-through (cross-sectional and longitudinal imports), see the vignette on the pkgdown site: **[Importing long tidy data with phiperio](https://polymerase3.github.io/phiperio/articles/importing-long-tidy-data.html)**.
+
+Minimal one-liner to load the package:
+
+```{r, eval = FALSE}
+library(phiperio)
+```
+
 ## Aim and key features
 
 `phiperio` focuses on reliable ingest and validation of PhIP-Seq data, so downstream analyses start from a clean, standardized base. Key features include:
 
-- Import helpers for common PhIP-Seq inputs and metadata.
-- Validation and consistency checks to catch data issues early.
-- Lightweight, reproducible pipelines for converting raw inputs into standardized objects.
-
-## CI workflows
-
-The repository includes continuous integration workflows to keep the package healthy:
-
-- **R-CMD-check**: Runs `R CMD check` on macOS, Windows, and Linux with release and oldrel R versions.
-- **pkgcheck**: Lints package structure and surfaces potential issues in issues/PRs.
-- **test-coverage**: Computes test coverage with `covr` and uploads results to Codecov.
+- **DuckDB backend + Parquet first:** uses DuckDB under the hood and writes/reads Parquet by default as the transaction layer between the `phiper` data source and `phiperio`, giving fast I/O and great interoperability.
+- **Scales to millions of rows:** lazy database pipelines and Parquet storage let you work efficiently with very large PhIP-Seq datasets.
+- **Import helpers** for common PhIP-Seq inputs and peptide metadata (peptide library cached and maintained in the companion `phiper` repo).
+- **Strong validation** and consistency checks to catch data issues early.
+- **Lightweight, reproducible pipelines** to standardize raw inputs into `<phip_data>` objects.
 
 ## Minimal usage
 
@@ -66,3 +70,7 @@ library(phiperio)
 # See available helpers and functions
 ?phiperio
 ```
+
+## Issues
+
+Spotted a bug or want to request a feature? Please open an issue: https://github.com/Polymerase3/phiperio/issues
