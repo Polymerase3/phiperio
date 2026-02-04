@@ -16,3 +16,9 @@ template:
     btn-border-radius: 0.25rem
     danger: "#A6081A"
 
+articles:
+  - title: Getting started
+    contents:
+      - importing-long-tidy-data
+      - importing-multiple-files
+      - importing-legacy-data

@@ -1,0 +1,144 @@
+---
+title: "Importing legacy PhIP-Seq data (convert_legacy)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Importing legacy PhIP-Seq data (convert_legacy)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(phiperio)
+library(dplyr)
+```
+
+# What this covers
+
+`convert_legacy()` ingests the classic three-file PhIP-Seq input
+(exist/fold_change/raw counts) plus sample metadata (and optional timepoints).
+This vignette shows compact cross-sectional and longitudinal examples.
+
+# Cross-sectional: one sample per subject
+
+We create minimal CSVs in a temp dir: `exist`, `samples`, and raw counts.
+
+```{r}
+tmp <- withr::local_tempdir()
+
+# exist matrix: peptide x sample
+exist_path <- file.path(tmp, "exist.csv")
+write.csv(data.frame(
+  peptide_id = c("p1", "p2"),
+  s1 = c(1, 0),
+  s2 = c(0, 1)
+), exist_path, row.names = FALSE)
+
+# raw counts (input/hit)
+input_path <- file.path(tmp, "counts_input.csv")
+write.csv(data.frame(
+  peptide_id = c("p1", "p2"),
+  s1 = c(100, 80),
+  s2 = c(90, 120)
+), input_path, row.names = FALSE)
+
+hit_path <- file.path(tmp, "counts_hit.csv")
+write.csv(data.frame(
+  peptide_id = c("p1", "p2"),
+  s1 = c(5, 0),
+  s2 = c(0, 7)
+), hit_path, row.names = FALSE)
+
+# sample metadata (cross-sectional: sample_id == subject_id)
+samples_path <- file.path(tmp, "samples.csv")
+write.csv(data.frame(
+  sample_id = c("s1", "s2"),
+  age       = c(34, 58),
+  sex       = c("F", "M")
+), samples_path, row.names = FALSE)
+
+pd_xc <- convert_legacy(
+  exist_file       = exist_path,
+  input_file       = input_path,
+  hit_file         = hit_path,
+  samples_file     = samples_path,
+  extra_cols       = c("age", "sex"),
+  peptide_library  = FALSE,
+  materialise_table = FALSE
+)
+
+get_counts(pd_xc) |> arrange(sample_id, peptide_id) |> collect()
+```
+
+# Longitudinal: multiple samples per subject
+
+Add a timepoints map so the same subject_id has multiple sample_ids.
+
+```{r}
+# reuse exist/raw counts shapes but rename columns to match sample_ids
+exist_lg_path <- file.path(tmp, "exist_long.csv")
+write.csv(data.frame(
+  peptide_id = c("p1", "p2"),
+  s1_t1 = c(1, 0),
+  s1_t2 = c(1, 0),
+  s2_t1 = c(0, 1),
+  s2_t2 = c(0, 1)
+), exist_lg_path, row.names = FALSE)
+
+input_lg_path <- file.path(tmp, "counts_input_long.csv")
+write.csv(data.frame(
+  peptide_id = c("p1", "p2"),
+  s1_t1 = c(100, 80),
+  s1_t2 = c(110, 90),
+  s2_t1 = c(95, 130),
+  s2_t2 = c(90, 125)
+), input_lg_path, row.names = FALSE)
+
+hit_lg_path <- file.path(tmp, "counts_hit_long.csv")
+write.csv(data.frame(
+  peptide_id = c("p1", "p2"),
+  s1_t1 = c(6, 0),
+  s1_t2 = c(7, 0),
+  s2_t1 = c(0, 8),
+  s2_t2 = c(0, 9)
+), hit_lg_path, row.names = FALSE)
+
+samples_lg_path <- file.path(tmp, "samples_long.csv")
+write.csv(data.frame(
+  sample_id = c("s1_t1", "s1_t2", "s2_t1", "s2_t2"),
+  subject_id = c("subj1", "subj1", "subj2", "subj2"),
+  timepoint  = c("T1", "T2", "T1", "T2"),
+  age       = c(34, 34, 58, 58),
+  sex       = c("F", "F", "M", "M")
+), samples_lg_path, row.names = FALSE)
+
+pd_lg <- convert_legacy(
+  exist_file       = exist_lg_path,
+  input_file       = input_lg_path,
+  hit_file         = hit_lg_path,
+  samples_file     = samples_lg_path,
+  timepoints_file  = NULL,  # subject_id/timepoint already in samples metadata
+  extra_cols       = c("subject_id", "timepoint", "age", "sex"),
+  peptide_library  = FALSE,
+  materialise_table = FALSE
+)
+
+get_counts(pd_lg) |>
+  distinct(subject_id, sample_id, timepoint, peptide_id, exist, input_count, hit_count) |>
+  arrange(subject_id, timepoint, peptide_id) |>
+  collect()
+```
+
+# Key points
+
+- Cross-sectional: `sample_id == subject_id`; no timepoints file needed.
+- Longitudinal: provide `timepoints_file` so samples map to subjects and visits.
+- `convert_legacy()` accepts CSV or Parquet for each matrix.
+- Keep columns consistent across files (same peptide_id set, matching sample_id columns).
+- Use `peptide_library = TRUE` to attach annotations (skip here for speed).
