@@ -105,10 +105,10 @@ get_peptide_library <- function(force_refresh = FALSE) {
       url <- paste0(
         "https://raw.githubusercontent.com/Polymerase3/phiper/",
         "main/library-metadata/",
-        "combined_library_15.01.26.rds"
+        "combined_library_06.07.26.rds"
       )
-      tmp <- file.path(cache_dir, "combined_library_15.01.26.rds")
-      sha <- "86c167453b2d13135c3c4147e6deacdfbd9030bbac1f7420c409483f1ca71915"
+      tmp <- file.path(cache_dir, "combined_library_06.07.26.rds")
+      sha <- "ce12b27d42ed3a6e26d02a25328c80f1b0bebd281c0112e3ee72a7c367d5ce02"
 
       ## safe download (fallbacks if file changed, or if download does not
       ## succeed)
