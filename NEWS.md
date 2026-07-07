@@ -1,3 +1,9 @@
+# phiperio 0.5.1
+
+- Updated the peptide metadata library used by `get_peptide_library()` to
+  `combined_library_06.07.26.rds` (with matching SHA-256 checksum) from the
+  `Polymerase3/phiper` repository.
+
 # phiperio 0.5.0
 
 - Added `sample_id_from_filenames` to `convert_standard()` to derive sample IDs
