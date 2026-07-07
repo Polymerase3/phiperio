@@ -1,6 +1,7 @@
 # Importing cross-sectional and longitudinal tidy data with phiperio
 
 ``` r
+
 library(phiperio)
 ```
 
@@ -32,6 +33,7 @@ In cross-sectional data each subject has exactly one sample, so
 `subject_id`.
 
 ``` r
+
 # ---- 1) Make a tiny cross-sectional long table ----------------------------
 # One subject = one sample; sample_id is unique and also identifies the subject
 cross_long <- data.frame(
@@ -66,44 +68,44 @@ pd_xc <- convert_standard(
   materialise_table = FALSE    # keep as a view for fast iterations
 )
 #> Skipping ANALYZE - raw_combined is a view.
-#> [13:45:40] INFO  Constructing <phip_data> object
+#> [15:30:00] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:45:40] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [13:45:40] INFO  Retrieving peptide metadata into DuckDB cache
+#> [15:30:00] INFO  Fetching peptide metadata library via get_peptide_library()
+#> [15:30:00] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(force_refresh = FALSE)
-#> [13:45:41] INFO  Opened DuckDB connection
+#> [15:30:00] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - table: peptide_meta
-#> [13:45:41] OK    Using cached peptide_meta (fast path)
-#> [13:45:41] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.251s
-#> [13:45:41] OK    Peptide metadata acquired
-#> [13:45:41] INFO  Validating <phip_data>
+#> [15:30:00] OK    Using cached peptide_meta (fast path)
+#> [15:30:00] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.245s
+#> [15:30:00] OK    Peptide metadata acquired
+#> [15:30:00] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:45:41] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:45:41] INFO  Checking outcome family availability (exist / fold_change /
+#> [15:30:00] INFO  Checking structural requirements (shape & mandatory columns)
+#> [15:30:00] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:45:41] INFO  Checking collisions with reserved names
+#> [15:30:00] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:45:41] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:45:41] INFO  Checking key uniqueness
-#> [13:45:41] INFO  Validating value ranges & types for outcomes
+#> [15:30:00] INFO  Ensuring all columns are atomic (no list-cols)
+#> [15:30:00] INFO  Checking key uniqueness
+#> [15:30:00] INFO  Validating value ranges & types for outcomes
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [13:45:41] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [15:30:01] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [13:45:41] INFO  Checking peptide_id coverage against peptide_library
-#> Warning: [13:45:41] WARN  peptide_id not found in peptide_library (e.g. p1)
+#> [15:30:01] INFO  Checking peptide_id coverage against peptide_library
+#> Warning: [15:30:01] WARN  peptide_id not found in peptide_library (e.g. p1)
 #>                  -> peptide library coverage.
-#> [13:45:41] INFO  Checking full grid completeness (peptide * sample)
-#> [13:45:41] OK    Counts table is a full peptide * sample grid
-#> [13:45:41] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.769s
-#> [13:45:41] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 1.023s
+#> [15:30:01] INFO  Checking full grid completeness (peptide * sample)
+#> [15:30:01] OK    Counts table is a full peptide * sample grid
+#> [15:30:01] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.538s
+#> [15:30:01] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.786s
 # The peptide library comes from the companion repo
 # https://github.com/Polymerase3/phiper and is maintained by our group with
 # collaborator-provided annotations. Setting peptide_library = TRUE pulls the
@@ -113,6 +115,7 @@ pd_xc <- convert_standard(
 Inspect and manipulate:
 
 ``` r
+
 # Show the phip_data object (prints a concise summary)
 pd_xc
 #> ── <phip_data> ───────────────────────────────────────────────────────────────── 
@@ -130,16 +133,16 @@ pd_xc
 #> 
 #> peptide library preview (first 5 rows): 
 #> # A tibble: 5 × 8
-#>   peptide_id Fullname                    species genus family order class common
-#>   <chr>      <chr>                       <chr>   <chr> <chr>  <chr> <chr> <chr> 
-#> 1 agilent_1  Chromodomain-helicase-DNA-… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> 2 agilent_2  integral membrane protein   Mycoba… Myco… Mycob… Myco… Acti… NA    
-#> 3 agilent_3  hypothetical protein (6/16… Mycoba… Myco… Mycob… Myco… Acti… NA    
-#> 4 agilent_4  envelope protein (5/8) & a… Orthof… Orth… Flavi… Amar… Flas… JEV   
-#> 5 agilent_5  Myosin-7 & beta-myosin hea… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> ... plus 36 more columns
+#>   peptide_id    Fullname                 species genus family order class common
+#>   <chr>         <chr>                    <chr>   <chr> <chr>  <chr> <chr> <chr> 
+#> 1 agilent_1     Chromodomain-helicase-D… Homo s… Homo  Homin… Prim… Mamm… Human 
+#> 2 agilent_10    Lipase 2 precursor (Gly… Staphy… Stap… Staph… Baci… Baci… NA    
+#> 3 agilent_100   cell surface protein pr… Porphy… Porp… Porph… Bact… Bact… NA    
+#> 4 agilent_1000  Coagulation factor VIII… Homo s… Homo  Homin… Prim… Mamm… Human 
+#> 5 agilent_10000 transmembrane serine/th… Mycoba… Myco… Mycob… Myco… Acti… NA    
+#> ... plus 37 more columns
 #> 
-#> library size: 357,190 rows x 44 columns
+#> library size: 357,190 rows x 45 columns
 #> 
 #> meta flags: 
 #>   con:            <duckdb_connection>
@@ -156,8 +159,8 @@ pd_xc
 # Peek at the long table lazily (no data pulled yet)
 # get_counts() returns the same table as pd_xc$data_long
 get_counts(pd_xc)
-#> # Source:   table<raw_combined> [?? x 6]
-#> # Database: DuckDB 1.4.4 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/Rtmpmvm9ha/phiperio_cache1f9d162c788a/phip_cache.duckdb]
+#> # A query:  ?? x 6
+#> # Database: DuckDB 1.5.4 [unknown@Linux 6.17.0-1018-azure:R 4.6.1//tmp/RtmpOLdeEE/phiperio_cache1ddb60ddbea3/phip_cache.duckdb]
 #>   sample_id peptide_id exist fold_change   age sex  
 #>   <chr>     <chr>      <dbl>       <dbl> <dbl> <chr>
 #> 1 s1        p1             1         1.2    34 F    
@@ -184,10 +187,11 @@ pd_xc_pos
 Export to Parquet:
 
 ``` r
+
 out_parquet <- tempfile(fileext = ".parquet")
 export_parquet(pd_xc, out_parquet)
 out_parquet
-#> [1] "/tmp/Rtmpmvm9ha/file1f9d1ad18d66.parquet"
+#> [1] "/tmp/RtmpOLdeEE/file1ddb60af1c62.parquet"
 
 # Re-import the Parquet file directly with convert_standard()
 pd_xc_again <- convert_standard(
@@ -196,41 +200,41 @@ pd_xc_again <- convert_standard(
   materialise_table = FALSE
 )
 #> Skipping ANALYZE - raw_combined is a view.
-#> [13:45:42] INFO  Constructing <phip_data> object
+#> [15:30:01] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:45:42] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [13:45:42] INFO  Retrieving peptide metadata into DuckDB cache
+#> [15:30:01] INFO  Fetching peptide metadata library via get_peptide_library()
+#> [15:30:01] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(force_refresh = FALSE)
-#> [13:45:42] INFO  Opened DuckDB connection
+#> [15:30:01] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - table: peptide_meta
-#> [13:45:42] OK    Using cached peptide_meta (fast path)
-#> [13:45:42] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.229s
-#> [13:45:42] OK    Peptide metadata acquired
-#> [13:45:42] INFO  Validating <phip_data>
+#> [15:30:01] OK    Using cached peptide_meta (fast path)
+#> [15:30:01] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.211s
+#> [15:30:01] OK    Peptide metadata acquired
+#> [15:30:01] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:45:42] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:45:42] INFO  Checking outcome family availability (exist / fold_change /
+#> [15:30:01] INFO  Checking structural requirements (shape & mandatory columns)
+#> [15:30:01] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:45:42] INFO  Checking collisions with reserved names
+#> [15:30:01] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:45:42] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:45:42] INFO  Checking key uniqueness
-#> [13:45:42] INFO  Validating value ranges & types for outcomes
-#> [13:45:42] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [15:30:01] INFO  Ensuring all columns are atomic (no list-cols)
+#> [15:30:01] INFO  Checking key uniqueness
+#> [15:30:01] INFO  Validating value ranges & types for outcomes
+#> [15:30:02] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [13:45:42] INFO  Checking peptide_id coverage against peptide_library
-#> Warning: [13:45:42] WARN  peptide_id not found in peptide_library (e.g. p1)
+#> [15:30:02] INFO  Checking peptide_id coverage against peptide_library
+#> Warning: [15:30:02] WARN  peptide_id not found in peptide_library (e.g. p1)
 #>                  -> peptide library coverage.
-#> [13:45:42] INFO  Checking full grid completeness (peptide * sample)
-#> [13:45:43] OK    Counts table is a full peptide * sample grid
-#> [13:45:43] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.531s
-#> [13:45:43] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.761s
+#> [15:30:02] INFO  Checking full grid completeness (peptide * sample)
+#> [15:30:02] OK    Counts table is a full peptide * sample grid
+#> [15:30:02] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.321s
+#> [15:30:02] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.534s
 pd_xc_again
 #> ── <phip_data> ───────────────────────────────────────────────────────────────── 
 #> 
@@ -247,16 +251,16 @@ pd_xc_again
 #> 
 #> peptide library preview (first 5 rows): 
 #> # A tibble: 5 × 8
-#>   peptide_id Fullname                    species genus family order class common
-#>   <chr>      <chr>                       <chr>   <chr> <chr>  <chr> <chr> <chr> 
-#> 1 agilent_1  Chromodomain-helicase-DNA-… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> 2 agilent_2  integral membrane protein   Mycoba… Myco… Mycob… Myco… Acti… NA    
-#> 3 agilent_3  hypothetical protein (6/16… Mycoba… Myco… Mycob… Myco… Acti… NA    
-#> 4 agilent_4  envelope protein (5/8) & a… Orthof… Orth… Flavi… Amar… Flas… JEV   
-#> 5 agilent_5  Myosin-7 & beta-myosin hea… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> ... plus 36 more columns
+#>   peptide_id    Fullname                 species genus family order class common
+#>   <chr>         <chr>                    <chr>   <chr> <chr>  <chr> <chr> <chr> 
+#> 1 agilent_1     Chromodomain-helicase-D… Homo s… Homo  Homin… Prim… Mamm… Human 
+#> 2 agilent_10    Lipase 2 precursor (Gly… Staphy… Stap… Staph… Baci… Baci… NA    
+#> 3 agilent_100   cell surface protein pr… Porphy… Porp… Porph… Bact… Bact… NA    
+#> 4 agilent_1000  Coagulation factor VIII… Homo s… Homo  Homin… Prim… Mamm… Human 
+#> 5 agilent_10000 transmembrane serine/th… Mycoba… Myco… Mycob… Myco… Acti… NA    
+#> ... plus 37 more columns
 #> 
-#> library size: 357,190 rows x 44 columns
+#> library size: 357,190 rows x 45 columns
 #> 
 #> meta flags: 
 #>   con:            <duckdb_connection>
@@ -278,6 +282,7 @@ belong to the same subject. We also include a `timepoint` column so you
 can track visits.
 
 ``` r
+
 # ---- 1) Build a tiny longitudinal long table ------------------------------
 # subject_id repeats across samples; sample_id stays unique per draw/run
 long_long <- data.frame(
@@ -309,40 +314,41 @@ pd_lg <- convert_standard(
   materialise_table = FALSE
 )
 #> Skipping ANALYZE - raw_combined is a view.
-#> [13:45:43] INFO  Constructing <phip_data> object
+#> [15:30:02] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:45:43] INFO  Validating <phip_data>
+#> [15:30:02] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:45:43] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:45:43] INFO  Checking outcome family availability (exist / fold_change /
+#> [15:30:02] INFO  Checking structural requirements (shape & mandatory columns)
+#> [15:30:02] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:45:43] INFO  Checking collisions with reserved names
+#> [15:30:02] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:45:43] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:45:43] INFO  Checking key uniqueness
-#> [13:45:43] INFO  Validating value ranges & types for outcomes
-#> [13:45:43] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [15:30:02] INFO  Ensuring all columns are atomic (no list-cols)
+#> [15:30:02] INFO  Checking key uniqueness
+#> [15:30:02] INFO  Validating value ranges & types for outcomes
+#> [15:30:02] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [13:45:43] INFO  Checking peptide_id coverage against peptide_library
-#> [13:45:43] INFO  Checking full grid completeness (peptide * sample)
-#> Warning: [13:45:43] WARN  Counts table is not a full peptide * sample grid.
+#> [15:30:02] INFO  Checking peptide_id coverage against peptide_library
+#> [15:30:02] INFO  Checking full grid completeness (peptide * sample)
+#> Warning: [15:30:02] WARN  Counts table is not a full peptide * sample grid.
 #>                  -> grid completeness
 #>                    - observed rows: 6
 #>                    - expected rows: 12.
-#> Warning: [13:45:43] WARN  Grid remains incomplete (auto_expand = FALSE).
+#> Warning: [15:30:02] WARN  Grid remains incomplete (auto_expand = FALSE).
 #>                  -> grid completeness
 #>                    - observed rows: 6
 #>                    - expected rows: 12.
-#> [13:45:43] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.371s
-#> [13:45:43] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.371s
+#> [15:30:02] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.168s
+#> [15:30:02] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.169s
 ```
 
 Work with the longitudinal data:
 
 ``` r
+
 # Look at the object summary
 pd_lg
 #> ── <phip_data> ───────────────────────────────────────────────────────────────── 
@@ -396,8 +402,8 @@ pd_lg_avg
 #> # A tibble: 2 × 2
 #>   subject_id mean_fc
 #>   <chr>        <dbl>
-#> 1 subj2        1.73 
-#> 2 subj1        0.933
+#> 1 subj1        0.933
+#> 2 subj2        1.73
 
 # Inspect extra columns (metadata not part of the standard set)
 pd_lg$meta$extra_cols  # should list run_id and plate_id
@@ -407,10 +413,11 @@ pd_lg$meta$extra_cols  # should list run_id and plate_id
 Export longitudinal data:
 
 ``` r
+
 out_parquet_lg <- tempfile(fileext = ".parquet")
 export_parquet(pd_lg, out_parquet_lg)
 out_parquet_lg
-#> [1] "/tmp/Rtmpmvm9ha/file1f9d99bc91f.parquet"
+#> [1] "/tmp/RtmpOLdeEE/file1ddb25ee090a.parquet"
 ```
 
 ## Tips and gotchas
@@ -430,49 +437,50 @@ out_parquet_lg
 ## Using the built-in example
 
 ``` r
+
 ex <- load_example_data()
-#> [13:45:44] INFO  Constructing <phip_data> object
+#> [15:30:03] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:45:44] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [13:45:44] INFO  Retrieving peptide metadata into DuckDB cache
+#> [15:30:03] INFO  Fetching peptide metadata library via get_peptide_library()
+#> [15:30:03] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(force_refresh = FALSE)
-#> [13:45:44] INFO  Opened DuckDB connection
+#> [15:30:03] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - table: peptide_meta
-#> [13:45:44] OK    Using cached peptide_meta (fast path)
-#> [13:45:44] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.213s
-#> [13:45:44] OK    Peptide metadata acquired
-#> [13:45:44] INFO  Validating <phip_data>
+#> [15:30:03] OK    Using cached peptide_meta (fast path)
+#> [15:30:03] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.223s
+#> [15:30:03] OK    Peptide metadata acquired
+#> [15:30:03] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:45:44] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:45:44] INFO  Checking outcome family availability (exist / fold_change /
+#> [15:30:03] INFO  Checking structural requirements (shape & mandatory columns)
+#> [15:30:03] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:45:44] INFO  Checking collisions with reserved names
+#> [15:30:03] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:45:44] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:45:44] INFO  Checking key uniqueness
-#> [13:45:44] INFO  Validating value ranges & types for outcomes
-#> [13:45:44] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [15:30:03] INFO  Ensuring all columns are atomic (no list-cols)
+#> [15:30:03] INFO  Checking key uniqueness
+#> [15:30:03] INFO  Validating value ranges & types for outcomes
+#> [15:30:03] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [13:45:44] INFO  Checking peptide_id coverage against peptide_library
-#> Warning: [13:45:45] WARN  peptide_id not found in peptide_library (e.g. 10003)
+#> [15:30:03] INFO  Checking peptide_id coverage against peptide_library
+#> Warning: [15:30:03] WARN  peptide_id not found in peptide_library (e.g. 10003)
 #>                  -> peptide library coverage.
-#> [13:45:45] INFO  Checking full grid completeness (peptide * sample)
-#> Warning: [13:45:45] WARN  Counts table is not a full peptide * sample grid.
+#> [15:30:03] INFO  Checking full grid completeness (peptide * sample)
+#> Warning: [15:30:03] WARN  Counts table is not a full peptide * sample grid.
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> Warning: [13:45:45] WARN  Grid remains incomplete (auto_expand = FALSE).
+#> Warning: [15:30:03] WARN  Grid remains incomplete (auto_expand = FALSE).
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> [13:45:45] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.596s
-#> [13:45:45] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.811s
+#> [15:30:03] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.394s
+#> [15:30:03] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.618s
 ex
 #> ── <phip_data> ───────────────────────────────────────────────────────────────── 
 #> 
@@ -491,16 +499,16 @@ ex
 #> 
 #> peptide library preview (first 5 rows): 
 #> # A tibble: 5 × 8
-#>   peptide_id Fullname                    species genus family order class common
-#>   <chr>      <chr>                       <chr>   <chr> <chr>  <chr> <chr> <chr> 
-#> 1 agilent_1  Chromodomain-helicase-DNA-… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> 2 agilent_2  integral membrane protein   Mycoba… Myco… Mycob… Myco… Acti… NA    
-#> 3 agilent_3  hypothetical protein (6/16… Mycoba… Myco… Mycob… Myco… Acti… NA    
-#> 4 agilent_4  envelope protein (5/8) & a… Orthof… Orth… Flavi… Amar… Flas… JEV   
-#> 5 agilent_5  Myosin-7 & beta-myosin hea… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> ... plus 36 more columns
+#>   peptide_id    Fullname                 species genus family order class common
+#>   <chr>         <chr>                    <chr>   <chr> <chr>  <chr> <chr> <chr> 
+#> 1 agilent_1     Chromodomain-helicase-D… Homo s… Homo  Homin… Prim… Mamm… Human 
+#> 2 agilent_10    Lipase 2 precursor (Gly… Staphy… Stap… Staph… Baci… Baci… NA    
+#> 3 agilent_100   cell surface protein pr… Porphy… Porp… Porph… Bact… Bact… NA    
+#> 4 agilent_1000  Coagulation factor VIII… Homo s… Homo  Homin… Prim… Mamm… Human 
+#> 5 agilent_10000 transmembrane serine/th… Mycoba… Myco… Mycob… Myco… Acti… NA    
+#> ... plus 37 more columns
 #> 
-#> library size: 357,190 rows x 44 columns
+#> library size: 357,190 rows x 45 columns
 #> 
 #> meta flags: 
 #>   con:            <duckdb_connection>

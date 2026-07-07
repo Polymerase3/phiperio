@@ -10,6 +10,7 @@ You can install the development version of `phiperio` from GitHub with
 either `pak` or `devtools`:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("Polymerase3/phiperio")
 

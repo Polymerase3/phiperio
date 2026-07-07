@@ -1,6 +1,7 @@
 # Importing legacy PhIP-Seq data (convert_legacy)
 
 ``` r
+
 library(phiperio)
 library(dplyr)
 #> 
@@ -26,6 +27,7 @@ We create minimal CSVs in a temp dir: `exist`, `samples`, and raw
 counts.
 
 ``` r
+
 tmp <- withr::local_tempdir()
 
 # exist matrix: peptide x sample
@@ -68,31 +70,31 @@ pd_xc <- convert_legacy(
   peptide_library  = FALSE,
   materialise_table = FALSE
 )
-#> [13:45:36] INFO  Constructing <phip_data> object
+#> [15:29:56] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:45:36] INFO  Validating <phip_data>
+#> [15:29:56] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:45:36] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:45:36] INFO  Checking outcome family availability (exist / fold_change /
+#> [15:29:56] INFO  Checking structural requirements (shape & mandatory columns)
+#> [15:29:56] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:45:36] INFO  Checking collisions with reserved names
+#> [15:29:56] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:45:36] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:45:36] INFO  Checking key uniqueness
-#> [13:45:37] INFO  Validating value ranges & types for outcomes
-#> [13:45:37] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [15:29:56] INFO  Ensuring all columns are atomic (no list-cols)
+#> [15:29:57] INFO  Checking key uniqueness
+#> [15:29:57] INFO  Validating value ranges & types for outcomes
+#> [15:29:57] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [13:45:37] INFO  Checking peptide_id coverage against peptide_library
-#> [13:45:37] INFO  Checking full grid completeness (peptide * sample)
-#> [13:45:37] OK    Counts table is a full peptide * sample grid
-#> [13:45:37] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.463s
-#> [13:45:37] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.465s
+#> [15:29:57] INFO  Checking peptide_id coverage against peptide_library
+#> [15:29:57] INFO  Checking full grid completeness (peptide * sample)
+#> [15:29:57] OK    Counts table is a full peptide * sample grid
+#> [15:29:57] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.357s
+#> [15:29:57] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.359s
 
 get_counts(pd_xc) |> arrange(sample_id, peptide_id) |> collect()
 #> # A tibble: 4 × 7
@@ -109,6 +111,7 @@ get_counts(pd_xc) |> arrange(sample_id, peptide_id) |> collect()
 Add a timepoints map so the same subject_id has multiple sample_ids.
 
 ``` r
+
 # reuse exist/raw counts shapes but rename columns to match sample_ids
 exist_lg_path <- file.path(tmp, "exist_long.csv")
 write.csv(data.frame(
@@ -156,28 +159,28 @@ pd_lg <- convert_legacy(
   peptide_library  = FALSE,
   materialise_table = FALSE
 )
-#> [13:45:37] INFO  Constructing <phip_data> object
+#> [15:29:57] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:45:37] INFO  Validating <phip_data>
+#> [15:29:57] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:45:37] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:45:37] INFO  Checking outcome family availability (exist / fold_change /
+#> [15:29:57] INFO  Checking structural requirements (shape & mandatory columns)
+#> [15:29:57] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:45:37] INFO  Checking collisions with reserved names
+#> [15:29:57] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:45:37] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:45:37] INFO  Checking key uniqueness
-#> [13:45:37] INFO  Validating value ranges & types for outcomes
-#> [13:45:37] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [15:29:57] INFO  Ensuring all columns are atomic (no list-cols)
+#> [15:29:57] INFO  Checking key uniqueness
+#> [15:29:57] INFO  Validating value ranges & types for outcomes
+#> [15:29:57] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [13:45:37] INFO  Checking peptide_id coverage against peptide_library
-#> [13:45:37] INFO  Checking full grid completeness (peptide * sample)
-#> [13:45:38] OK    Counts table is a full peptide * sample grid
-#> [13:45:38] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.432s
-#> [13:45:38] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.433s
+#> [15:29:57] INFO  Checking peptide_id coverage against peptide_library
+#> [15:29:57] INFO  Checking full grid completeness (peptide * sample)
+#> [15:29:57] OK    Counts table is a full peptide * sample grid
+#> [15:29:57] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.173s
+#> [15:29:57] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.173s
 
 get_counts(pd_lg) |>
   distinct(subject_id, sample_id, timepoint, peptide_id, exist, input_count, hit_count) |>

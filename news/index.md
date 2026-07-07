@@ -1,5 +1,12 @@
 # Changelog
 
+## phiperio 0.5.1
+
+- Updated the peptide metadata library used by
+  [`get_peptide_library()`](https://polymerase3.github.io/phiperio/reference/get_peptide_library.md)
+  to `combined_library_06.07.26.rds` (with matching SHA-256 checksum)
+  from the `Polymerase3/phiper` repository.
+
 ## phiperio 0.5.0
 
 - Added `sample_id_from_filenames` to

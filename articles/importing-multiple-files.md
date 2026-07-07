@@ -1,6 +1,7 @@
 # Importing multiple files with phiperio
 
 ``` r
+
 library(phiperio)
 library(dplyr)
 #> 
@@ -35,6 +36,7 @@ Each file represents one sample. Columns are long-format: `peptide_id`,
 `exist`, `fold_change`.
 
 ``` r
+
 tmp_dir <- withr::local_tempdir()
 
 file_names <- c(
@@ -67,6 +69,7 @@ invisible(lapply(file_names, write_one))
 ## 2. Inspect one file so you know what’s inside
 
 ``` r
+
 one_file <- file.path(tmp_dir, file_names[[1]])
 read.csv(one_file, stringsAsFactors = FALSE)
 #>   peptide_id exist fold_change
@@ -90,6 +93,7 @@ will:
 - union the rows into one DuckDB-backed table.
 
 ``` r
+
 pd <- convert_standard(
   data_long_path = tmp_dir,
   sample_id_from_filenames = TRUE,
@@ -98,36 +102,37 @@ pd <- convert_standard(
   auto_expand = FALSE
 )
 #> Skipping ANALYZE - raw_combined is a view.
-#> [13:45:47] INFO  Constructing <phip_data> object
+#> [15:30:06] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:45:47] INFO  Validating <phip_data>
+#> [15:30:06] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:45:47] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:45:48] INFO  Checking outcome family availability (exist / fold_change /
+#> [15:30:06] INFO  Checking structural requirements (shape & mandatory columns)
+#> [15:30:06] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:45:48] INFO  Checking collisions with reserved names
+#> [15:30:06] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:45:48] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:45:48] INFO  Checking key uniqueness
-#> [13:45:48] INFO  Validating value ranges & types for outcomes
+#> [15:30:06] INFO  Ensuring all columns are atomic (no list-cols)
+#> [15:30:06] INFO  Checking key uniqueness
+#> [15:30:06] INFO  Validating value ranges & types for outcomes
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [13:45:48] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [15:30:06] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [13:45:48] INFO  Checking peptide_id coverage against peptide_library
-#> [13:45:48] INFO  Checking full grid completeness (peptide * sample)
-#> [13:45:48] OK    Counts table is a full peptide * sample grid
-#> [13:45:48] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.524s
-#> [13:45:48] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.526s
+#> [15:30:07] INFO  Checking peptide_id coverage against peptide_library
+#> [15:30:07] INFO  Checking full grid completeness (peptide * sample)
+#> [15:30:07] OK    Counts table is a full peptide * sample grid
+#> [15:30:07] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.361s
+#> [15:30:07] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.362s
 ```
 
 Check distinct sample IDs:
 
 ``` r
+
 get_counts(pd) |>
   distinct(sample_id) |>
   arrange(sample_id) |>
@@ -153,6 +158,7 @@ Our filenames have the shape `R<run> P<plate> _ rest`. We can extract
 those parts with a couple of string splits:
 
 ``` r
+
 pd_with_meta <- pd |>
   mutate(
     # Keep the part before first underscore: e.g., "R25P01"
