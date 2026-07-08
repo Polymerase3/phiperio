@@ -121,48 +121,48 @@ phip_obj <- convert_standard(
   n_cores = 4,
   materialise_table = TRUE
 )
-#> [15:29:44] INFO  Constructing <phip_data> object
+#> [07:31:35] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [15:29:44] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [15:29:44] INFO  Retrieving peptide metadata into DuckDB cache
+#> [07:31:35] INFO  Fetching peptide metadata library via get_peptide_library()
+#> [07:31:35] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(force_refresh = FALSE)
-#> [15:29:44] INFO  Opened DuckDB connection
+#> [07:31:36] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - table: peptide_meta
-#> [15:29:44] OK    Using cached peptide_meta (fast path)
-#> [15:29:44] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.058s
-#> [15:29:44] OK    Peptide metadata acquired
-#> [15:29:44] INFO  Validating <phip_data>
+#> [07:31:36] OK    Using cached peptide_meta (fast path)
+#> [07:31:36] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.052s
+#> [07:31:36] OK    Peptide metadata acquired
+#> [07:31:36] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [15:29:44] INFO  Checking structural requirements (shape & mandatory columns)
-#> [15:29:44] INFO  Checking outcome family availability (exist / fold_change /
+#> [07:31:36] INFO  Checking structural requirements (shape & mandatory columns)
+#> [07:31:36] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [15:29:44] INFO  Checking collisions with reserved names
+#> [07:31:36] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [15:29:44] INFO  Ensuring all columns are atomic (no list-cols)
-#> [15:29:44] INFO  Checking key uniqueness
-#> [15:29:44] INFO  Validating value ranges & types for outcomes
-#> [15:29:44] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [07:31:36] INFO  Ensuring all columns are atomic (no list-cols)
+#> [07:31:36] INFO  Checking key uniqueness
+#> [07:31:36] INFO  Validating value ranges & types for outcomes
+#> [07:31:36] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [15:29:44] INFO  Checking peptide_id coverage against peptide_library
-#> Warning: [15:29:45] WARN  peptide_id not found in peptide_library (e.g. 10003)
+#> [07:31:36] INFO  Checking peptide_id coverage against peptide_library
+#> Warning: [07:31:36] WARN  peptide_id not found in peptide_library (e.g. 10003)
 #>                  -> peptide library coverage.
-#> [15:29:45] INFO  Checking full grid completeness (peptide * sample)
-#> Warning: [15:29:45] WARN  Counts table is not a full peptide * sample grid.
+#> [07:31:36] INFO  Checking full grid completeness (peptide * sample)
+#> Warning: [07:31:36] WARN  Counts table is not a full peptide * sample grid.
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> Warning: [15:29:45] WARN  Grid remains incomplete (auto_expand = FALSE).
+#> Warning: [07:31:36] WARN  Grid remains incomplete (auto_expand = FALSE).
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> [15:29:45] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.457s
-#> [15:29:45] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.516s
+#> [07:31:36] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.372s
+#> [07:31:36] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.425s
 
 # Import a CSV and rename columns
 tmp_csv <- tempfile(fileext = ".csv")
@@ -184,26 +184,26 @@ phip_mem <- convert_standard(
   materialise_table = FALSE
 )
 #> Skipping ANALYZE - raw_combined is a view.
-#> [15:29:45] INFO  Constructing <phip_data> object
+#> [07:31:36] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [15:29:45] INFO  Validating <phip_data>
+#> [07:31:36] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [15:29:45] INFO  Checking structural requirements (shape & mandatory columns)
-#> [15:29:45] INFO  Checking outcome family availability (exist / fold_change /
+#> [07:31:36] INFO  Checking structural requirements (shape & mandatory columns)
+#> [07:31:36] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [15:29:45] INFO  Checking collisions with reserved names
+#> [07:31:36] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [15:29:45] INFO  Ensuring all columns are atomic (no list-cols)
-#> [15:29:45] INFO  Checking key uniqueness
-#> [15:29:45] INFO  Validating value ranges & types for outcomes
-#> [15:29:45] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [07:31:36] INFO  Ensuring all columns are atomic (no list-cols)
+#> [07:31:36] INFO  Checking key uniqueness
+#> [07:31:36] INFO  Validating value ranges & types for outcomes
+#> [07:31:36] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [15:29:45] INFO  Checking peptide_id coverage against peptide_library
-#> [15:29:45] INFO  Checking full grid completeness (peptide * sample)
-#> [15:29:45] OK    Counts table is a full peptide * sample grid
-#> [15:29:45] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.112s
-#> [15:29:45] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.113s
+#> [07:31:36] INFO  Checking peptide_id coverage against peptide_library
+#> [07:31:36] INFO  Checking full grid completeness (peptide * sample)
+#> [07:31:36] OK    Counts table is a full peptide * sample grid
+#> [07:31:36] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.134s
+#> [07:31:36] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.135s
 ```

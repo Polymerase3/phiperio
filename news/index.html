@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,11 @@
       <small>Source: <a href="https://github.com/Polymerase3/phiperio/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.2" id="phiperio-052-2026-07-08">phiperio 0.5.2 (2026-07-08)<a class="anchor" aria-label="anchor" href="#phiperio-052-2026-07-08"></a></h2>
+<ul><li>Fixed <code><a href="../reference/get_peptide_library.html">get_peptide_library()</a></code> silently coercing alphanumeric ID-like columns (e.g. <code>protein_id</code> values such as <code>"agilent_1"</code>) to all-<code>NA</code>. The character-to-numeric sanitizer previously matched any string containing a digit; it now requires the value to fully parse as numeric.</li>
+<li>Added a regression test for the fix and a live test that flags checksum drift against the published library and any column collapsing to all-<code>NA</code> during sanitization.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.1" id="phiperio-051">phiperio 0.5.1<a class="anchor" aria-label="anchor" href="#phiperio-051"></a></h2>
 <ul><li>Updated the peptide metadata library used by <code><a href="../reference/get_peptide_library.html">get_peptide_library()</a></code> to <code>combined_library_06.07.26.rds</code> (with matching SHA-256 checksum) from the <code>Polymerase3/phiper</code> repository.</li>
@@ -97,7 +102,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

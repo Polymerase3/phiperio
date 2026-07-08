@@ -102,31 +102,31 @@ pd <- convert_standard(
   auto_expand = FALSE
 )
 #> Skipping ANALYZE - raw_combined is a view.
-#> [15:30:06] INFO  Constructing <phip_data> object
+#> [07:31:57] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [15:30:06] INFO  Validating <phip_data>
+#> [07:31:57] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [15:30:06] INFO  Checking structural requirements (shape & mandatory columns)
-#> [15:30:06] INFO  Checking outcome family availability (exist / fold_change /
+#> [07:31:57] INFO  Checking structural requirements (shape & mandatory columns)
+#> [07:31:57] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [15:30:06] INFO  Checking collisions with reserved names
+#> [07:31:57] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [15:30:06] INFO  Ensuring all columns are atomic (no list-cols)
-#> [15:30:06] INFO  Checking key uniqueness
-#> [15:30:06] INFO  Validating value ranges & types for outcomes
+#> [07:31:57] INFO  Ensuring all columns are atomic (no list-cols)
+#> [07:31:57] INFO  Checking key uniqueness
+#> [07:31:57] INFO  Validating value ranges & types for outcomes
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [15:30:06] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [07:31:57] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [15:30:07] INFO  Checking peptide_id coverage against peptide_library
-#> [15:30:07] INFO  Checking full grid completeness (peptide * sample)
-#> [15:30:07] OK    Counts table is a full peptide * sample grid
-#> [15:30:07] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.361s
-#> [15:30:07] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.362s
+#> [07:31:57] INFO  Checking peptide_id coverage against peptide_library
+#> [07:31:57] INFO  Checking full grid completeness (peptide * sample)
+#> [07:31:57] OK    Counts table is a full peptide * sample grid
+#> [07:31:57] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.341s
+#> [07:31:57] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.343s
 ```
 
 Check distinct sample IDs:

@@ -70,31 +70,31 @@ pd_xc <- convert_legacy(
   peptide_library  = FALSE,
   materialise_table = FALSE
 )
-#> [15:29:56] INFO  Constructing <phip_data> object
+#> [07:31:47] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [15:29:56] INFO  Validating <phip_data>
+#> [07:31:47] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [15:29:56] INFO  Checking structural requirements (shape & mandatory columns)
-#> [15:29:56] INFO  Checking outcome family availability (exist / fold_change /
+#> [07:31:47] INFO  Checking structural requirements (shape & mandatory columns)
+#> [07:31:47] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [15:29:56] INFO  Checking collisions with reserved names
+#> [07:31:47] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [15:29:56] INFO  Ensuring all columns are atomic (no list-cols)
-#> [15:29:57] INFO  Checking key uniqueness
-#> [15:29:57] INFO  Validating value ranges & types for outcomes
-#> [15:29:57] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [07:31:47] INFO  Ensuring all columns are atomic (no list-cols)
+#> [07:31:47] INFO  Checking key uniqueness
+#> [07:31:47] INFO  Validating value ranges & types for outcomes
+#> [07:31:47] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [15:29:57] INFO  Checking peptide_id coverage against peptide_library
-#> [15:29:57] INFO  Checking full grid completeness (peptide * sample)
-#> [15:29:57] OK    Counts table is a full peptide * sample grid
-#> [15:29:57] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.357s
-#> [15:29:57] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.359s
+#> [07:31:47] INFO  Checking peptide_id coverage against peptide_library
+#> [07:31:47] INFO  Checking full grid completeness (peptide * sample)
+#> [07:31:47] OK    Counts table is a full peptide * sample grid
+#> [07:31:47] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.338s
+#> [07:31:47] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.34s
 
 get_counts(pd_xc) |> arrange(sample_id, peptide_id) |> collect()
 #> # A tibble: 4 × 7
@@ -159,28 +159,28 @@ pd_lg <- convert_legacy(
   peptide_library  = FALSE,
   materialise_table = FALSE
 )
-#> [15:29:57] INFO  Constructing <phip_data> object
+#> [07:31:48] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [15:29:57] INFO  Validating <phip_data>
+#> [07:31:48] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [15:29:57] INFO  Checking structural requirements (shape & mandatory columns)
-#> [15:29:57] INFO  Checking outcome family availability (exist / fold_change /
+#> [07:31:48] INFO  Checking structural requirements (shape & mandatory columns)
+#> [07:31:48] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [15:29:57] INFO  Checking collisions with reserved names
+#> [07:31:48] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [15:29:57] INFO  Ensuring all columns are atomic (no list-cols)
-#> [15:29:57] INFO  Checking key uniqueness
-#> [15:29:57] INFO  Validating value ranges & types for outcomes
-#> [15:29:57] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [07:31:48] INFO  Ensuring all columns are atomic (no list-cols)
+#> [07:31:48] INFO  Checking key uniqueness
+#> [07:31:48] INFO  Validating value ranges & types for outcomes
+#> [07:31:48] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [15:29:57] INFO  Checking peptide_id coverage against peptide_library
-#> [15:29:57] INFO  Checking full grid completeness (peptide * sample)
-#> [15:29:57] OK    Counts table is a full peptide * sample grid
-#> [15:29:57] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.173s
-#> [15:29:57] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.173s
+#> [07:31:48] INFO  Checking peptide_id coverage against peptide_library
+#> [07:31:48] INFO  Checking full grid completeness (peptide * sample)
+#> [07:31:48] OK    Counts table is a full peptide * sample grid
+#> [07:31:48] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.159s
+#> [07:31:48] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.16s
 
 get_counts(pd_lg) |>
   distinct(subject_id, sample_id, timepoint, peptide_id, exist, input_count, hit_count) |>

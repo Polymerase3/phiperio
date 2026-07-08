@@ -63,13 +63,13 @@ value.
 
 ``` r
 lib <- get_peptide_library()
-#> [15:29:53] INFO  Retrieving peptide metadata into DuckDB cache
+#> [07:31:44] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(force_refresh = FALSE)
-#> [15:29:53] INFO  Opened DuckDB connection
+#> [07:31:44] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - table: peptide_meta
-#> [15:29:53] OK    Using cached peptide_meta (fast path)
-#> [15:29:53] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.045s
+#> [07:31:44] OK    Using cached peptide_meta (fast path)
+#> [07:31:44] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.042s
 ```

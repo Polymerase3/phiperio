@@ -1,5 +1,17 @@
 # Changelog
 
+## phiperio 0.5.2 (2026-07-08)
+
+- Fixed
+  [`get_peptide_library()`](https://polymerase3.github.io/phiperio/reference/get_peptide_library.md)
+  silently coercing alphanumeric ID-like columns (e.g. `protein_id`
+  values such as `"agilent_1"`) to all-`NA`. The character-to-numeric
+  sanitizer previously matched any string containing a digit; it now
+  requires the value to fully parse as numeric.
+- Added a regression test for the fix and a live test that flags
+  checksum drift against the published library and any column collapsing
+  to all-`NA` during sanitization.
+
 ## phiperio 0.5.1
 
 - Updated the peptide metadata library used by

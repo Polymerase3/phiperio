@@ -34,64 +34,64 @@ pd <- load_example_data()
 #> duckdb: caching downloaded extensions in the package library:
 #> ℹ /home/runner/work/_temp/Library/duckdb/extensions
 #> ℹ This is removed when the package is re-installed; see `?duckdb_storage` to choose a different location.
-#> [15:29:31] INFO  Constructing <phip_data> object
+#> [07:31:24] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [15:29:31] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [15:29:31] INFO  Retrieving peptide metadata into DuckDB cache
+#> [07:31:24] INFO  Fetching peptide metadata library via get_peptide_library()
+#> [07:31:24] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(force_refresh = FALSE)
-#> [15:29:31] INFO  Opened DuckDB connection
+#> [07:31:24] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - table: peptide_meta
-#> [15:29:31] INFO  Starting download
+#> [07:31:24] INFO  Starting download
 #>                    - dest:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/combined_library_06.07.26.rds
-#> [15:29:32] OK    Download succeeded (method = <getOption()>)
-#> [15:29:32] OK    Checksum verified (SHA-256 match)
-#> [15:29:35] OK    Download complete and loaded into R
-#> [15:29:41] INFO  Importing sanitized metadata into DuckDB cache...
-#> [15:29:42] OK    peptide_meta table created in DuckDB cache
-#> [15:29:42] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 10.889s
-#> [15:29:42] OK    Peptide metadata acquired
-#> [15:29:42] INFO  Validating <phip_data>
+#> [07:31:24] OK    Download succeeded (method = <getOption()>)
+#> [07:31:24] OK    Checksum verified (SHA-256 match)
+#> [07:31:27] OK    Download complete and loaded into R
+#> [07:31:32] INFO  Importing sanitized metadata into DuckDB cache...
+#> [07:31:34] OK    peptide_meta table created in DuckDB cache
+#> [07:31:34] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 9.553s
+#> [07:31:34] OK    Peptide metadata acquired
+#> [07:31:34] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [15:29:42] INFO  Checking structural requirements (shape & mandatory columns)
-#> [15:29:42] INFO  Checking outcome family availability (exist / fold_change /
+#> [07:31:34] INFO  Checking structural requirements (shape & mandatory columns)
+#> [07:31:34] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [15:29:42] INFO  Checking collisions with reserved names
+#> [07:31:34] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [15:29:42] INFO  Ensuring all columns are atomic (no list-cols)
-#> [15:29:42] INFO  Checking key uniqueness
-#> [15:29:42] INFO  Validating value ranges & types for outcomes
+#> [07:31:34] INFO  Ensuring all columns are atomic (no list-cols)
+#> [07:31:34] INFO  Checking key uniqueness
+#> [07:31:34] INFO  Validating value ranges & types for outcomes
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [15:29:42] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [07:31:34] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [15:29:42] INFO  Checking peptide_id coverage against peptide_library
-#> Warning: [15:29:43] WARN  peptide_id not found in peptide_library (e.g. 10003)
+#> [07:31:34] INFO  Checking peptide_id coverage against peptide_library
+#> Warning: [07:31:34] WARN  peptide_id not found in peptide_library (e.g. 10003)
 #>                  -> peptide library coverage.
-#> [15:29:43] INFO  Checking full grid completeness (peptide * sample)
-#> Warning: [15:29:43] WARN  Counts table is not a full peptide * sample grid.
+#> [07:31:34] INFO  Checking full grid completeness (peptide * sample)
+#> Warning: [07:31:34] WARN  Counts table is not a full peptide * sample grid.
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> Warning: [15:29:43] WARN  Grid remains incomplete (auto_expand = FALSE).
+#> Warning: [07:31:34] WARN  Grid remains incomplete (auto_expand = FALSE).
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> [15:29:43] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.53s
-#> [15:29:43] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 11.423s
+#> [07:31:34] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.444s
+#> [07:31:34] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 10s
 pd <- add_exist(pd, overwrite = TRUE) # overwrites if present
-#> [15:29:43] INFO  Ensuring existence flag on data_long
+#> [07:31:34] INFO  Ensuring existence flag on data_long
 #>                  -> column: 'exist'; overwrite: TRUE
-#> Warning: [15:29:43] WARN  Overwriting existing existence flag.
+#> Warning: [07:31:34] WARN  Overwriting existing existence flag.
 #>                  -> adding existence indicator
 #>                    - column: "exist".
-#> [15:29:43] OK    Ensuring existence flag on data_long - done
-#>                  -> elapsed: 0.009s
+#> [07:31:34] OK    Ensuring existence flag on data_long - done
+#>                  -> elapsed: 0.008s
 ```
