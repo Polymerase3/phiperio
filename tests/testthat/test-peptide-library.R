@@ -4,6 +4,7 @@ make_raw_meta <- function() {
     bin_num = c(0, 1),
     tf_char = c("TRUE", "FALSE"),
     num_char = c("1.5", "2.2"),
+    id_like = c("agilent_1", "agilent_10"),
     list_col = I(list("x", "y")),
     nan_num = c(NaN, 3),
     nan_char = c("NaN", "ok"),
@@ -50,6 +51,13 @@ test_that("get_peptide_library builds cache and sanitizes types", {
   expect_identical(meta$list_col, c("x", "y"))
   expect_true(is.na(meta$nan_num[1]))
   expect_true(is.na(meta$nan_char[1]))
+
+  # regression: alphanumeric ID-like strings (e.g. "agilent_1") must NOT be
+  # coerced to numeric just because they contain digits (this used to turn
+  # the whole column into NA, see protein_id in the real library)
+  expect_true(is.character(meta$id_like))
+  expect_identical(meta$id_like, c("agilent_1", "agilent_10"))
+  expect_false(anyNA(meta$id_like))
 
   DBI::dbDisconnect(con, shutdown = TRUE)
 })
@@ -387,3 +395,50 @@ test_that(".ph_sha256_file parses output and handles errors", {
   )
   expect_true(is.na(.ph_sha256_file("/tmp/whatever")))
 })
+
+test_that(
+  "get_peptide_library fetches the current library without checksum drift or NA-collapsed columns",
+  {
+    skip_on_cran()
+    skip_if_offline("raw.githubusercontent.com")
+
+    cache_dir <- withr::local_tempdir()
+    withr::local_options(list(phiperio.cache_dir = cache_dir))
+
+    warnings_seen <- character()
+
+    peptides_tbl <- withCallingHandlers(
+      get_peptide_library(force_refresh = TRUE),
+      warning = function(w) {
+        warnings_seen <<- c(warnings_seen, conditionMessage(w))
+        invokeRestart("muffleWarning")
+      }
+    )
+    con <- attr(peptides_tbl, "duckdb_con")
+    withr::defer(DBI::dbDisconnect(con, shutdown = TRUE))
+
+    # if the SHA-256 hardcoded in get_peptide_library() no longer matches the
+    # file published at the URL, .ph_download_file() emits this warning --
+    # i.e. the library reference in the package is stale
+    expect_false(any(grepl("Checksum mismatch", warnings_seen)))
+
+    meta <- dplyr::collect(peptides_tbl)
+
+    raw_path <- list.files(
+      cache_dir,
+      pattern = "\\.rds$", recursive = TRUE, full.names = TRUE
+    )[1]
+    raw_meta <- readRDS(raw_path)
+
+    # a column that had real data in the raw source must not end up fully NA
+    # after sanitization (this is exactly how the "agilent_1" -> NA bug in
+    # protein_id manifested)
+    had_data_raw <- vapply(raw_meta, function(x) any(!is.na(x)), logical(1))
+    fully_na_now <- vapply(meta, function(x) all(is.na(x)), logical(1))
+
+    common_cols <- intersect(names(had_data_raw), names(fully_na_now))
+    collapsed_cols <- common_cols[had_data_raw[common_cols] & fully_na_now[common_cols]]
+
+    expect_length(collapsed_cols, 0)
+  }
+)

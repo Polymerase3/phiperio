@@ -155,8 +155,10 @@ get_peptide_library <- function(force_refresh = FALSE) {
         if (is.character(col)) {
           # remove NAs for testing
           non_na <- col[!is.na(col)]
-          # detect pure numeric strings (optionally scientific)
-          is_num_str <- grepl("[0-9]+", non_na)
+          # detect strings that fully parse as numeric (not just
+          # containing a digit somewhere, e.g. "agilent_1" must NOT match)
+          converted <- suppressWarnings(as.numeric(non_na))
+          is_num_str <- !is.na(converted)
 
           # only proceed if all non-NA entries are numeric strings
           # and not all of them are "0" or "1"
