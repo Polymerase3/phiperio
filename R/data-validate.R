@@ -231,12 +231,17 @@ validate_phip_data <- function(x,
         )
 
         missing_in_lib <- missing_in_lib[order(missing_in_lib)]
+        n_missing <- length(missing_in_lib)
 
         .ph_check_cond(
-          length(missing_in_lib) > 0,
+          n_missing > 0,
           sprintf(
-            "peptide_id not found in peptide_library (e.g. %s)",
-            missing_in_lib[1]
+            "%s peptide_id not found in peptide_library (e.g. %s)",
+            n_missing,
+            paste(
+              missing_in_lib[seq_len(min(3L, n_missing))],
+              collapse = ", "
+            )
           ),
           error = FALSE, # emit warning instead of abort
           step = "peptide library coverage"
@@ -257,9 +262,8 @@ validate_phip_data <- function(x,
       expect <- dplyr::pull(dims, .data$n_pep) * dplyr::pull(dims, .data$n_smp)
 
       if (dplyr::pull(dims, .data$n_obs) != expect) {
-        .ph_warn(
-          headline = "Counts table is not a full peptide * sample grid.",
-          step = "grid completeness",
+        .ph_log_info(
+          "Counts table is not a full peptide * sample grid",
           bullets = c(
             sprintf("observed rows: %s", dplyr::pull(dims, .data$n_obs)),
             sprintf("expected rows: %s", expect)

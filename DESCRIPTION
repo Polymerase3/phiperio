@@ -1,6 +1,6 @@
 Package: phiperio
 Title: PhIP-Seq Data Import and Validation Tools
-Version: 0.5.2
+Version: 0.5.3
 Authors@R: 
     c(
       person(
@@ -35,6 +35,7 @@ Imports:
     withr,
     yaml
 Suggests:
+    curl,
     testthat,
     mockery,
     knitr,
