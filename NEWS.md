@@ -1,3 +1,15 @@
+# phiperio 0.5.4 (2026-08-31)
+
+- `.ph_sha256_file()` now hashes files with `digest` instead of shelling out to
+  the `sha256sum` command, which does not exist on Windows. There, the helper
+  always returned `NA` and `.ph_download_file()` reported that as a checksum
+  mismatch, so the integrity check on the downloaded peptide library never
+  actually verified anything on that platform.
+- Tests now pin `duckdb.home` to a temporary directory. duckdb 1.5.5 resolves a
+  storage location on every `duckdb()` driver and announces it in
+  non-interactive sessions unless one is chosen explicitly, which broke tests
+  asserting that a call produces no output.
+
 # phiperio 0.5.3 (2026-08-31)
 
 - Declared `curl` in `Suggests`. `testthat::skip_if_offline()` calls
