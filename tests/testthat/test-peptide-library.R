@@ -378,22 +378,17 @@ test_that(".ph_download_file logs when checksum matches", {
   )
 })
 
-test_that(".ph_sha256_file parses output and handles errors", {
-  skip_if_not_installed("mockery")
+test_that(".ph_sha256_file hashes a file and handles errors", {
+  path <- withr::local_tempfile()
+  writeBin(charToRaw("abc"), path)
 
-  mockery::stub(
-    .ph_sha256_file,
-    "system2",
-    function(...) "deadbeef  file"
+  # SHA-256 of the three bytes "abc", per FIPS 180-4
+  expect_identical(
+    .ph_sha256_file(path),
+    "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
   )
-  expect_identical(.ph_sha256_file("/tmp/whatever"), "deadbeef")
 
-  mockery::stub(
-    .ph_sha256_file,
-    "system2",
-    function(...) stop("boom")
-  )
-  expect_true(is.na(.ph_sha256_file("/tmp/whatever")))
+  expect_true(is.na(.ph_sha256_file(file.path(path, "does-not-exist"))))
 })
 
 test_that(

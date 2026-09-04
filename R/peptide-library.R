@@ -296,9 +296,7 @@ get_peptide_library <- function(force_refresh = FALSE) {
 #' @keywords internal
 .ph_sha256_file <- function(path) {
   tryCatch(
-    {
-      strsplit(system2("sha256sum", path, stdout = TRUE), "\\s+")[[1]][1]
-    },
+    digest::digest(file = path, algo = "sha256"),
     error = function(e) NA_character_
   )
 }

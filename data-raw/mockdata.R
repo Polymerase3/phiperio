@@ -405,6 +405,26 @@ withr::with_preserve_seed({
 # ------------------------------------------------------------------------------
 # 8) Final touches + save the data
 # ------------------------------------------------------------------------------
+# simulate_mixture() indexes peptides by position (1, 2, ..., n_peptides). Map
+# those indices onto real identifiers drawn from the reference peptide library
+# (`agilent_*`, `twist_*` and `corona2_*`), so the example data share the
+# namespace returned by get_peptide_library() and pass the peptide-coverage
+# check in create_data().
+# The index -> id map is shared by all panels, so a given peptide stays the same
+# peptide across groups and timepoints.
+withr::with_preserve_seed({
+  set.seed(20260831L)
+
+  lib_ids <- get_peptide_library() |>
+    dplyr::distinct(peptide_id) |>
+    dplyr::pull(peptide_id)
+
+  peptide_universe <- sample(sort(lib_ids), size = 30000L, replace = FALSE)
+})
+
+panel_AB_T1_T2_long$peptide_id <-
+  peptide_universe[panel_AB_T1_T2_long$peptide_id]
+
 # convert the subject_id and peptide_id to characters
 panel_AB_T1_T2_long$subject_id <- as.character(panel_AB_T1_T2_long$subject_id)
 panel_AB_T1_T2_long$peptide_id <- as.character(panel_AB_T1_T2_long$peptide_id)

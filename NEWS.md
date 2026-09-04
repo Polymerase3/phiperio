@@ -1,3 +1,34 @@
+# phiperio 0.5.4 (2026-08-31)
+
+- `.ph_sha256_file()` now hashes files with `digest` instead of shelling out to
+  the `sha256sum` command, which does not exist on Windows. There, the helper
+  always returned `NA` and `.ph_download_file()` reported that as a checksum
+  mismatch, so the integrity check on the downloaded peptide library never
+  actually verified anything on that platform.
+- Tests now pin `duckdb.home` to a temporary directory. duckdb 1.5.5 resolves a
+  storage location on every `duckdb()` driver and announces it in
+  non-interactive sessions unless one is chosen explicitly, which broke tests
+  asserting that a call produces no output.
+
+# phiperio 0.5.3 (2026-08-31)
+
+- Declared `curl` in `Suggests`. `testthat::skip_if_offline()` calls
+  `rlang::check_installed("curl")`, which errors rather than skips in a
+  non-interactive session, so the live peptide-library test failed R CMD check
+  on runners where `curl` was not installed.
+- Regenerated `inst/extdata/phip_mixture.parquet` so its `peptide_id` values are
+  drawn from the reference peptide library instead of bare integer indices. The
+  example data previously matched no peptide in the library, which made
+  `load_example_data()` warn about missing coverage for every peptide. The
+  simulated values are unchanged; only the identifiers were remapped.
+- `validate_phip_data()` no longer warns that the counts table is not a full
+  peptide * sample grid when `auto_expand = TRUE` immediately fills it; the
+  condition is logged instead. With `auto_expand = FALSE` a single warning is
+  emitted rather than two carrying identical row counts.
+- The peptide-library coverage warning now reports how many `peptide_id` values
+  are missing and shows up to three of them, instead of a single example that
+  understated the size of a mismatch.
+
 # phiperio 0.5.2 (2026-07-08)
 
 - Fixed `get_peptide_library()` silently coercing alphanumeric ID-like

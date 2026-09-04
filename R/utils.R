@@ -522,7 +522,10 @@ load_example_data <- local({
       ps <- load_example_data(name = "phip_mixture")
 
       # small subset for speed: 5 peptides at time t1
-      keep_pep <- c("16627", "5243", "24799", "16196", "18003")
+      keep_pep <- c(
+        "corona2_2925", "agilent_238554", "agilent_21155",
+        "agilent_175212", "agilent_196916"
+      )
       dat_cols <- dplyr::tbl_vars(ps$data_long)
       tp_col <- "timepoint"
 
