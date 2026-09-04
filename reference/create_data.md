@@ -73,26 +73,26 @@ pd <- create_data(
   peptide_library = FALSE,
   materialise_table = FALSE
 )
-#> [07:31:37] INFO  Constructing <phip_data> object
+#> [11:00:05] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [07:31:37] INFO  Validating <phip_data>
+#> [11:00:05] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [07:31:37] INFO  Checking structural requirements (shape & mandatory columns)
-#> [07:31:37] INFO  Checking outcome family availability (exist / fold_change /
+#> [11:00:05] INFO  Checking structural requirements (shape & mandatory columns)
+#> [11:00:05] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [07:31:37] INFO  Checking collisions with reserved names
+#> [11:00:05] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [07:31:37] INFO  Ensuring all columns are atomic (no list-cols)
-#> [07:31:37] INFO  Checking key uniqueness
-#> [07:31:37] INFO  Validating value ranges & types for outcomes
-#> [07:31:37] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [11:00:05] INFO  Ensuring all columns are atomic (no list-cols)
+#> [11:00:05] INFO  Checking key uniqueness
+#> [11:00:05] INFO  Validating value ranges & types for outcomes
+#> [11:00:05] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [07:31:37] INFO  Checking peptide_id coverage against peptide_library
-#> [07:31:37] INFO  Checking full grid completeness (peptide * sample)
-#> [07:31:37] OK    Counts table is a full peptide * sample grid
-#> [07:31:37] OK    Validating <phip_data> - done
+#> [11:00:05] INFO  Checking peptide_id coverage against peptide_library
+#> [11:00:05] INFO  Checking full grid completeness (peptide * sample)
+#> [11:00:05] OK    Counts table is a full peptide * sample grid
+#> [11:00:05] OK    Validating <phip_data> - done
 #>                  -> elapsed: 0.018s
-#> [07:31:37] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.019s
+#> [11:00:05] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.018s
 ```

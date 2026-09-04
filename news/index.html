@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,20 @@
       <small>Source: <a href="https://github.com/Polymerase3/phiperio/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.4" id="phiperio-054-2026-08-31">phiperio 0.5.4 (2026-08-31)<a class="anchor" aria-label="anchor" href="#phiperio-054-2026-08-31"></a></h2>
+<ul><li>
+<code>.ph_sha256_file()</code> now hashes files with <code>digest</code> instead of shelling out to the <code>sha256sum</code> command, which does not exist on Windows. There, the helper always returned <code>NA</code> and <code>.ph_download_file()</code> reported that as a checksum mismatch, so the integrity check on the downloaded peptide library never actually verified anything on that platform.</li>
+<li>Tests now pin <code>duckdb.home</code> to a temporary directory. duckdb 1.5.5 resolves a storage location on every <code>duckdb()</code> driver and announces it in non-interactive sessions unless one is chosen explicitly, which broke tests asserting that a call produces no output.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.3" id="phiperio-053-2026-08-31">phiperio 0.5.3 (2026-08-31)<a class="anchor" aria-label="anchor" href="#phiperio-053-2026-08-31"></a></h2>
+<ul><li>Declared <code>curl</code> in <code>Suggests</code>. <code><a href="https://testthat.r-lib.org/reference/skip.html" class="external-link">testthat::skip_if_offline()</a></code> calls <code>rlang::check_installed("curl")</code>, which errors rather than skips in a non-interactive session, so the live peptide-library test failed R CMD check on runners where <code>curl</code> was not installed.</li>
+<li>Regenerated <code>inst/extdata/phip_mixture.parquet</code> so its <code>peptide_id</code> values are drawn from the reference peptide library instead of bare integer indices. The example data previously matched no peptide in the library, which made <code><a href="../reference/load_example_data.html">load_example_data()</a></code> warn about missing coverage for every peptide. The simulated values are unchanged; only the identifiers were remapped.</li>
+<li>
+<code><a href="../reference/validate_phip_data.html">validate_phip_data()</a></code> no longer warns that the counts table is not a full peptide * sample grid when <code>auto_expand = TRUE</code> immediately fills it; the condition is logged instead. With <code>auto_expand = FALSE</code> a single warning is emitted rather than two carrying identical row counts.</li>
+<li>The peptide-library coverage warning now reports how many <code>peptide_id</code> values are missing and shows up to three of them, instead of a single example that understated the size of a mismatch.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.2" id="phiperio-052-2026-07-08">phiperio 0.5.2 (2026-07-08)<a class="anchor" aria-label="anchor" href="#phiperio-052-2026-07-08"></a></h2>
 <ul><li>Fixed <code><a href="../reference/get_peptide_library.html">get_peptide_library()</a></code> silently coercing alphanumeric ID-like columns (e.g. <code>protein_id</code> values such as <code>"agilent_1"</code>) to all-<code>NA</code>. The character-to-numeric sanitizer previously matched any string containing a digit; it now requires the value to fully parse as numeric.</li>
