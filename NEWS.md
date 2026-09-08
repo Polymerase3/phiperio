@@ -1,3 +1,11 @@
+# phiperio 0.5.5
+
+- `validate_phip_data()` no longer reports `agilent_0` and `twist_0` as missing
+  from the peptide library. Both are the FLAG-tag (`DYKDDDDK`) spike-in control
+  rather than biological peptides: they carry no protein, position or taxonomy,
+  and are absent from the reference library, so the warning was never
+  actionable.
+
 # phiperio 0.5.4 (2026-08-31)
 
 - `.ph_sha256_file()` now hashes files with `digest` instead of shelling out to

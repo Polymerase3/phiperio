@@ -223,6 +223,10 @@ validate_phip_data <- function(x,
       ## ------------------------------------------- 8  PEPTIDE-ID COVERAGE ----
       .ph_log_info("Checking peptide_id coverage against peptide_library")
       if (!is.null(x$peptide_library)) {
+        # FLAG-tag (DYKDDDDK) spike-in controls: technical peptides with no
+        # protein, position or taxonomy, absent from the reference library
+        control_peptides <- c("agilent_0", "twist_0")
+
         missing_in_lib <- setdiff(
           tbl |> dplyr::distinct(.data$peptide_id) |> dplyr::pull(),
           x$peptide_library |>
@@ -230,6 +234,7 @@ validate_phip_data <- function(x,
             dplyr::pull()
         )
 
+        missing_in_lib <- setdiff(missing_in_lib, control_peptides)
         missing_in_lib <- missing_in_lib[order(missing_in_lib)]
         n_missing <- length(missing_in_lib)
 
