@@ -5,6 +5,14 @@
   rather than biological peptides: they carry no protein, position or taxonomy,
   and are absent from the reference library, so the warning was never
   actionable.
+- `create_data()` now accepts a peptide-library table for `peptide_library`, as
+  its documentation always claimed. The argument was previously only a logical
+  switch (`if (peptide_library)`), so passing the documented data frame failed
+  with "the condition has length > 1" and `NULL` with "argument is of length
+  zero". `TRUE` and `FALSE` behave as before; a value that is neither a logical
+  nor a table is now rejected with an explicit message.
+- Corrected the `materialise_table` documentation in `create_data()`, which
+  labelled `FALSE` as the default when the default is `TRUE`.
 
 # phiperio 0.5.4 (2026-08-31)
 

@@ -6,9 +6,10 @@
 #'
 #' @param data_long A tidy data frame (or `tbl_lazy`) with one row per
 #'   `peptide_id` x `sample_id` combination. **Required.**
-#' @param peptide_library A data frame with one row per \code{peptide_id}
-#'   and its annotations.  If \code{NULL}, the package’s current default
-#'   library is used.
+#' @param peptide_library Peptide annotations to attach. `TRUE` (default)
+#'   downloads the reference library via [get_peptide_library()]; `FALSE`
+#'   attaches none. A data frame or lazy table with one row per `peptide_id`
+#'   is attached as supplied, which is useful offline and in tests.
 #' @param meta Optional named list of metadata flags to pre-populate the
 #'   \code{meta} slot (rarely needed by users).
 #' @param auto_expand Logical. If `TRUE` and the input is **not** already the
@@ -19,10 +20,10 @@
 #'   * Measurement columns such as `fold_change`, `exist`, raw counts, or any
 #'     other non-recyclable fields are initialised to 0.
 #'   The expanded table replaces `data_long` in place.
-#' @param materialise_table Logical. If `FALSE` (default) the result is
-#'   registered as a **view**. If `TRUE` the result is fully **materialised**
-#'   and stored as a physical table, which speeds up repeated queries at the
-#'   cost of extra memory/disk.
+#' @param materialise_table Logical. If `FALSE` the result is registered as a
+#'   **view**. If `TRUE` (default) the result is fully **materialised** and
+#'   stored as a physical table, which speeds up repeated queries at the cost
+#'   of extra memory/disk.
 #'
 #' @return An object of class \code{"phip_data"}.
 #'
@@ -52,15 +53,23 @@ create_data <- function(data_long,
     expr = {
 
       # ------------------------------------------------------------------------
-      # Download the peptide metadata library
+      # Download or attach the peptide metadata library
       # ------------------------------------------------------------------------
-      if (peptide_library) {
+      if (isTRUE(peptide_library)) {
         .ph_log_info("Fetching peptide metadata library via
                      get_peptide_library()")
         peptide_library <- get_peptide_library()
         .ph_log_ok("Peptide metadata acquired")
-      } else {
+      } else if (isFALSE(peptide_library)) {
         peptide_library <- NULL
+      } else {
+        .ph_check_cond(
+          !is.data.frame(peptide_library) &&
+            !inherits(peptide_library, "tbl"),
+          "`peptide_library` must be TRUE, FALSE, or a table of annotations",
+          step = "create_data()"
+        )
+        .ph_log_ok("Using supplied peptide metadata library")
       }
 
       # ------------------------------------------------------------------------

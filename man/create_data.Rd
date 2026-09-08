@@ -16,9 +16,10 @@ create_data(
 \item{data_long}{A tidy data frame (or \code{tbl_lazy}) with one row per
 \code{peptide_id} x \code{sample_id} combination. \strong{Required.}}
 
-\item{peptide_library}{A data frame with one row per \code{peptide_id}
-and its annotations.  If \code{NULL}, the package’s current default
-library is used.}
+\item{peptide_library}{Peptide annotations to attach. \code{TRUE} (default)
+downloads the reference library via \code{\link[=get_peptide_library]{get_peptide_library()}}; \code{FALSE}
+attaches none. A data frame or lazy table with one row per \code{peptide_id}
+is attached as supplied, which is useful offline and in tests.}
 
 \item{auto_expand}{Logical. If \code{TRUE} and the input is \strong{not} already the
 full Cartesian product of \code{sample_id} x \code{peptide_id}, the function fills in
@@ -31,10 +32,10 @@ other non-recyclable fields are initialised to 0.
 The expanded table replaces \code{data_long} in place.
 }}
 
-\item{materialise_table}{Logical. If \code{FALSE} (default) the result is
-registered as a \strong{view}. If \code{TRUE} the result is fully \strong{materialised}
-and stored as a physical table, which speeds up repeated queries at the
-cost of extra memory/disk.}
+\item{materialise_table}{Logical. If \code{FALSE} the result is registered as a
+\strong{view}. If \code{TRUE} (default) the result is fully \strong{materialised} and
+stored as a physical table, which speeds up repeated queries at the cost
+of extra memory/disk.}
 
 \item{meta}{Optional named list of metadata flags to pre-populate the
 \code{meta} slot (rarely needed by users).}
