@@ -176,7 +176,7 @@ get_meta <- function(x) {
 #' @note The export is performed directly and efficiently from the
 #' database/lazy table without reading all data into memory.
 #'
-#' @param x   A <phip_data> object or a data frame.
+#' @param x   A <phip_data> object.
 #' @param path File path (character) to save the output `.parquet` file.
 #'
 #' @return NULL (invisibly).
@@ -190,23 +190,12 @@ get_meta <- function(x) {
 #' @importFrom DBI sqlInterpolate dbQuoteString dbExecute
 #' @export
 export_parquet <- function(x, path) {
+  .ph_check_pd(x)
   .ph_check_extension(path, "path", c("parquet", "parq", "pq", "pqt"))
   .ph_check_path(dirname(path), "path", is_dir=TRUE)
 
-  if (inherits(x, "phip_data")) {
-    con <- dbplyr::remote_con(x$data_long)
-    whole_file_qry <- dbplyr::sql_render(x$data_long)
-  } else if (is.data.frame(x)) {
-
-    con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
-    on.exit(try(DBI::dbDisconnect(con, shutdown = TRUE), silent = TRUE),
-            add = TRUE)
-    tmp_name <- paste0("ph_tmp_long_", format(Sys.time(), "%Y%m%d_%H%M%S"))
-    DBI::dbWriteTable(con, tmp_name, tibble::as_tibble(x), temporary = TRUE)
-    whole_file_qry <- dbplyr::sql_render(dplyr::tbl(con, tmp_name))
-  } else {
-    .ph_abort("`x` must be a <phip_data> object or a data frame.")
-  }
+  con <- dbplyr::remote_con(x$data_long)
+  whole_file_qry <- dbplyr::sql_render(x$data_long)
 
   copy_sql <- sqlInterpolate(
     con,
