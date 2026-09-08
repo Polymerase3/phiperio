@@ -22,7 +22,7 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item Alon Alexander \email{a.alexander@umcg.nl} [contributor, copyright holder]
+  \item Alon Alexander \email{a.alexander@umcg.nl} (advised on package scope and data storage design) [contributor, copyright holder]
 }
 
 }
