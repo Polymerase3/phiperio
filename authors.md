@@ -14,12 +14,12 @@ Source:
 [`DESCRIPTION`](https://github.com/Polymerase3/phiperio/blob/main/DESCRIPTION)
 
 Kolek M (2026). *phiperio: PhIP-Seq Data Import and Validation Tools*. R
-package version 0.5.4, <https://github.com/Polymerase3/phiperio>.
+package version 0.5.5, <https://github.com/Polymerase3/phiperio>.
 
     @Manual{,
       title = {phiperio: PhIP-Seq Data Import and Validation Tools},
       author = {Mateusz Kolek},
       year = {2026},
-      note = {R package version 0.5.4},
+      note = {R package version 0.5.5},
       url = {https://github.com/Polymerase3/phiperio},
     }

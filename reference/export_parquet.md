@@ -13,7 +13,7 @@ export_parquet(x, path)
 
 - x:
 
-  A \<phip_data\> object or a data frame.
+  A \<phip_data\> object.
 
 - path:
 

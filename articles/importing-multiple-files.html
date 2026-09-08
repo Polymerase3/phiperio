@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -174,7 +174,7 @@ will become <code>sample_id</code>).</p>
 <span>  auto_expand <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; duckdb keeps downloaded extensions and secrets in a temporary directory:</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> /tmp/Rtmp0wAOUX/duckdb</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> /tmp/Rtmpivb1EW/duckdb</span></span>
 <span><span class="co">#&gt; This is removed when the R session ends.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Extensions are re-downloaded each session.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Secrets are lost.</span></span>
@@ -182,31 +182,31 @@ will become <code>sample_id</code>).</p>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> See ?duckdb_storage for details and alternatives.</span></span>
 <span><span class="co">#&gt; Skipping ANALYZE - raw_combined is a view.</span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Constructing &lt;phip_data&gt; object</span></span>
+<span><span class="co">#&gt; [19:31:13] INFO  Constructing &lt;phip_data&gt; object</span></span>
 <span><span class="co">#&gt;                  -&gt; create_data()</span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Validating &lt;phip_data&gt;</span></span>
+<span><span class="co">#&gt; [19:31:13] INFO  Validating &lt;phip_data&gt;</span></span>
 <span><span class="co">#&gt;                  -&gt; validate_phip_data()</span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Checking outcome family availability (exist / fold_change /</span></span>
+<span><span class="co">#&gt; [19:31:13] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
+<span><span class="co">#&gt; [19:31:13] INFO  Checking outcome family availability (exist / fold_change /</span></span>
 <span><span class="co">#&gt;                  raw_counts)</span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Checking collisions with reserved names</span></span>
+<span><span class="co">#&gt; [19:31:13] INFO  Checking collisions with reserved names</span></span>
 <span><span class="co">#&gt;                    - subject_id, sample_id, timepoint, peptide_id, exist,</span></span>
 <span><span class="co">#&gt;                      fold_change, counts_input, counts_hit</span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Checking key uniqueness</span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Validating value ranges &amp; types for outcomes</span></span>
+<span><span class="co">#&gt; [19:31:13] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
+<span><span class="co">#&gt; [19:31:13] INFO  Checking key uniqueness</span></span>
+<span><span class="co">#&gt; [19:31:13] INFO  Validating value ranges &amp; types for outcomes</span></span>
 <span><span class="co">#&gt; Warning: Missing values are always removed in SQL aggregation functions.</span></span>
 <span><span class="co">#&gt; Use `na.rm = TRUE` to silence this warning</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
-<span><span class="co">#&gt; [19:06:28] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
+<span><span class="co">#&gt; [19:31:14] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
 <span><span class="co">#&gt;                    - warn threshold: 50%</span></span>
-<span><span class="co">#&gt; [19:06:29] INFO  Checking peptide_id coverage against peptide_library</span></span>
-<span><span class="co">#&gt; [19:06:29] INFO  Checking full grid completeness (peptide * sample)</span></span>
-<span><span class="co">#&gt; [19:06:29] OK    Counts table is a full peptide * sample grid</span></span>
-<span><span class="co">#&gt; [19:06:29] OK    Validating &lt;phip_data&gt; - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.304s</span></span>
-<span><span class="co">#&gt; [19:06:29] OK    Constructing &lt;phip_data&gt; object - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.306s</span></span></code></pre></div>
+<span><span class="co">#&gt; [19:31:14] INFO  Checking peptide_id coverage against peptide_library</span></span>
+<span><span class="co">#&gt; [19:31:14] INFO  Checking full grid completeness (peptide * sample)</span></span>
+<span><span class="co">#&gt; [19:31:14] OK    Counts table is a full peptide * sample grid</span></span>
+<span><span class="co">#&gt; [19:31:14] OK    Validating &lt;phip_data&gt; - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.38s</span></span>
+<span><span class="co">#&gt; [19:31:14] OK    Constructing &lt;phip_data&gt; object - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.382s</span></span></code></pre></div>
 <p>Check distinct sample IDs:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_counts.html">get_counts</a></span><span class="op">(</span><span class="va">pd</span><span class="op">)</span> <span class="op">|&gt;</span></span>

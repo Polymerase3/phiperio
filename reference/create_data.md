@@ -26,8 +26,12 @@ create_data(
 
 - peptide_library:
 
-  A data frame with one row per `peptide_id` and its annotations. If
-  `NULL`, the package’s current default library is used.
+  Peptide annotations to attach. `TRUE` (default) downloads the
+  reference library via
+  [`get_peptide_library()`](https://polymerase3.github.io/phiperio/reference/get_peptide_library.md);
+  `FALSE` attaches none. A data frame or lazy table with one row per
+  `peptide_id` is attached as supplied, which is useful offline and in
+  tests.
 
 - auto_expand:
 
@@ -44,8 +48,8 @@ create_data(
 
 - materialise_table:
 
-  Logical. If `FALSE` (default) the result is registered as a **view**.
-  If `TRUE` the result is fully **materialised** and stored as a
+  Logical. If `FALSE` the result is registered as a **view**. If `TRUE`
+  (default) the result is fully **materialised** and stored as a
   physical table, which speeds up repeated queries at the cost of extra
   memory/disk.
 
@@ -73,26 +77,26 @@ pd <- create_data(
   peptide_library = FALSE,
   materialise_table = FALSE
 )
-#> [19:06:10] INFO  Constructing <phip_data> object
+#> [19:30:51] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [19:06:10] INFO  Validating <phip_data>
+#> [19:30:51] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [19:06:10] INFO  Checking structural requirements (shape & mandatory columns)
-#> [19:06:10] INFO  Checking outcome family availability (exist / fold_change /
+#> [19:30:51] INFO  Checking structural requirements (shape & mandatory columns)
+#> [19:30:51] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [19:06:10] INFO  Checking collisions with reserved names
+#> [19:30:51] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [19:06:10] INFO  Ensuring all columns are atomic (no list-cols)
-#> [19:06:10] INFO  Checking key uniqueness
-#> [19:06:10] INFO  Validating value ranges & types for outcomes
-#> [19:06:10] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [19:30:51] INFO  Ensuring all columns are atomic (no list-cols)
+#> [19:30:51] INFO  Checking key uniqueness
+#> [19:30:51] INFO  Validating value ranges & types for outcomes
+#> [19:30:51] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [19:06:10] INFO  Checking peptide_id coverage against peptide_library
-#> [19:06:10] INFO  Checking full grid completeness (peptide * sample)
-#> [19:06:10] OK    Counts table is a full peptide * sample grid
-#> [19:06:10] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.016s
-#> [19:06:10] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.017s
+#> [19:30:51] INFO  Checking peptide_id coverage against peptide_library
+#> [19:30:51] INFO  Checking full grid completeness (peptide * sample)
+#> [19:30:51] OK    Counts table is a full peptide * sample grid
+#> [19:30:51] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.022s
+#> [19:30:51] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.023s
 ```

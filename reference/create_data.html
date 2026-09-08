@@ -17,7 +17,7 @@ other metadata. The data itself is validated via validate_phip_data()."></head><
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,9 +77,10 @@ other metadata. The data itself is validated via <code><a href="validate_phip_da
 
 
 <dt id="arg-peptide-library">peptide_library<a class="anchor" aria-label="anchor" href="#arg-peptide-library"></a></dt>
-<dd><p>A data frame with one row per <code>peptide_id</code>
-and its annotations.  If <code>NULL</code>, the package’s current default
-library is used.</p></dd>
+<dd><p>Peptide annotations to attach. <code>TRUE</code> (default)
+downloads the reference library via <code><a href="get_peptide_library.html">get_peptide_library()</a></code>; <code>FALSE</code>
+attaches none. A data frame or lazy table with one row per <code>peptide_id</code>
+is attached as supplied, which is useful offline and in tests.</p></dd>
 
 
 <dt id="arg-auto-expand">auto_expand<a class="anchor" aria-label="anchor" href="#arg-auto-expand"></a></dt>
@@ -94,10 +95,10 @@ The expanded table replaces <code>data_long</code> in place.</p></li>
 
 
 <dt id="arg-materialise-table">materialise_table<a class="anchor" aria-label="anchor" href="#arg-materialise-table"></a></dt>
-<dd><p>Logical. If <code>FALSE</code> (default) the result is
-registered as a <strong>view</strong>. If <code>TRUE</code> the result is fully <strong>materialised</strong>
-and stored as a physical table, which speeds up repeated queries at the
-cost of extra memory/disk.</p></dd>
+<dd><p>Logical. If <code>FALSE</code> the result is registered as a
+<strong>view</strong>. If <code>TRUE</code> (default) the result is fully <strong>materialised</strong> and
+stored as a physical table, which speeds up repeated queries at the cost
+of extra memory/disk.</p></dd>
 
 
 <dt id="arg-meta">meta<a class="anchor" aria-label="anchor" href="#arg-meta"></a></dt>
@@ -124,28 +125,28 @@ cost of extra memory/disk.</p></dd>
 <span class="r-in"><span>  peptide_library <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  materialise_table <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Constructing &lt;phip_data&gt; object</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Constructing &lt;phip_data&gt; object</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; create_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Validating &lt;phip_data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Validating &lt;phip_data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; validate_phip_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking outcome family availability (exist / fold_change /</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Checking outcome family availability (exist / fold_change /</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  raw_counts)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking collisions with reserved names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Checking collisions with reserved names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - subject_id, sample_id, timepoint, peptide_id, exist,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      fold_change, counts_input, counts_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Ensuring all columns are atomic (no list-cols)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking key uniqueness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Validating value ranges &amp; types for outcomes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Ensuring all columns are atomic (no list-cols)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Checking key uniqueness</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Validating value ranges &amp; types for outcomes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - warn threshold: 50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking peptide_id coverage against peptide_library</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking full grid completeness (peptide * sample)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] OK    Counts table is a full peptide * sample grid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] OK    Validating &lt;phip_data&gt; - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.016s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] OK    Constructing &lt;phip_data&gt; object - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.017s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Checking peptide_id coverage against peptide_library</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] INFO  Checking full grid completeness (peptide * sample)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] OK    Counts table is a full peptide * sample grid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] OK    Validating &lt;phip_data&gt; - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.022s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:30:51] OK    Constructing &lt;phip_data&gt; object - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.023s</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

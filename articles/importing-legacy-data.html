@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,38 +142,38 @@ longitudinal examples.</p>
 <span>  materialise_table <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; duckdb keeps downloaded extensions and secrets in a temporary directory:</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> /tmp/RtmpPd6HkM/duckdb</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> /tmp/RtmpvPcju8/duckdb</span></span>
 <span><span class="co">#&gt; This is removed when the R session ends.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Extensions are re-downloaded each session.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Secrets are lost.</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> See ?duckdb_storage for details and alternatives.</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Constructing &lt;phip_data&gt; object</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Constructing &lt;phip_data&gt; object</span></span>
 <span><span class="co">#&gt;                  -&gt; create_data()</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Validating &lt;phip_data&gt;</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Validating &lt;phip_data&gt;</span></span>
 <span><span class="co">#&gt;                  -&gt; validate_phip_data()</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Checking outcome family availability (exist / fold_change /</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Checking outcome family availability (exist / fold_change /</span></span>
 <span><span class="co">#&gt;                  raw_counts)</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Checking collisions with reserved names</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Checking collisions with reserved names</span></span>
 <span><span class="co">#&gt;                    - subject_id, sample_id, timepoint, peptide_id, exist,</span></span>
 <span><span class="co">#&gt;                      fold_change, counts_input, counts_hit</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Checking key uniqueness</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Validating value ranges &amp; types for outcomes</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Checking key uniqueness</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Validating value ranges &amp; types for outcomes</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
 <span><span class="co">#&gt;                    - warn threshold: 50%</span></span>
 <span><span class="co">#&gt; Warning: Missing values are always removed in SQL aggregation functions.</span></span>
 <span><span class="co">#&gt; Use `na.rm = TRUE` to silence this warning</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Checking peptide_id coverage against peptide_library</span></span>
-<span><span class="co">#&gt; [19:06:20] INFO  Checking full grid completeness (peptide * sample)</span></span>
-<span><span class="co">#&gt; [19:06:20] OK    Counts table is a full peptide * sample grid</span></span>
-<span><span class="co">#&gt; [19:06:20] OK    Validating &lt;phip_data&gt; - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.217s</span></span>
-<span><span class="co">#&gt; [19:06:20] OK    Constructing &lt;phip_data&gt; object - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.219s</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Checking peptide_id coverage against peptide_library</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Checking full grid completeness (peptide * sample)</span></span>
+<span><span class="co">#&gt; [19:31:03] OK    Counts table is a full peptide * sample grid</span></span>
+<span><span class="co">#&gt; [19:31:03] OK    Validating &lt;phip_data&gt; - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.285s</span></span>
+<span><span class="co">#&gt; [19:31:03] OK    Constructing &lt;phip_data&gt; object - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.287s</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/get_counts.html">get_counts</a></span><span class="op">(</span><span class="va">pd_xc</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">sample_id</span>, <span class="va">peptide_id</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 7</span></span></span>
@@ -238,35 +238,35 @@ sample_ids.</p>
 <span>  materialise_table <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; duckdb keeps downloaded extensions and secrets in a temporary directory:</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> /tmp/RtmpPd6HkM/duckdb</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> /tmp/RtmpvPcju8/duckdb</span></span>
 <span><span class="co">#&gt; This is removed when the R session ends.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Extensions are re-downloaded each session.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Secrets are lost.</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> See ?duckdb_storage for details and alternatives.</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Constructing &lt;phip_data&gt; object</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Constructing &lt;phip_data&gt; object</span></span>
 <span><span class="co">#&gt;                  -&gt; create_data()</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Validating &lt;phip_data&gt;</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Validating &lt;phip_data&gt;</span></span>
 <span><span class="co">#&gt;                  -&gt; validate_phip_data()</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Checking outcome family availability (exist / fold_change /</span></span>
+<span><span class="co">#&gt; [19:31:03] INFO  Checking structural requirements (shape &amp; mandatory columns)</span></span>
+<span><span class="co">#&gt; [19:31:04] INFO  Checking outcome family availability (exist / fold_change /</span></span>
 <span><span class="co">#&gt;                  raw_counts)</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Checking collisions with reserved names</span></span>
+<span><span class="co">#&gt; [19:31:04] INFO  Checking collisions with reserved names</span></span>
 <span><span class="co">#&gt;                    - subject_id, sample_id, timepoint, peptide_id, exist,</span></span>
 <span><span class="co">#&gt;                      fold_change, counts_input, counts_hit</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Checking key uniqueness</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Validating value ranges &amp; types for outcomes</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
+<span><span class="co">#&gt; [19:31:04] INFO  Ensuring all columns are atomic (no list-cols)</span></span>
+<span><span class="co">#&gt; [19:31:04] INFO  Checking key uniqueness</span></span>
+<span><span class="co">#&gt; [19:31:04] INFO  Validating value ranges &amp; types for outcomes</span></span>
+<span><span class="co">#&gt; [19:31:04] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span></span>
 <span><span class="co">#&gt;                    - warn threshold: 50%</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Checking peptide_id coverage against peptide_library</span></span>
-<span><span class="co">#&gt; [19:06:21] INFO  Checking full grid completeness (peptide * sample)</span></span>
-<span><span class="co">#&gt; [19:06:21] OK    Counts table is a full peptide * sample grid</span></span>
-<span><span class="co">#&gt; [19:06:21] OK    Validating &lt;phip_data&gt; - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.134s</span></span>
-<span><span class="co">#&gt; [19:06:21] OK    Constructing &lt;phip_data&gt; object - done</span></span>
-<span><span class="co">#&gt;                  -&gt; elapsed: 0.135s</span></span>
+<span><span class="co">#&gt; [19:31:04] INFO  Checking peptide_id coverage against peptide_library</span></span>
+<span><span class="co">#&gt; [19:31:04] INFO  Checking full grid completeness (peptide * sample)</span></span>
+<span><span class="co">#&gt; [19:31:04] OK    Counts table is a full peptide * sample grid</span></span>
+<span><span class="co">#&gt; [19:31:04] OK    Validating &lt;phip_data&gt; - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.18s</span></span>
+<span><span class="co">#&gt; [19:31:04] OK    Constructing &lt;phip_data&gt; object - done</span></span>
+<span><span class="co">#&gt;                  -&gt; elapsed: 0.181s</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/get_counts.html">get_counts</a></span><span class="op">(</span><span class="va">pd_lg</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">subject_id</span>, <span class="va">sample_id</span>, <span class="va">timepoint</span>, <span class="va">peptide_id</span>, <span class="va">exist</span>, <span class="va">input_count</span>, <span class="va">hit_count</span><span class="op">)</span> <span class="op">|&gt;</span></span>

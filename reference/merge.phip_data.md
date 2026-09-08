@@ -34,5 +34,5 @@ A new `phip_data` whose `data_long` contains the merged / joined tibble.
 ``` r
 pd <- load_example_data()
 merged <- merge(pd, pd, by = c("sample_id", "peptide_id"))
-#> Warning: [19:06:18] WARN  `merge()` copies both tables in full; this may exhaust RAM.
+#> Warning: [19:31:00] WARN  `merge()` copies both tables in full; this may exhaust RAM.
 ```
