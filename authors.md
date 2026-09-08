@@ -5,7 +5,8 @@
 - **Mateusz Kolek**. Author, maintainer, copyright holder.
   [](https://orcid.org/0000-0001-6470-4830)
 
-- **Alon Alexander**. Contributor, copyright holder.
+- **Alon Alexander**. Contributor, copyright holder.  
+  advised on package scope and data storage design
 
 ## Citation
 

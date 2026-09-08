@@ -172,60 +172,60 @@ checks confirm existence as well as extension validity.</p>
 <span class="r-in"><span>  materialise_table <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> duckdb keeps downloaded extensions and secrets in a temporary directory:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> /tmp/RtmpAhQAMS/duckdb</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> /tmp/RtmpTCyiRn/duckdb</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> This is removed when the R session ends.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Extensions are re-downloaded each session.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Secrets are lost.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> See ?duckdb_storage for details and alternatives.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:03] INFO  Constructing &lt;phip_data&gt; object</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Constructing &lt;phip_data&gt; object</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; create_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:03] INFO  Fetching peptide metadata library via get_peptide_library()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:03] INFO  Retrieving peptide metadata into DuckDB cache</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Fetching peptide metadata library via get_peptide_library()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Retrieving peptide metadata into DuckDB cache</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; get_peptide_library(force_refresh = FALSE)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> duckdb keeps downloaded extensions and secrets in a temporary directory:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> /tmp/RtmpAhQAMS/duckdb</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> /tmp/RtmpTCyiRn/duckdb</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> This is removed when the R session ends.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Extensions are re-downloaded each session.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Secrets are lost.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> See ?duckdb_storage for details and alternatives.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Opened DuckDB connection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Opened DuckDB connection</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - cache dir:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - table: peptide_meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] OK    Using cached peptide_meta (fast path)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] OK    Retrieving peptide metadata into DuckDB cache - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.087s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] OK    Peptide metadata acquired</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Validating &lt;phip_data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] OK    Using cached peptide_meta (fast path)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] OK    Retrieving peptide metadata into DuckDB cache - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.067s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] OK    Peptide metadata acquired</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Validating &lt;phip_data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; validate_phip_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking outcome family availability (exist / fold_change /</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Checking outcome family availability (exist / fold_change /</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  raw_counts)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking collisions with reserved names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Checking collisions with reserved names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - subject_id, sample_id, timepoint, peptide_id, exist,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      fold_change, counts_input, counts_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Ensuring all columns are atomic (no list-cols)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking key uniqueness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Validating value ranges &amp; types for outcomes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Ensuring all columns are atomic (no list-cols)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Checking key uniqueness</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:09] INFO  Validating value ranges &amp; types for outcomes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - warn threshold: 50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking peptide_id coverage against peptide_library</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking full grid completeness (peptide * sample)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Counts table is not a full peptide * sample grid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking peptide_id coverage against peptide_library</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking full grid completeness (peptide * sample)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Counts table is not a full peptide * sample grid</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - observed rows: 78200</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - expected rows: 156000</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[11:00:04] WARN  Grid remains incomplete (auto_expand = FALSE).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[19:06:10] WARN  Grid remains incomplete (auto_expand = FALSE).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                  -&gt; grid completeness</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - observed rows: 78200</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>                    - expected rows: 156000.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] OK    Validating &lt;phip_data&gt; - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.386s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] OK    Constructing &lt;phip_data&gt; object - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.474s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] OK    Validating &lt;phip_data&gt; - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.329s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] OK    Constructing &lt;phip_data&gt; object - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.397s</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import a CSV and rename columns</span></span></span>
 <span class="r-in"><span><span class="va">tmp_csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span></span>
@@ -247,7 +247,7 @@ checks confirm existence as well as extension validity.</p>
 <span class="r-in"><span>  materialise_table <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> duckdb keeps downloaded extensions and secrets in a temporary directory:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> /tmp/RtmpAhQAMS/duckdb</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> /tmp/RtmpTCyiRn/duckdb</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> This is removed when the R session ends.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Extensions are re-downloaded each session.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Secrets are lost.</span>
@@ -255,28 +255,28 @@ checks confirm existence as well as extension validity.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> See ?duckdb_storage for details and alternatives.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Skipping ANALYZE - raw_combined is a view.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Constructing &lt;phip_data&gt; object</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Constructing &lt;phip_data&gt; object</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; create_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Validating &lt;phip_data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Validating &lt;phip_data&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; validate_phip_data()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking outcome family availability (exist / fold_change /</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking structural requirements (shape &amp; mandatory columns)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking outcome family availability (exist / fold_change /</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  raw_counts)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking collisions with reserved names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking collisions with reserved names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - subject_id, sample_id, timepoint, peptide_id, exist,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      fold_change, counts_input, counts_hit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Ensuring all columns are atomic (no list-cols)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking key uniqueness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Validating value ranges &amp; types for outcomes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Ensuring all columns are atomic (no list-cols)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking key uniqueness</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Validating value ranges &amp; types for outcomes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Assessing sparsity (NA/zero prevalence vs threshold)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    - warn threshold: 50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking peptide_id coverage against peptide_library</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] INFO  Checking full grid completeness (peptide * sample)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] OK    Counts table is a full peptide * sample grid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] OK    Validating &lt;phip_data&gt; - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.135s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11:00:04] OK    Constructing &lt;phip_data&gt; object - done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.135s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking peptide_id coverage against peptide_library</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] INFO  Checking full grid completeness (peptide * sample)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] OK    Counts table is a full peptide * sample grid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] OK    Validating &lt;phip_data&gt; - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.117s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19:06:10] OK    Constructing &lt;phip_data&gt; object - done</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  -&gt; elapsed: 0.117s</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

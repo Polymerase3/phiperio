@@ -21,4 +21,5 @@ Useful links:
 
 Other contributors:
 
-- Alon Alexander <a.alexander@umcg.nl> \[contributor, copyright holder\]
+- Alon Alexander <a.alexander@umcg.nl> (advised on package scope and
+  data storage design) \[contributor, copyright holder\]
