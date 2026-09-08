@@ -7,7 +7,7 @@
 export_parquet(x, path)
 }
 \arguments{
-\item{x}{A <phip_data> object or a data frame.}
+\item{x}{A <phip_data> object.}
 
 \item{path}{File path (character) to save the output \code{.parquet} file.}
 }

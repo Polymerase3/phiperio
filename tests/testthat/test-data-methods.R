@@ -8,6 +8,15 @@ test_that("export_parquet sanity checks", {
     phiperio::export_parquet(123, tmp_path)
   )
 
+  # a plain data frame is no longer an accepted input
+  expect_error(
+    phiperio::export_parquet(
+      data.frame(peptide_id = "pep1", sample_id = "s1", exist = 1),
+      tmp_path
+    ),
+    "phip_data"
+  )
+
   df <- phiperio::load_example_data()
 
   # Output path should be file (not folder)
@@ -267,36 +276,6 @@ test_that("print refreshes invalid peptide_library tbl_dbi and prints
 
   expect_output(print(pd), "peptide library preview")
   expect_output(print(pd), "library size")
-})
-
-test_that("export_parquet handles data.frame input", {
-  df <- data.frame(
-    peptide_id = c("pep1", "pep2"),
-    sample_id = c("s1", "s2"),
-    exist = c(1, 0),
-    stringsAsFactors = FALSE
-  )
-
-  tmp_path <- withr::local_tempfile(fileext = ".parquet")
-
-  expect_silent(
-    phiperio::export_parquet(df, tmp_path)
-  )
-
-  con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
-  on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
-
-  exported_df <- DBI::dbGetQuery(
-    con,
-    sprintf(
-      "SELECT * FROM read_parquet(%s);",
-      DBI::dbQuoteString(con, tmp_path)
-    )
-  )
-
-  expect_true(isTRUE(
-    all.equal(tibble::as_tibble(df), exported_df, check.attributes = FALSE)
-  ))
 })
 
 test_that("additional join wrappers return phip_data", {

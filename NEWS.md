@@ -13,6 +13,10 @@
   nor a table is now rejected with an explicit message.
 - Corrected the `materialise_table` documentation in `create_data()`, which
   labelled `FALSE` as the default when the default is `TRUE`.
+- `export_parquet()` now accepts only `<phip_data>` objects (#5). Passing a bare
+  data frame previously round-tripped it through a temporary in-memory DuckDB
+  table; that path has been removed, and non-`phip_data` input is rejected up
+  front by `.ph_check_pd()`.
 
 # phiperio 0.5.4 (2026-08-31)
 
