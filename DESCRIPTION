@@ -12,7 +12,8 @@ Authors@R:
       person(
         "Alon", "Alexander",
         email = "a.alexander@umcg.nl",
-        role = c("ctb", "cph")
+        role = c("ctb", "cph"),
+        comment = "advised on package scope and data storage design"
       )
     )
 Description: Provides utilities to import, validate, and manage PhIP-Seq
