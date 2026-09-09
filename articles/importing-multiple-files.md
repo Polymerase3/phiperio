@@ -102,7 +102,7 @@ pd <- convert_standard(
   auto_expand = FALSE
 )
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/Rtmpivb1EW/duckdb
+#> ℹ /tmp/Rtmp0NKNvQ/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -110,31 +110,31 @@ pd <- convert_standard(
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
 #> Skipping ANALYZE - raw_combined is a view.
-#> [19:31:13] INFO  Constructing <phip_data> object
+#> [10:05:57] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [19:31:13] INFO  Validating <phip_data>
+#> [10:05:57] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [19:31:13] INFO  Checking structural requirements (shape & mandatory columns)
-#> [19:31:13] INFO  Checking outcome family availability (exist / fold_change /
+#> [10:05:57] INFO  Checking structural requirements (shape & mandatory columns)
+#> [10:05:58] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [19:31:13] INFO  Checking collisions with reserved names
+#> [10:05:58] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [19:31:13] INFO  Ensuring all columns are atomic (no list-cols)
-#> [19:31:13] INFO  Checking key uniqueness
-#> [19:31:13] INFO  Validating value ranges & types for outcomes
+#> [10:05:58] INFO  Ensuring all columns are atomic (no list-cols)
+#> [10:05:58] INFO  Checking key uniqueness
+#> [10:05:58] INFO  Validating value ranges & types for outcomes
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [19:31:14] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [10:05:58] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [19:31:14] INFO  Checking peptide_id coverage against peptide_library
-#> [19:31:14] INFO  Checking full grid completeness (peptide * sample)
-#> [19:31:14] OK    Counts table is a full peptide * sample grid
-#> [19:31:14] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.38s
-#> [19:31:14] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.382s
+#> [10:05:58] INFO  Checking peptide_id coverage against peptide_library
+#> [10:05:58] INFO  Checking full grid completeness (peptide * sample)
+#> [10:05:58] OK    Counts table is a full peptide * sample grid
+#> [10:05:58] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.275s
+#> [10:05:58] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.276s
 ```
 
 Check distinct sample IDs:
