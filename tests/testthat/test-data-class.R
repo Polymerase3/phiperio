@@ -34,6 +34,38 @@ test_that("create_data sets meta flags correctly", {
 })
 
 # ---------------------------------------------------------------------------
+# supplied peptide library
+# ---------------------------------------------------------------------------
+test_that("create_data attaches a supplied peptide_library", {
+  lib_tbl <- tibble::tibble(
+    peptide_id = c("pep1", "pep2"),
+    Fullname   = c("protein A", "protein B")
+  )
+
+  withr::with_message_sink(
+    tempfile(),
+    withr::with_options(list(warn = -1), {
+      pd <- create_data(counts_tbl, peptide_library = lib_tbl)
+    })
+  )
+
+  expect_s3_class(pd, "phip_data")
+  expect_identical(pd$peptide_library, lib_tbl)
+})
+
+test_that("create_data rejects an invalid peptide_library", {
+  withr::with_message_sink(
+    tempfile(),
+    withr::with_options(list(warn = -1), {
+      expect_error(
+        create_data(counts_tbl, peptide_library = 42),
+        "must be TRUE, FALSE, or a table"
+      )
+    })
+  )
+})
+
+# ---------------------------------------------------------------------------
 # print method (just make sure it runs and contains certain strings)
 # ---------------------------------------------------------------------------
 test_that("print.phip_data shows previews", {
