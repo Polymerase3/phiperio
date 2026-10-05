@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,11 @@
       <small>Source: <a href="https://github.com/Polymerase3/phiperio/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.1" id="phiperio-061-2026-10-05">phiperio 0.6.1 (2026-10-05)<a class="anchor" aria-label="anchor" href="#phiperio-061-2026-10-05"></a></h2>
+<ul><li>New exported <code><a href="../reference/detect_peptide_libraries.html">detect_peptide_libraries()</a></code> returns the names of the peptide libraries a vector of peptide IDs belongs to, matched on their prefixes. It is the detection <code><a href="../reference/create_data.html">create_data()</a></code> uses for <code>peptide_library = TRUE</code>, and lets downstream packages such as phiper fetch the matching libraries with <code><a href="../reference/get_peptide_library.html">get_peptide_library()</a></code> when no <code>&lt;phip_data&gt;</code> object is at hand.</li>
+<li>A peptide-library file missing from the server now fails with “Failed to download file” and its URL. The <code>curl</code> download fallback used to save the server’s 404 page as the library, so the error surfaced later as a checksum warning plus <code><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS()</a></code> reporting “unknown input format”.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.0" id="phiperio-060-2026-10-05">phiperio 0.6.0 (2026-10-05)<a class="anchor" aria-label="anchor" href="#phiperio-060-2026-10-05"></a></h2>
 <ul><li>

@@ -80,26 +80,26 @@ pd <- create_data(
   peptide_library = FALSE,
   materialise_table = FALSE
 )
-#> [08:33:10] INFO  Constructing <phip_data> object
+#> [08:47:06] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [08:33:10] INFO  Validating <phip_data>
+#> [08:47:06] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [08:33:10] INFO  Checking structural requirements (shape & mandatory columns)
-#> [08:33:10] INFO  Checking outcome family availability (exist / fold_change /
+#> [08:47:06] INFO  Checking structural requirements (shape & mandatory columns)
+#> [08:47:06] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [08:33:10] INFO  Checking collisions with reserved names
+#> [08:47:06] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [08:33:10] INFO  Ensuring all columns are atomic (no list-cols)
-#> [08:33:10] INFO  Checking key uniqueness
-#> [08:33:10] INFO  Validating value ranges & types for outcomes
-#> [08:33:10] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [08:47:06] INFO  Ensuring all columns are atomic (no list-cols)
+#> [08:47:06] INFO  Checking key uniqueness
+#> [08:47:06] INFO  Validating value ranges & types for outcomes
+#> [08:47:06] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [08:33:10] INFO  Checking peptide_id coverage against peptide_library
-#> [08:33:10] INFO  Checking full grid completeness (peptide * sample)
-#> [08:33:10] OK    Counts table is a full peptide * sample grid
-#> [08:33:10] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.012s
-#> [08:33:10] OK    Constructing <phip_data> object - done
+#> [08:47:06] INFO  Checking peptide_id coverage against peptide_library
+#> [08:47:06] INFO  Checking full grid completeness (peptide * sample)
+#> [08:47:06] OK    Counts table is a full peptide * sample grid
+#> [08:47:06] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.011s
+#> [08:47:06] OK    Constructing <phip_data> object - done
 #>                  -> elapsed: 0.012s
 ```

@@ -1,5 +1,23 @@
 # Changelog
 
+## phiperio 0.6.1 (2026-10-05)
+
+- New exported
+  [`detect_peptide_libraries()`](https://polymerase3.github.io/phiperio/reference/detect_peptide_libraries.md)
+  returns the names of the peptide libraries a vector of peptide IDs
+  belongs to, matched on their prefixes. It is the detection
+  [`create_data()`](https://polymerase3.github.io/phiperio/reference/create_data.md)
+  uses for `peptide_library = TRUE`, and lets downstream packages such
+  as phiper fetch the matching libraries with
+  [`get_peptide_library()`](https://polymerase3.github.io/phiperio/reference/get_peptide_library.md)
+  when no `<phip_data>` object is at hand.
+- A peptide-library file missing from the server now fails with “Failed
+  to download file” and its URL. The `curl` download fallback used to
+  save the server’s 404 page as the library, so the error surfaced later
+  as a checksum warning plus
+  [`readRDS()`](https://rdrr.io/r/base/readRDS.html) reporting “unknown
+  input format”.
+
 ## phiperio 0.6.0 (2026-10-05)
 
 - [`get_peptide_library()`](https://polymerase3.github.io/phiperio/reference/get_peptide_library.md)

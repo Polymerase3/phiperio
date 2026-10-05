@@ -87,6 +87,9 @@ Spotted a bug or want to request a feature? Please open an issue:
 
   Construct a **phip_data** object
 
+- [`detect_peptide_libraries()`](https://polymerase3.github.io/phiperio/reference/detect_peptide_libraries.md)
+  : Detect the peptide libraries a set of peptides belongs to
+
 - [`expand_data()`](https://polymerase3.github.io/phiperio/reference/expand_data.md)
   :
 

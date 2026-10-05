@@ -1,8 +1,8 @@
 # Detect the peptide libraries a counts table draws from
 
-Matches the `peptide_id` prefixes of `data_long` (the part before the
-trailing `"_<number>"`) against the prefixes of the libraries known to
-[`get_peptide_library()`](https://polymerase3.github.io/phiperio/reference/get_peptide_library.md).
+Runs
+[`detect_peptide_libraries()`](https://polymerase3.github.io/phiperio/reference/detect_peptide_libraries.md)
+on the distinct `peptide_id` values of `data_long`.
 
 ## Usage
 

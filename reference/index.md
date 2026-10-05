@@ -25,6 +25,9 @@
 
   Construct a **phip_data** object
 
+- [`detect_peptide_libraries()`](https://polymerase3.github.io/phiperio/reference/detect_peptide_libraries.md)
+  : Detect the peptide libraries a set of peptides belongs to
+
 - [`expand_data()`](https://polymerase3.github.io/phiperio/reference/expand_data.md)
   :
 
