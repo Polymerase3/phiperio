@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,17 @@
       <small>Source: <a href="https://github.com/Polymerase3/phiperio/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.0" id="phiperio-060-2026-10-05">phiperio 0.6.0 (2026-10-05)<a class="anchor" aria-label="anchor" href="#phiperio-060-2026-10-05"></a></h2>
+<ul><li>
+<code><a href="../reference/get_peptide_library.html">get_peptide_library()</a></code> now serves three peptide libraries: <code>"combined"</code> (agilent, twist and corona2, as before), <code>"human_proteome"</code> and <code>"icam"</code>. The two new ones are hosted next to the combined library in the companion phiper repo. A new <code>library</code> argument takes one or more names. Several names return one table stacking the libraries by column name, with the columns a library lacks set to <code>NA</code> for its peptides. The default, <code>"combined"</code>, returns the same table as before.</li>
+<li>Each library is cached in its own <code>peptide_meta_&lt;name&gt;</code> DuckDB table. The previous <code>peptide_meta</code> table is no longer read, so the first call after upgrading rebuilds the cache from the already downloaded file.</li>
+<li>With <code>peptide_library = TRUE</code>, <code><a href="../reference/create_data.html">create_data()</a></code> (and through it <code><a href="../reference/convert_standard.html">convert_standard()</a></code> and <code><a href="../reference/convert_legacy.html">convert_legacy()</a></code>) now detects which libraries the <code>peptide_id</code>s belong to from their prefixes (<code>agilent_</code>, <code>twist_</code>, <code>corona2_</code>, <code>humanProteome_</code>, <code>icam_</code>) and attaches all of them. Data whose peptides match no library now get no library. Previously the combined library was attached regardless, and the coverage check then warned about every peptide.</li>
+<li>
+<code>peptide_library</code> also accepts a vector of library names, attaching exactly those. The names of the attached libraries are recorded in <code>meta$peptide_libraries</code>.</li>
+<li>When the library’s DuckDB connection has been closed, <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> now reopens every attached library rather than only the combined one.</li>
+<li>The curation scripts for the two new libraries are in <code>data-raw/</code>.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.5" id="phiperio-055">phiperio 0.5.5<a class="anchor" aria-label="anchor" href="#phiperio-055"></a></h2>
 <ul><li>

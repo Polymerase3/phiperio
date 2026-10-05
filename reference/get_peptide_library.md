@@ -11,8 +11,8 @@ and informational/warning/error messages are emitted via
 and
 [`.ph_abort()`](https://polymerase3.github.io/phiperio/reference/dot-ph_abort.md).
 
-- Downloads the RDS once, sanitizes types (logical, character, numeric),
-  and writes into a DuckDB cache on disk.
+- Downloads each requested library RDS once, sanitizes types (logical,
+  character, numeric), and writes it into a DuckDB cache on disk.
 
 - Subsequent calls return a lazy `tbl_dbi` without loading into R
   memory.
@@ -20,10 +20,16 @@ and
 ## Usage
 
 ``` r
-get_peptide_library(force_refresh = FALSE)
+get_peptide_library(library = "combined", force_refresh = FALSE)
 ```
 
 ## Arguments
+
+- library:
+
+  Character vector naming the libraries to retrieve: `"combined"`
+  (agilent, twist and corona2 peptides), `"human_proteome"`, and/or
+  `"icam"`. Several names return one table stacking those libraries.
 
 - force_refresh:
 
@@ -31,16 +37,23 @@ get_peptide_library(force_refresh = FALSE)
 
 ## Value
 
-A `dplyr::tbl_dbi` pointing to the `peptide_meta` table. The returned
-object carries an attribute `"duckdb_con"` with the open `DBI`
-connection.
+A `dplyr::tbl_dbi` pointing to the requested library: the
+`peptide_meta_<name>` table for a single library, or a view stacking the
+tables of several. The returned object carries an attribute
+`"duckdb_con"` with the open `DBI` connection.
 
 ## Details
 
 **Caching:** A persistent DuckDB database is created under the user
 cache directory (via `tools::R_user_dir("phiperio", "cache")`). You can
-override this location with `options(phiperio.cache_dir = \"...\")`. The
+override this location with `options(phiperio.cache_dir = \"...\")`.
+Each library is stored in its own `peptide_meta_<name>` table. The
 `force_refresh` argument bypasses the fast path and rebuilds the cache.
+
+**Several libraries:** The libraries are stacked by column name in a
+view named after them (e.g. `peptide_meta_combined_icam`). Columns that
+only some libraries have are `NA` for the peptides of the others.
+Peptide IDs carry a library-specific prefix, so they do not collide.
 
 **Sanitization:** Columns are stripped of attributes, list-columns are
 flattened, textual `"NaN"` and numeric `NaN` are coerced to `NA`. Binary
@@ -63,21 +76,22 @@ value.
 
 ``` r
 lib <- get_peptide_library()
-#> [10:05:48] INFO  Retrieving peptide metadata into DuckDB cache
-#>                  -> get_peptide_library(force_refresh = FALSE)
+#> [08:33:14] INFO  Retrieving peptide metadata into DuckDB cache
+#>                  -> get_peptide_library(library = combined, force_refresh =
+#>                     FALSE)
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpG87kB5/duckdb
+#> ℹ /tmp/RtmpbWqxSI/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
 #> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
-#> [10:05:48] INFO  Opened DuckDB connection
+#> [08:33:14] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
-#>                    - table: peptide_meta
-#> [10:05:48] OK    Using cached peptide_meta (fast path)
-#> [10:05:48] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.032s
+#>                    - tables: peptide_meta_combined
+#> [08:33:14] OK    Using cached peptide_meta_combined (fast path)
+#> [08:33:14] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.022s
 ```

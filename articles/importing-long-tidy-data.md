@@ -64,11 +64,11 @@ utils::write.csv(cross_long, xc_csv, row.names = FALSE)
 # Because column names already match the defaults, we only pass the file path.
 pd_xc <- convert_standard(
   data_long_path    = xc_csv,
-  peptide_library   = TRUE,    # attach peptide annotations
+  peptide_library   = TRUE,    # attach the matching peptide annotations
   materialise_table = FALSE    # keep as a view for fast iterations
 )
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
+#> ℹ /tmp/Rtmpz5AqAb/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -76,72 +76,40 @@ pd_xc <- convert_standard(
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
 #> Skipping ANALYZE - raw_combined is a view.
-#> [10:05:53] INFO  Constructing <phip_data> object
+#> [08:33:19] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [10:05:53] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [10:05:53] INFO  Retrieving peptide metadata into DuckDB cache
-#>                  -> get_peptide_library(force_refresh = FALSE)
-#> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
-#> This is removed when the R session ends.
-#> • Extensions are re-downloaded each session.
-#> • Secrets are lost.
-#> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
-#> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
-#> ℹ See ?duckdb_storage for details and alternatives.
-#> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
-#> This is removed when the R session ends.
-#> • Extensions are re-downloaded each session.
-#> • Secrets are lost.
-#> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
-#> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
-#> ℹ See ?duckdb_storage for details and alternatives.
-#> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
-#> This is removed when the R session ends.
-#> • Extensions are re-downloaded each session.
-#> • Secrets are lost.
-#> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
-#> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
-#> ℹ See ?duckdb_storage for details and alternatives.
-#> [10:05:53] INFO  Opened DuckDB connection
-#>                    - cache dir:
-#>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
-#>                    - table: peptide_meta
-#> [10:05:53] OK    Using cached peptide_meta (fast path)
-#> [10:05:53] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.169s
-#> [10:05:53] OK    Peptide metadata acquired
-#> [10:05:53] INFO  Validating <phip_data>
+#> [08:33:19] INFO  No peptide_id matched a known peptide library; none attached
+#> [08:33:19] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [10:05:53] INFO  Checking structural requirements (shape & mandatory columns)
-#> [10:05:53] INFO  Checking outcome family availability (exist / fold_change /
+#> [08:33:19] INFO  Checking structural requirements (shape & mandatory columns)
+#> [08:33:19] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [10:05:53] INFO  Checking collisions with reserved names
+#> [08:33:19] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [10:05:53] INFO  Ensuring all columns are atomic (no list-cols)
-#> [10:05:53] INFO  Checking key uniqueness
-#> [10:05:53] INFO  Validating value ranges & types for outcomes
+#> [08:33:19] INFO  Ensuring all columns are atomic (no list-cols)
+#> [08:33:19] INFO  Checking key uniqueness
+#> [08:33:19] INFO  Validating value ranges & types for outcomes
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [10:05:53] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [08:33:20] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [10:05:53] INFO  Checking peptide_id coverage against peptide_library
-#> Warning: [10:05:54] WARN  2 peptide_id not found in peptide_library (e.g. p1, p2)
-#>                  -> peptide library coverage.
-#> [10:05:54] INFO  Checking full grid completeness (peptide * sample)
-#> [10:05:54] OK    Counts table is a full peptide * sample grid
-#> [10:05:54] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.452s
-#> [10:05:54] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.623s
-# The peptide library comes from the companion repo
-# https://github.com/Polymerase3/phiper and is maintained by our group with
-# collaborator-provided annotations. Setting peptide_library = TRUE pulls the
-# current cached version automatically.
+#> [08:33:20] INFO  Checking peptide_id coverage against peptide_library
+#> [08:33:20] INFO  Checking full grid completeness (peptide * sample)
+#> [08:33:20] OK    Counts table is a full peptide * sample grid
+#> [08:33:20] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.231s
+#> [08:33:20] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.257s
+# The peptide libraries come from the companion repo
+# https://github.com/Polymerase3/phiper and are maintained by our group with
+# collaborator-provided annotations. With peptide_library = TRUE the libraries
+# are detected from the peptide_id prefixes (agilent_, twist_ and corona2_ for
+# "combined", humanProteome_ for "human_proteome", icam_ for "icam") and the
+# current cached versions are attached. The made-up p1/p2 IDs here match no
+# library, so none is attached. To attach libraries explicitly, name them, e.g.
+# peptide_library = c("combined", "icam").
 ```
 
 Inspect and manipulate:
@@ -164,18 +132,6 @@ pd_xc
 #> table size: 4 rows x 6 columns
 #> 
 #> peptide library preview (first 5 rows): 
-#> # A tibble: 5 × 8
-#>   peptide_id    Fullname                 species genus family order class common
-#>   <chr>         <chr>                    <chr>   <chr> <chr>  <chr> <chr> <chr> 
-#> 1 agilent_1     Chromodomain-helicase-D… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> 2 agilent_10    Lipase 2 precursor (Gly… Staphy… Stap… Staph… Baci… Baci… NA    
-#> 3 agilent_100   cell surface protein pr… Porphy… Porp… Porph… Bact… Bact… NA    
-#> 4 agilent_1000  Coagulation factor VIII… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> 5 agilent_10000 transmembrane serine/th… Mycoba… Myco… Mycob… Myco… Acti… NA    
-#> ... plus 37 more columns
-#> 
-#> library size: 357,190 rows x 45 columns
-#> 
 #> meta flags: 
 #>   con:            <duckdb_connection>
 #>   longitudinal:   FALSE
@@ -183,7 +139,6 @@ pd_xc
 #>   fold_change:    TRUE
 #>   raw_counts:     FALSE
 #>   extra_cols:     age, sex
-#>   peptide_con:    <duckdb_connection>
 #>   materialise_table: FALSE
 #>   finalizer_env:  <environment>
 #>   full_cross:     TRUE
@@ -192,7 +147,7 @@ pd_xc
 # get_counts() returns the same table as pd_xc$data_long
 get_counts(pd_xc)
 #> # A query:  ?? x 6
-#> # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1022-azure:R 4.6.1//tmp/RtmpO3Ah6x/phiperio_cache1c7d2fe08c80/phip_cache.duckdb]
+#> # Database: DuckDB 1.5.6 [unknown@Linux 6.17.0-1022-azure:R 4.6.1//tmp/Rtmpz5AqAb/phiperio_cache1d0b5c83057a/phip_cache.duckdb]
 #>   sample_id peptide_id exist fold_change   age sex  
 #>   <chr>     <chr>      <dbl>       <dbl> <dbl> <chr>
 #> 1 s1        p1             1         1.2    34 F    
@@ -223,7 +178,7 @@ Export to Parquet:
 out_parquet <- tempfile(fileext = ".parquet")
 export_parquet(pd_xc, out_parquet)
 out_parquet
-#> [1] "/tmp/RtmpO3Ah6x/file1c7d525ec6ed.parquet"
+#> [1] "/tmp/Rtmpz5AqAb/file1d0b2668ecbc.parquet"
 
 # Re-import the Parquet file directly with convert_standard()
 pd_xc_again <- convert_standard(
@@ -232,7 +187,7 @@ pd_xc_again <- convert_standard(
   materialise_table = FALSE
 )
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
+#> ℹ /tmp/Rtmpz5AqAb/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -240,65 +195,29 @@ pd_xc_again <- convert_standard(
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
 #> Skipping ANALYZE - raw_combined is a view.
-#> [10:05:54] INFO  Constructing <phip_data> object
+#> [08:33:20] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [10:05:54] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [10:05:54] INFO  Retrieving peptide metadata into DuckDB cache
-#>                  -> get_peptide_library(force_refresh = FALSE)
-#> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
-#> This is removed when the R session ends.
-#> • Extensions are re-downloaded each session.
-#> • Secrets are lost.
-#> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
-#> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
-#> ℹ See ?duckdb_storage for details and alternatives.
-#> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
-#> This is removed when the R session ends.
-#> • Extensions are re-downloaded each session.
-#> • Secrets are lost.
-#> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
-#> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
-#> ℹ See ?duckdb_storage for details and alternatives.
-#> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
-#> This is removed when the R session ends.
-#> • Extensions are re-downloaded each session.
-#> • Secrets are lost.
-#> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
-#> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
-#> ℹ See ?duckdb_storage for details and alternatives.
-#> [10:05:54] INFO  Opened DuckDB connection
-#>                    - cache dir:
-#>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
-#>                    - table: peptide_meta
-#> [10:05:54] OK    Using cached peptide_meta (fast path)
-#> [10:05:54] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.151s
-#> [10:05:54] OK    Peptide metadata acquired
-#> [10:05:54] INFO  Validating <phip_data>
+#> [08:33:20] INFO  No peptide_id matched a known peptide library; none attached
+#> [08:33:20] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [10:05:54] INFO  Checking structural requirements (shape & mandatory columns)
-#> [10:05:54] INFO  Checking outcome family availability (exist / fold_change /
+#> [08:33:20] INFO  Checking structural requirements (shape & mandatory columns)
+#> [08:33:20] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [10:05:54] INFO  Checking collisions with reserved names
+#> [08:33:20] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [10:05:54] INFO  Ensuring all columns are atomic (no list-cols)
-#> [10:05:54] INFO  Checking key uniqueness
-#> [10:05:54] INFO  Validating value ranges & types for outcomes
-#> [10:05:54] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [08:33:20] INFO  Ensuring all columns are atomic (no list-cols)
+#> [08:33:20] INFO  Checking key uniqueness
+#> [08:33:20] INFO  Validating value ranges & types for outcomes
+#> [08:33:20] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [10:05:54] INFO  Checking peptide_id coverage against peptide_library
-#> Warning: [10:05:54] WARN  2 peptide_id not found in peptide_library (e.g. p1, p2)
-#>                  -> peptide library coverage.
-#> [10:05:54] INFO  Checking full grid completeness (peptide * sample)
-#> [10:05:54] OK    Counts table is a full peptide * sample grid
-#> [10:05:54] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.232s
-#> [10:05:54] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.384s
+#> [08:33:20] INFO  Checking peptide_id coverage against peptide_library
+#> [08:33:20] INFO  Checking full grid completeness (peptide * sample)
+#> [08:33:20] OK    Counts table is a full peptide * sample grid
+#> [08:33:20] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.086s
+#> [08:33:20] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.097s
 pd_xc_again
 #> ── <phip_data> ───────────────────────────────────────────────────────────────── 
 #> 
@@ -314,18 +233,6 @@ pd_xc_again
 #> table size: 4 rows x 6 columns
 #> 
 #> peptide library preview (first 5 rows): 
-#> # A tibble: 5 × 8
-#>   peptide_id    Fullname                 species genus family order class common
-#>   <chr>         <chr>                    <chr>   <chr> <chr>  <chr> <chr> <chr> 
-#> 1 agilent_1     Chromodomain-helicase-D… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> 2 agilent_10    Lipase 2 precursor (Gly… Staphy… Stap… Staph… Baci… Baci… NA    
-#> 3 agilent_100   cell surface protein pr… Porphy… Porp… Porph… Bact… Bact… NA    
-#> 4 agilent_1000  Coagulation factor VIII… Homo s… Homo  Homin… Prim… Mamm… Human 
-#> 5 agilent_10000 transmembrane serine/th… Mycoba… Myco… Mycob… Myco… Acti… NA    
-#> ... plus 37 more columns
-#> 
-#> library size: 357,190 rows x 45 columns
-#> 
 #> meta flags: 
 #>   con:            <duckdb_connection>
 #>   longitudinal:   FALSE
@@ -333,7 +240,6 @@ pd_xc_again
 #>   fold_change:    TRUE
 #>   raw_counts:     FALSE
 #>   extra_cols:     age, sex
-#>   peptide_con:    <duckdb_connection>
 #>   materialise_table: FALSE
 #>   finalizer_env:  <environment>
 #>   full_cross:     TRUE
@@ -378,7 +284,7 @@ pd_lg <- convert_standard(
   materialise_table = FALSE
 )
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
+#> ℹ /tmp/Rtmpz5AqAb/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -386,34 +292,34 @@ pd_lg <- convert_standard(
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
 #> Skipping ANALYZE - raw_combined is a view.
-#> [10:05:54] INFO  Constructing <phip_data> object
+#> [08:33:20] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [10:05:54] INFO  Validating <phip_data>
+#> [08:33:20] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [10:05:54] INFO  Checking structural requirements (shape & mandatory columns)
-#> [10:05:54] INFO  Checking outcome family availability (exist / fold_change /
+#> [08:33:20] INFO  Checking structural requirements (shape & mandatory columns)
+#> [08:33:20] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [10:05:54] INFO  Checking collisions with reserved names
+#> [08:33:20] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [10:05:54] INFO  Ensuring all columns are atomic (no list-cols)
-#> [10:05:54] INFO  Checking key uniqueness
-#> [10:05:54] INFO  Validating value ranges & types for outcomes
-#> [10:05:54] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [08:33:20] INFO  Ensuring all columns are atomic (no list-cols)
+#> [08:33:20] INFO  Checking key uniqueness
+#> [08:33:20] INFO  Validating value ranges & types for outcomes
+#> [08:33:20] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [10:05:54] INFO  Checking peptide_id coverage against peptide_library
-#> [10:05:54] INFO  Checking full grid completeness (peptide * sample)
-#> [10:05:55] INFO  Counts table is not a full peptide * sample grid
+#> [08:33:20] INFO  Checking peptide_id coverage against peptide_library
+#> [08:33:20] INFO  Checking full grid completeness (peptide * sample)
+#> [08:33:20] INFO  Counts table is not a full peptide * sample grid
 #>                    - observed rows: 6
 #>                    - expected rows: 12
-#> Warning: [10:05:55] WARN  Grid remains incomplete (auto_expand = FALSE).
+#> Warning: [08:33:20] WARN  Grid remains incomplete (auto_expand = FALSE).
 #>                  -> grid completeness
 #>                    - observed rows: 6
 #>                    - expected rows: 12.
-#> [10:05:55] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.107s
-#> [10:05:55] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.108s
+#> [08:33:20] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.088s
+#> [08:33:20] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.088s
 ```
 
 Work with the longitudinal data:
@@ -473,8 +379,8 @@ pd_lg_avg
 #> # A tibble: 2 × 2
 #>   subject_id mean_fc
 #>   <chr>        <dbl>
-#> 1 subj2        1.73 
-#> 2 subj1        0.933
+#> 1 subj1        0.933
+#> 2 subj2        1.73
 
 # Inspect extra columns (metadata not part of the standard set)
 pd_lg$meta$extra_cols  # should list run_id and plate_id
@@ -488,7 +394,7 @@ Export longitudinal data:
 out_parquet_lg <- tempfile(fileext = ".parquet")
 export_parquet(pd_lg, out_parquet_lg)
 out_parquet_lg
-#> [1] "/tmp/RtmpO3Ah6x/file1c7d733009bc.parquet"
+#> [1] "/tmp/Rtmpz5AqAb/file1d0b4e4b3983.parquet"
 ```
 
 ## Tips and gotchas
@@ -502,8 +408,10 @@ out_parquet_lg
 - **Auto-expand:** set `auto_expand = TRUE` to fill missing
   `sample_id × peptide_id` combinations (measurement columns filled with
   0 or overrides).
-- **Peptide library:** set `peptide_library = TRUE` to attach metadata;
-  keep `FALSE` for quick examples or offline runs.
+- **Peptide library:** `peptide_library = TRUE` attaches the libraries
+  detected from the `peptide_id` prefixes (`"combined"`,
+  `"human_proteome"`, `"icam"`), and a vector of library names attaches
+  exactly those; keep `FALSE` for quick examples or offline runs.
 
 ## Using the built-in example
 
@@ -511,20 +419,22 @@ out_parquet_lg
 
 ex <- load_example_data()
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
+#> ℹ /tmp/Rtmpz5AqAb/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
 #> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
-#> [10:05:55] INFO  Constructing <phip_data> object
+#> [08:33:20] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [10:05:55] INFO  Fetching peptide metadata library via get_peptide_library()
-#> [10:05:55] INFO  Retrieving peptide metadata into DuckDB cache
-#>                  -> get_peptide_library(force_refresh = FALSE)
+#> [08:33:20] INFO  Fetching peptide metadata library via get_peptide_library()
+#>                    - libraries: combined
+#> [08:33:20] INFO  Retrieving peptide metadata into DuckDB cache
+#>                  -> get_peptide_library(library = combined, force_refresh =
+#>                     FALSE)
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
+#> ℹ /tmp/Rtmpz5AqAb/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -532,7 +442,7 @@ ex <- load_example_data()
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
+#> ℹ /tmp/Rtmpz5AqAb/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -540,47 +450,47 @@ ex <- load_example_data()
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpO3Ah6x/duckdb
+#> ℹ /tmp/Rtmpz5AqAb/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
 #> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
-#> [10:05:55] INFO  Opened DuckDB connection
+#> [08:33:20] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
-#>                    - table: peptide_meta
-#> [10:05:55] OK    Using cached peptide_meta (fast path)
-#> [10:05:55] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.151s
-#> [10:05:55] OK    Peptide metadata acquired
-#> [10:05:55] INFO  Validating <phip_data>
+#>                    - tables: peptide_meta_combined
+#> [08:33:20] OK    Using cached peptide_meta_combined (fast path)
+#> [08:33:20] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.087s
+#> [08:33:20] OK    Peptide metadata acquired
+#> [08:33:20] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [10:05:55] INFO  Checking structural requirements (shape & mandatory columns)
-#> [10:05:55] INFO  Checking outcome family availability (exist / fold_change /
+#> [08:33:20] INFO  Checking structural requirements (shape & mandatory columns)
+#> [08:33:20] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [10:05:55] INFO  Checking collisions with reserved names
+#> [08:33:20] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [10:05:55] INFO  Ensuring all columns are atomic (no list-cols)
-#> [10:05:55] INFO  Checking key uniqueness
-#> [10:05:55] INFO  Validating value ranges & types for outcomes
-#> [10:05:55] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [08:33:20] INFO  Ensuring all columns are atomic (no list-cols)
+#> [08:33:20] INFO  Checking key uniqueness
+#> [08:33:20] INFO  Validating value ranges & types for outcomes
+#> [08:33:21] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [10:05:55] INFO  Checking peptide_id coverage against peptide_library
-#> [10:05:55] INFO  Checking full grid completeness (peptide * sample)
-#> [10:05:56] INFO  Counts table is not a full peptide * sample grid
+#> [08:33:21] INFO  Checking peptide_id coverage against peptide_library
+#> [08:33:21] INFO  Checking full grid completeness (peptide * sample)
+#> [08:33:21] INFO  Counts table is not a full peptide * sample grid
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000
-#> Warning: [10:05:56] WARN  Grid remains incomplete (auto_expand = FALSE).
+#> Warning: [08:33:21] WARN  Grid remains incomplete (auto_expand = FALSE).
 #>                  -> grid completeness
 #>                    - observed rows: 78200
 #>                    - expected rows: 156000.
-#> [10:05:56] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.272s
-#> [10:05:56] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.424s
+#> [08:33:21] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.24s
+#> [08:33:21] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.341s
 ex
 #> ── <phip_data> ───────────────────────────────────────────────────────────────── 
 #> 
@@ -612,6 +522,7 @@ ex
 #> 
 #> meta flags: 
 #>   con:            <duckdb_connection>
+#>   peptide_libraries: combined
 #>   longitudinal:   TRUE
 #>   exist:          TRUE
 #>   fold_change:    TRUE
