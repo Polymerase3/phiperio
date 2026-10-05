@@ -67,13 +67,17 @@ utils::write.csv(cross_long, xc_csv, row.names = FALSE)
 # Because column names already match the defaults, we only pass the file path.
 pd_xc <- convert_standard(
   data_long_path    = xc_csv,
-  peptide_library   = TRUE,    # attach peptide annotations
+  peptide_library   = TRUE,    # attach the matching peptide annotations
   materialise_table = FALSE    # keep as a view for fast iterations
 )
-# The peptide library comes from the companion repo
-# https://github.com/Polymerase3/phiper and is maintained by our group with
-# collaborator-provided annotations. Setting peptide_library = TRUE pulls the
-# current cached version automatically.
+# The peptide libraries come from the companion repo
+# https://github.com/Polymerase3/phiper and are maintained by our group with
+# collaborator-provided annotations. With peptide_library = TRUE the libraries
+# are detected from the peptide_id prefixes (agilent_, twist_ and corona2_ for
+# "combined", humanProteome_ for "human_proteome", icam_ for "icam") and the
+# current cached versions are attached. The made-up p1/p2 IDs here match no
+# library, so none is attached. To attach libraries explicitly, name them, e.g.
+# peptide_library = c("combined", "icam").
 ```
 
 Inspect and manipulate:
@@ -192,8 +196,10 @@ out_parquet_lg
 - **Auto-expand:** set `auto_expand = TRUE` to fill missing
   `sample_id × peptide_id` combinations (measurement columns filled with 0 or
   overrides).
-- **Peptide library:** set `peptide_library = TRUE` to attach metadata; keep
-  `FALSE` for quick examples or offline runs.
+- **Peptide library:** `peptide_library = TRUE` attaches the libraries detected
+  from the `peptide_id` prefixes (`"combined"`, `"human_proteome"`, `"icam"`),
+  and a vector of library names attaches exactly those; keep `FALSE` for quick
+  examples or offline runs.
 
 # Using the built-in example
 

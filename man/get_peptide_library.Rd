@@ -4,14 +4,20 @@
 \alias{get_peptide_library}
 \title{Retrieve the peptide metadata table into DuckDB, forcing atomic types}
 \usage{
-get_peptide_library(force_refresh = FALSE)
+get_peptide_library(library = "combined", force_refresh = FALSE)
 }
 \arguments{
+\item{library}{Character vector naming the libraries to retrieve:
+\code{"combined"} (agilent, twist and corona2 peptides), \code{"human_proteome"},
+and/or \code{"icam"}. Several names return one table stacking those libraries.}
+
 \item{force_refresh}{Logical. If \code{TRUE}, re-downloads and rebuilds the cache.}
 }
 \value{
-A \code{dplyr::tbl_dbi} pointing to the \code{peptide_meta} table. The returned
-object carries an attribute \code{"duckdb_con"} with the open \code{DBI} connection.
+A \code{dplyr::tbl_dbi} pointing to the requested library: the
+\verb{peptide_meta_<name>} table for a single library, or a view stacking the
+tables of several. The returned object carries an attribute \code{"duckdb_con"}
+with the open \code{DBI} connection.
 }
 \description{
 This function uses the phiperio logging utilities for
@@ -20,16 +26,22 @@ bracketed with \code{.ph_with_timing()}, and informational/warning/error
 messages are emitted via \code{.ph_log_info()}, \code{.ph_log_ok()}, \code{.ph_warn()},
 and \code{.ph_abort()}.
 \itemize{
-\item Downloads the RDS once, sanitizes types (logical, character, numeric),
-and writes into a DuckDB cache on disk.
+\item Downloads each requested library RDS once, sanitizes types (logical,
+character, numeric), and writes it into a DuckDB cache on disk.
 \item Subsequent calls return a lazy \code{tbl_dbi} without loading into R memory.
 }
 }
 \details{
 \strong{Caching:} A persistent DuckDB database is created under the user cache
 directory (via \code{tools::R_user_dir("phiperio", "cache")}). You can override
-this location with \verb{options(phiperio.cache_dir = \\"...\\")}. The
-\code{force_refresh} argument bypasses the fast path and rebuilds the cache.
+this location with \verb{options(phiperio.cache_dir = \\"...\\")}. Each library is
+stored in its own \verb{peptide_meta_<name>} table. The \code{force_refresh} argument
+bypasses the fast path and rebuilds the cache.
+
+\strong{Several libraries:} The libraries are stacked by column name in a view
+named after them (e.g. \code{peptide_meta_combined_icam}). Columns that only some
+libraries have are \code{NA} for the peptides of the others. Peptide IDs carry a
+library-specific prefix, so they do not collide.
 
 \strong{Sanitization:} Columns are stripped of attributes, list-columns are
 flattened, textual \code{"NaN"} and numeric \code{NaN} are coerced to \code{NA}. Binary 0/1

@@ -232,10 +232,14 @@ test_that("print refreshes invalid peptide_library tbl_dbi and prints
   fresh_src <- structure(list(con = fresh_con), class = "src_dbi")
   fresh_tbl <- structure(list(src = fresh_src), class = c("tbl_dbi", "tbl"))
 
+  requested <- NULL
   mockery::stub(
     print.phip_data,
     "get_peptide_library",
-    function(...) fresh_tbl
+    function(library) {
+      requested <<- library
+      fresh_tbl
+    }
   )
   mockery::stub(
     print.phip_data,
@@ -273,9 +277,12 @@ test_that("print refreshes invalid peptide_library tbl_dbi and prints
   )
 
   pd$peptide_library <- stale_lib
+  pd$meta$peptide_libraries <- c("combined", "icam")
 
   expect_output(print(pd), "peptide library preview")
   expect_output(print(pd), "library size")
+  # reopens every attached library, not just the default one
+  expect_identical(requested, c("combined", "icam"))
 })
 
 test_that("additional join wrappers return phip_data", {

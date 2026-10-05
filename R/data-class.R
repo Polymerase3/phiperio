@@ -7,9 +7,13 @@
 #' @param data_long A tidy data frame (or `tbl_lazy`) with one row per
 #'   `peptide_id` x `sample_id` combination. **Required.**
 #' @param peptide_library Peptide annotations to attach. `TRUE` (default)
-#'   downloads the reference library via [get_peptide_library()]; `FALSE`
-#'   attaches none. A data frame or lazy table with one row per `peptide_id`
-#'   is attached as supplied, which is useful offline and in tests.
+#'   detects the libraries the `peptide_id`s belong to from their prefixes
+#'   (e.g. `agilent_`, `humanProteome_`, `icam_`) and attaches all of them via
+#'   [get_peptide_library()]; if no peptide matches a known library, none is
+#'   attached. A character vector of library names (e.g.
+#'   `c("combined", "icam")`) attaches exactly those. `FALSE` attaches none. A
+#'   data frame or lazy table with one row per `peptide_id` is attached as
+#'   supplied, which is useful offline and in tests.
 #' @param meta Optional named list of metadata flags to pre-populate the
 #'   \code{meta} slot (rarely needed by users).
 #' @param auto_expand Logical. If `TRUE` and the input is **not** already the
@@ -56,9 +60,24 @@ create_data <- function(data_long,
       # Download or attach the peptide metadata library
       # ------------------------------------------------------------------------
       if (isTRUE(peptide_library)) {
+        peptide_library <- .ph_detect_libraries(data_long)
+        if (length(peptide_library) == 0) {
+          .ph_log_info("No peptide_id matched a known peptide library;
+                       none attached")
+          peptide_library <- FALSE
+        }
+      }
+
+      if (is.character(peptide_library)) {
         .ph_log_info("Fetching peptide metadata library via
-                     get_peptide_library()")
-        peptide_library <- get_peptide_library()
+                     get_peptide_library()",
+          bullets = sprintf(
+            "libraries: %s",
+            paste(peptide_library, collapse = ", ")
+          )
+        )
+        meta$peptide_libraries <- peptide_library
+        peptide_library <- get_peptide_library(peptide_library)
         .ph_log_ok("Peptide metadata acquired")
       } else if (isFALSE(peptide_library)) {
         peptide_library <- NULL
@@ -66,7 +85,10 @@ create_data <- function(data_long,
         .ph_check_cond(
           !is.data.frame(peptide_library) &&
             !inherits(peptide_library, "tbl"),
-          "`peptide_library` must be TRUE, FALSE, or a table of annotations",
+          paste(
+            "`peptide_library` must be TRUE, FALSE, library names, or a",
+            "table of annotations"
+          ),
           step = "create_data()"
         )
         .ph_log_ok("Using supplied peptide metadata library")

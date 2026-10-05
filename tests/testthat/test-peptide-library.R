@@ -233,6 +233,106 @@ test_that("get_peptide_library retries dbConnect and removes old table", {
   expect_gte(calls, 3)
 })
 
+test_that("get_peptide_library stacks several libraries in one view", {
+  skip_if_not_installed("mockery")
+
+  cache_dir <- withr::local_tempdir()
+  withr::local_options(list(
+    phiperio.cache_dir = cache_dir,
+    phiperio.log.verbose = FALSE
+  ))
+
+  # each library has a column the others lack
+  libs <- list(
+    combined = data.frame(
+      peptide_id = c("agilent_1", "twist_1"),
+      pos = c(1, 2),
+      is_auto = c(1, 0)
+    ),
+    human_proteome = data.frame(
+      peptide_id = "humanProteome_0",
+      pos = 3,
+      is_HLA = 1
+    ),
+    icam = data.frame(
+      peptide_id = "icam_0",
+      pos = 4,
+      tax_id = 411903L
+    )
+  )
+  files <- vapply(.ph_library_registry, `[[`, character(1), "file")
+
+  mockery::stub(
+    get_peptide_library,
+    ".ph_download_file",
+    function(url, dest, sha_expected, force) {
+      saveRDS(libs[[names(files)[files == basename(dest)]]], dest)
+      invisible(dest)
+    }
+  )
+
+  peptides_tbl <- get_peptide_library(c("icam", "combined", "human_proteome"))
+  con <- attr(peptides_tbl, "duckdb_con")
+  withr::defer(DBI::dbDisconnect(con, shutdown = TRUE))
+
+  expect_identical(
+    as.character(dbplyr::remote_name(peptides_tbl)),
+    "peptide_meta_combined_human_proteome_icam"
+  )
+
+  meta <- dplyr::collect(peptides_tbl)
+  meta <- meta[order(meta$peptide_id), ]
+
+  expect_identical(
+    meta$peptide_id,
+    c("agilent_1", "humanProteome_0", "icam_0", "twist_1")
+  )
+  expect_identical(meta$pos, c(1, 3, 4, 2))
+  expect_identical(meta$is_auto, c(TRUE, NA, NA, FALSE))
+  expect_identical(meta$is_HLA, c(NA, TRUE, NA, NA))
+  expect_identical(meta$tax_id, c(NA, NA, 411903L, NA))
+})
+
+test_that("get_peptide_library rejects unknown library names", {
+  withr::local_options(list(phiperio.log.verbose = FALSE))
+
+  expect_error(
+    get_peptide_library(c("combined", "nope")),
+    "Unknown peptide library"
+  )
+})
+
+test_that(".ph_detect_libraries matches peptide_id prefixes to libraries", {
+  detect <- function(ids) .ph_detect_libraries(data.frame(peptide_id = ids))
+
+  expect_identical(detect(c("agilent_1", "twist_0", "corona2_5")), "combined")
+  expect_identical(detect("humanProteome_0"), "human_proteome")
+  expect_identical(detect(c("icam_12", "icam_430979")), "icam")
+  expect_identical(
+    detect(c("icam_1", "agilent_2", "humanProteome_3")),
+    c("combined", "human_proteome", "icam")
+  )
+  expect_identical(detect(c("pep1", "pep2")), character())
+  expect_identical(
+    .ph_detect_libraries(data.frame(sample_id = "s1")),
+    character()
+  )
+})
+
+test_that(".ph_detect_libraries works on a lazy DuckDB table", {
+  con <- DBI::dbConnect(duckdb::duckdb())
+  withr::defer(DBI::dbDisconnect(con, shutdown = TRUE))
+  DBI::dbWriteTable(
+    con, "counts",
+    data.frame(peptide_id = c("twist_3", "humanProteome_7", "twist_3"))
+  )
+
+  expect_identical(
+    .ph_detect_libraries(dplyr::tbl(con, "counts")),
+    c("combined", "human_proteome")
+  )
+})
+
 test_that(".ph_download_file uses cached file when checksum matches", {
   skip_if_not_installed("mockery")
 
@@ -392,7 +492,7 @@ test_that(".ph_sha256_file hashes a file and handles errors", {
 })
 
 test_that(
-  "get_peptide_library fetches the current library without checksum drift or NA-collapsed columns",
+  "get_peptide_library fetches the current libraries without checksum drift or NA-collapsed columns",
   {
     skip_on_cran()
     skip_if_offline("raw.githubusercontent.com")
@@ -403,7 +503,7 @@ test_that(
     warnings_seen <- character()
 
     peptides_tbl <- withCallingHandlers(
-      get_peptide_library(force_refresh = TRUE),
+      get_peptide_library(names(.ph_library_registry), force_refresh = TRUE),
       warning = function(w) {
         warnings_seen <<- c(warnings_seen, conditionMessage(w))
         invokeRestart("muffleWarning")
@@ -412,28 +512,36 @@ test_that(
     con <- attr(peptides_tbl, "duckdb_con")
     withr::defer(DBI::dbDisconnect(con, shutdown = TRUE))
 
-    # if the SHA-256 hardcoded in get_peptide_library() no longer matches the
+    # if a SHA-256 hardcoded in .ph_library_registry no longer matches the
     # file published at the URL, .ph_download_file() emits this warning --
     # i.e. the library reference in the package is stale
     expect_false(any(grepl("Checksum mismatch", warnings_seen)))
 
-    meta <- dplyr::collect(peptides_tbl)
+    n_rows <- function(tbl) dplyr::pull(dplyr::count(tbl))
+    lib_rows <- 0
 
-    raw_path <- list.files(
-      cache_dir,
-      pattern = "\\.rds$", recursive = TRUE, full.names = TRUE
-    )[1]
-    raw_meta <- readRDS(raw_path)
+    for (lib_name in names(.ph_library_registry)) {
+      meta <- dplyr::collect(
+        dplyr::tbl(con, paste0("peptide_meta_", lib_name))
+      )
+      raw_meta <- readRDS(
+        file.path(cache_dir, "peptide_meta", .ph_library_registry[[lib_name]]$file)
+      )
+      lib_rows <- lib_rows + nrow(meta)
 
-    # a column that had real data in the raw source must not end up fully NA
-    # after sanitization (this is exactly how the "agilent_1" -> NA bug in
-    # protein_id manifested)
-    had_data_raw <- vapply(raw_meta, function(x) any(!is.na(x)), logical(1))
-    fully_na_now <- vapply(meta, function(x) all(is.na(x)), logical(1))
+      # a column that had real data in the raw source must not end up fully NA
+      # after sanitization (this is exactly how the "agilent_1" -> NA bug in
+      # protein_id manifested)
+      had_data_raw <- vapply(raw_meta, function(x) any(!is.na(x)), logical(1))
+      fully_na_now <- vapply(meta, function(x) all(is.na(x)), logical(1))
 
-    common_cols <- intersect(names(had_data_raw), names(fully_na_now))
-    collapsed_cols <- common_cols[had_data_raw[common_cols] & fully_na_now[common_cols]]
+      common_cols <- intersect(names(had_data_raw), names(fully_na_now))
+      collapsed_cols <- common_cols[had_data_raw[common_cols] & fully_na_now[common_cols]]
 
-    expect_length(collapsed_cols, 0)
+      expect_length(collapsed_cols, 0)
+    }
+
+    # the view stacking all libraries holds every peptide of each
+    expect_identical(as.numeric(n_rows(peptides_tbl)), as.numeric(lib_rows))
   }
 )

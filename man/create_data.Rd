@@ -17,9 +17,13 @@ create_data(
 \code{peptide_id} x \code{sample_id} combination. \strong{Required.}}
 
 \item{peptide_library}{Peptide annotations to attach. \code{TRUE} (default)
-downloads the reference library via \code{\link[=get_peptide_library]{get_peptide_library()}}; \code{FALSE}
-attaches none. A data frame or lazy table with one row per \code{peptide_id}
-is attached as supplied, which is useful offline and in tests.}
+detects the libraries the \code{peptide_id}s belong to from their prefixes
+(e.g. \code{agilent_}, \code{humanProteome_}, \code{icam_}) and attaches all of them via
+\code{\link[=get_peptide_library]{get_peptide_library()}}; if no peptide matches a known library, none is
+attached. A character vector of library names (e.g.
+\code{c("combined", "icam")}) attaches exactly those. \code{FALSE} attaches none. A
+data frame or lazy table with one row per \code{peptide_id} is attached as
+supplied, which is useful offline and in tests.}
 
 \item{auto_expand}{Logical. If \code{TRUE} and the input is \strong{not} already the
 full Cartesian product of \code{sample_id} x \code{peptide_id}, the function fills in

@@ -59,10 +59,94 @@ test_that("create_data rejects an invalid peptide_library", {
     withr::with_options(list(warn = -1), {
       expect_error(
         create_data(counts_tbl, peptide_library = 42),
-        "must be TRUE, FALSE, or a table"
+        "must be TRUE, FALSE, library names"
       )
     })
   )
+})
+
+# ---------------------------------------------------------------------------
+# library detection / library names
+# ---------------------------------------------------------------------------
+test_that("create_data attaches the libraries detected from peptide_id", {
+  skip_if_not_installed("mockery")
+
+  lib_tbl <- tibble::tibble(
+    peptide_id = c("agilent_1", "icam_1"),
+    Fullname   = c("protein A", "protein B")
+  )
+  requested <- NULL
+  mockery::stub(
+    create_data,
+    "get_peptide_library",
+    function(library) {
+      requested <<- library
+      lib_tbl
+    }
+  )
+
+  counts <- counts_tbl
+  counts$peptide_id <- c("agilent_1", "icam_1", "agilent_1", "icam_1")
+
+  withr::with_message_sink(
+    tempfile(),
+    withr::with_options(list(warn = -1), {
+      pd <- create_data(counts, peptide_library = TRUE)
+    })
+  )
+
+  expect_identical(requested, c("combined", "icam"))
+  expect_identical(pd$peptide_library, lib_tbl)
+  expect_identical(pd$meta$peptide_libraries, c("combined", "icam"))
+})
+
+test_that("create_data attaches no library when no peptide_id is recognised", {
+  skip_if_not_installed("mockery")
+
+  mockery::stub(
+    create_data,
+    "get_peptide_library",
+    function(...) stop("no library should be fetched")
+  )
+
+  withr::with_message_sink(
+    tempfile(),
+    withr::with_options(list(warn = -1), {
+      pd <- create_data(counts_tbl, peptide_library = TRUE)
+    })
+  )
+
+  expect_null(pd$peptide_library)
+  expect_null(pd$meta$peptide_libraries)
+})
+
+test_that("create_data attaches the libraries named in peptide_library", {
+  skip_if_not_installed("mockery")
+
+  lib_tbl <- tibble::tibble(peptide_id = c("pep1", "pep2"))
+  requested <- NULL
+  mockery::stub(
+    create_data,
+    "get_peptide_library",
+    function(library) {
+      requested <<- library
+      lib_tbl
+    }
+  )
+
+  withr::with_message_sink(
+    tempfile(),
+    withr::with_options(list(warn = -1), {
+      pd <- create_data(
+        counts_tbl,
+        peptide_library = c("human_proteome", "icam")
+      )
+    })
+  )
+
+  expect_identical(requested, c("human_proteome", "icam"))
+  expect_identical(pd$peptide_library, lib_tbl)
+  expect_identical(pd$meta$peptide_libraries, c("human_proteome", "icam"))
 })
 
 # ---------------------------------------------------------------------------

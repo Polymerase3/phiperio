@@ -60,7 +60,7 @@ print.phip_data <- function(x, ...) {
   # If the DuckDB connection was closed, reopen the cached table
   if (inherits(lib, "tbl_dbi")) {
     if (!DBI::dbIsValid(lib$src$con)) {
-      lib <- get_peptide_library()
+      lib <- get_peptide_library(x$meta$peptide_libraries %||% "combined")
       x$peptide_library <- lib # keep the fresh handle for later prints
       x <- .ph_sync_peptide_con(x)
       x <- .ph_refresh_finalizer(x)

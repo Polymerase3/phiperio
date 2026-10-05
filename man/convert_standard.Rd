@@ -56,16 +56,19 @@ to the new rows.
 The expanded table replaces the original \emph{in place}.
 }}
 
-\item{peptide_library}{Logical. If \code{TRUE} (default) \code{convert_standard()} will
-attempt to locate and attach the matching peptide-library metadata for
-downstream annotation. Set to \code{FALSE} to skip this step.}
+\item{peptide_library}{If \code{TRUE} (default) \code{convert_standard()} detects the
+peptide libraries the \code{peptide_id}s belong to and attaches their metadata
+for downstream annotation; if no peptide matches a known library, none is
+attached. A character vector of library names (\code{"combined"},
+\code{"human_proteome"}, \code{"icam"}) attaches exactly those. Set to \code{FALSE} to
+skip this step. See \code{\link[=create_data]{create_data()}} and \code{\link[=get_peptide_library]{get_peptide_library()}}.}
 }
 \value{
 An S3 object of class \strong{\code{phip_data}} containing:
 \describe{
 \item{\code{data_long}}{The (possibly expanded) long-format table.}
-\item{\code{peptide_library}}{Loaded peptide-library metadata (if
-\code{peptide_library = TRUE}).}
+\item{\code{peptide_library}}{Loaded peptide-library metadata (if any library
+was detected or requested).}
 \item{\code{meta}}{List with DuckDB connection handles.}
 }
 }
