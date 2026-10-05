@@ -273,11 +273,38 @@ get_peptide_library <- function(library = "combined",
   )
 }
 
+#' @title Detect the peptide libraries a set of peptides belongs to
+#'
+#' @description Matches the prefixes of `peptide_ids` (the part before the
+#'   trailing `"_<number>"`, e.g. `agilent` in `agilent_123`) against the
+#'   prefixes of the libraries known to [get_peptide_library()]: `agilent`,
+#'   `twist` and `corona2` for `"combined"`, `humanProteome` for
+#'   `"human_proteome"`, and `icam` for `"icam"`.
+#'
+#' @param peptide_ids Character vector of peptide IDs.
+#'
+#' @return Character vector with the names of the matched libraries, ready to
+#'   pass to [get_peptide_library()]; empty if no peptide matched any library.
+#'
+#' @examples
+#' detect_peptide_libraries(c("agilent_1", "icam_7", "pep_x"))
+#'
+#' @export
+detect_peptide_libraries <- function(peptide_ids) {
+  prefixes <- unique(sub("_[0-9]+$", "", peptide_ids))
+
+  matched <- vapply(
+    .ph_library_registry,
+    function(entry) any(entry$prefixes %in% prefixes),
+    logical(1)
+  )
+  names(.ph_library_registry)[matched]
+}
+
 #' @title Detect the peptide libraries a counts table draws from
 #'
-#' @description Matches the `peptide_id` prefixes of `data_long` (the part
-#'   before the trailing `"_<number>"`) against the prefixes of the libraries
-#'   known to [get_peptide_library()].
+#' @description Runs [detect_peptide_libraries()] on the distinct `peptide_id`
+#'   values of `data_long`.
 #'
 #' @param data_long A data frame or lazy table with a `peptide_id` column.
 #'
@@ -294,14 +321,7 @@ get_peptide_library <- function(library = "combined",
   peptide_ids <- data_long |>
     dplyr::distinct(.data$peptide_id) |>
     dplyr::pull()
-  prefixes <- unique(sub("_[0-9]+$", "", peptide_ids))
-
-  matched <- vapply(
-    .ph_library_registry,
-    function(entry) any(entry$prefixes %in% prefixes),
-    logical(1)
-  )
-  names(.ph_library_registry)[matched]
+  detect_peptide_libraries(peptide_ids)
 }
 
 #' @keywords internal

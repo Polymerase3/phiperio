@@ -302,8 +302,8 @@ test_that("get_peptide_library rejects unknown library names", {
   )
 })
 
-test_that(".ph_detect_libraries matches peptide_id prefixes to libraries", {
-  detect <- function(ids) .ph_detect_libraries(data.frame(peptide_id = ids))
+test_that("detect_peptide_libraries matches peptide_id prefixes to libraries", {
+  detect <- detect_peptide_libraries
 
   expect_identical(detect(c("agilent_1", "twist_0", "corona2_5")), "combined")
   expect_identical(detect("humanProteome_0"), "human_proteome")
@@ -313,6 +313,14 @@ test_that(".ph_detect_libraries matches peptide_id prefixes to libraries", {
     c("combined", "human_proteome", "icam")
   )
   expect_identical(detect(c("pep1", "pep2")), character())
+  expect_identical(detect(character()), character())
+})
+
+test_that(".ph_detect_libraries reads peptide_id from a data frame", {
+  expect_identical(
+    .ph_detect_libraries(data.frame(peptide_id = c("icam_1", "agilent_2"))),
+    c("combined", "icam")
+  )
   expect_identical(
     .ph_detect_libraries(data.frame(sample_id = "s1")),
     character()
