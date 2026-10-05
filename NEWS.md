@@ -1,3 +1,29 @@
+# phiperio 0.6.0 (2026-10-05)
+
+- `get_peptide_library()` now serves three peptide libraries: `"combined"`
+  (agilent, twist and corona2, as before), `"human_proteome"` and `"icam"`.
+  The two new ones are hosted next to the combined library in the companion
+  phiper repo. A new `library` argument takes one or more names. Several names
+  return one table stacking the libraries by column name, with the columns a
+  library lacks set to `NA` for its peptides. The default, `"combined"`,
+  returns the same table as before.
+- Each library is cached in its own `peptide_meta_<name>` DuckDB table. The
+  previous `peptide_meta` table is no longer read, so the first call after
+  upgrading rebuilds the cache from the already downloaded file.
+- With `peptide_library = TRUE`, `create_data()` (and through it
+  `convert_standard()` and `convert_legacy()`) now detects which libraries the
+  `peptide_id`s belong to from their prefixes (`agilent_`, `twist_`,
+  `corona2_`, `humanProteome_`, `icam_`) and attaches all of them. Data whose
+  peptides match no library now get no library. Previously the combined
+  library was attached regardless, and the coverage check then warned about
+  every peptide.
+- `peptide_library` also accepts a vector of library names, attaching exactly
+  those. The names of the attached libraries are recorded in
+  `meta$peptide_libraries`.
+- When the library's DuckDB connection has been closed, `print()` now reopens
+  every attached library rather than only the combined one.
+- The curation scripts for the two new libraries are in `data-raw/`.
+
 # phiperio 0.5.5
 
 - `validate_phip_data()` no longer reports `agilent_0` and `twist_0` as missing
