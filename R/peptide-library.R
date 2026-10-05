@@ -273,6 +273,37 @@ get_peptide_library <- function(library = "combined",
   )
 }
 
+#' @title Detect the peptide libraries a counts table draws from
+#'
+#' @description Matches the `peptide_id` prefixes of `data_long` (the part
+#'   before the trailing `"_<number>"`) against the prefixes of the libraries
+#'   known to [get_peptide_library()].
+#'
+#' @param data_long A data frame or lazy table with a `peptide_id` column.
+#'
+#' @return Character vector with the names of the matched libraries; empty if
+#'   no peptide matched any library.
+#' @keywords internal
+.ph_detect_libraries <- function(data_long) {
+  # a missing peptide_id is reported by validate_phip_data()
+  if (!"peptide_id" %in% colnames(data_long)) {
+    return(character())
+  }
+
+  .data <- rlang::.data
+  peptide_ids <- data_long |>
+    dplyr::distinct(.data$peptide_id) |>
+    dplyr::pull()
+  prefixes <- unique(sub("_[0-9]+$", "", peptide_ids))
+
+  matched <- vapply(
+    .ph_library_registry,
+    function(entry) any(entry$prefixes %in% prefixes),
+    logical(1)
+  )
+  names(.ph_library_registry)[matched]
+}
+
 #' @keywords internal
 .ph_download_file <- function(url,
                            dest,

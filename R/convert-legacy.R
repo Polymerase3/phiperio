@@ -27,8 +27,12 @@
 #'   mapping). Optional for cross-sectional data.
 #' @param extra_cols       Character vector of extra metadata columns to retain.
 #' @param output_dir       *Deprecated.* Ignored with a warning.
-#' @param peptide_library logical, defining if the `peptide_library` is to be
-#'    downloaded from the official `phiperio` GitHub
+#' @param peptide_library If `TRUE` (default), detects the peptide libraries
+#'    the `peptide_id`s belong to and attaches their metadata, downloaded from
+#'    the companion `phiper` GitHub repo; if no peptide matches a known
+#'    library, none is attached. A character vector of library names
+#'    (`"combined"`, `"human_proteome"`, `"icam"`) attaches exactly those.
+#'    `FALSE` attaches none. See [create_data()] and [get_peptide_library()].
 #' @param config_yaml      Optional YAML file containing any of the above
 #'   parameters (see example).
 #' @param n_cores Integer >= 1. Number of CPU threads DuckDB may use while

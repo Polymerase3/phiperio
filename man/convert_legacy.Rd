@@ -39,8 +39,12 @@ mapping). Optional for cross-sectional data.}
 
 \item{output_dir}{\emph{Deprecated.} Ignored with a warning.}
 
-\item{peptide_library}{logical, defining if the \code{peptide_library} is to be
-downloaded from the official \code{phiperio} GitHub}
+\item{peptide_library}{If \code{TRUE} (default), detects the peptide libraries
+the \code{peptide_id}s belong to and attaches their metadata, downloaded from
+the companion \code{phiper} GitHub repo; if no peptide matches a known
+library, none is attached. A character vector of library names
+(\code{"combined"}, \code{"human_proteome"}, \code{"icam"}) attaches exactly those.
+\code{FALSE} attaches none. See \code{\link[=create_data]{create_data()}} and \code{\link[=get_peptide_library]{get_peptide_library()}}.}
 
 \item{n_cores}{Integer >= 1. Number of CPU threads DuckDB may use while
 reading and writing files.}

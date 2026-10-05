@@ -302,6 +302,37 @@ test_that("get_peptide_library rejects unknown library names", {
   )
 })
 
+test_that(".ph_detect_libraries matches peptide_id prefixes to libraries", {
+  detect <- function(ids) .ph_detect_libraries(data.frame(peptide_id = ids))
+
+  expect_identical(detect(c("agilent_1", "twist_0", "corona2_5")), "combined")
+  expect_identical(detect("humanProteome_0"), "human_proteome")
+  expect_identical(detect(c("icam_12", "icam_430979")), "icam")
+  expect_identical(
+    detect(c("icam_1", "agilent_2", "humanProteome_3")),
+    c("combined", "human_proteome", "icam")
+  )
+  expect_identical(detect(c("pep1", "pep2")), character())
+  expect_identical(
+    .ph_detect_libraries(data.frame(sample_id = "s1")),
+    character()
+  )
+})
+
+test_that(".ph_detect_libraries works on a lazy DuckDB table", {
+  con <- DBI::dbConnect(duckdb::duckdb())
+  withr::defer(DBI::dbDisconnect(con, shutdown = TRUE))
+  DBI::dbWriteTable(
+    con, "counts",
+    data.frame(peptide_id = c("twist_3", "humanProteome_7", "twist_3"))
+  )
+
+  expect_identical(
+    .ph_detect_libraries(dplyr::tbl(con, "counts")),
+    c("combined", "human_proteome")
+  )
+})
+
 test_that(".ph_download_file uses cached file when checksum matches", {
   skip_if_not_installed("mockery")
 

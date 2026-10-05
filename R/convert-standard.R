@@ -38,15 +38,18 @@
 #'     `counts_input`, `counts_hit`, etc.) are initialised to 0.
 #'   The expanded table replaces the original *in place*.
 #'
-#' @param peptide_library Logical. If `TRUE` (default) `convert_standard()` will
-#'   attempt to locate and attach the matching peptide-library metadata for
-#'   downstream annotation. Set to `FALSE` to skip this step.
+#' @param peptide_library If `TRUE` (default) `convert_standard()` detects the
+#'   peptide libraries the `peptide_id`s belong to and attaches their metadata
+#'   for downstream annotation; if no peptide matches a known library, none is
+#'   attached. A character vector of library names (`"combined"`,
+#'   `"human_proteome"`, `"icam"`) attaches exactly those. Set to `FALSE` to
+#'   skip this step. See [create_data()] and [get_peptide_library()].
 #'
 #' @return An S3 object of class **`phip_data`** containing:
 #' \describe{
 #'   \item{`data_long`}{The (possibly expanded) long-format table.}
-#'   \item{`peptide_library`}{Loaded peptide-library metadata (if
-#'     `peptide_library = TRUE`).}
+#'   \item{`peptide_library`}{Loaded peptide-library metadata (if any library
+#'     was detected or requested).}
 #'   \item{`meta`}{List with DuckDB connection handles.}
 #' }
 #'
