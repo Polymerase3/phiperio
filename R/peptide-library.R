@@ -337,12 +337,18 @@ get_peptide_library <- function(library = "combined",
 
   ## perform the actual download with given method (or at least try)
   for (m in methods) {
+    method <- if (nzchar(m)) m else getOption("download.file.method")
+    # without --fail, curl saves the HTTP error page (e.g. a 404) and exits 0
+    extra <- getOption("download.file.extra")
+    if (identical(method, "curl")) extra <- c(extra, "--fail")
+
     status <- tryCatch(
       utils::download.file(
         url, dest,
         mode = "wb",
         quiet = TRUE,
-        method = if (nzchar(m)) m else getOption("download.file.method")
+        method = method,
+        extra = extra
       ),
       error = function(e) e,
       warning = function(w) w

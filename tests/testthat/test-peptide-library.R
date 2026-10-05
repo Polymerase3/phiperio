@@ -429,6 +429,39 @@ test_that(".ph_download_file warns when retrying download methods", {
   )
 })
 
+test_that(".ph_download_file makes curl fail on HTTP errors", {
+  skip_if_not_installed("mockery")
+
+  dest <- withr::local_tempfile(fileext = ".rds")
+  curl_extra <- NULL
+
+  mockery::stub(
+    .ph_download_file,
+    "utils::download.file",
+    function(url, dest, method, extra, ...) {
+      if (!identical(method, "curl")) stop("HTTP status was '404 Not Found'")
+      curl_extra <<- extra
+      # what curl does without --fail: save the error page and exit 0
+      if (!"--fail" %in% extra) {
+        writeLines("404: Not Found", dest)
+        return(0L)
+      }
+      warning("download had nonzero exit status")
+    }
+  )
+
+  withr::with_options(
+    list(phiperio.log.verbose = FALSE),
+    expect_error(
+      suppressWarnings(
+        .ph_download_file("http://example.com/missing.rds", dest, NULL)
+      ),
+      "Failed to download file"
+    )
+  )
+  expect_true("--fail" %in% curl_extra)
+})
+
 test_that(".ph_download_file aborts when download fails entirely", {
   skip_if_not_installed("mockery")
 
