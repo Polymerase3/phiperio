@@ -1,3 +1,15 @@
+# phiperio 0.6.1 (2026-10-05)
+
+- New exported `detect_peptide_libraries()` returns the names of the peptide
+  libraries a vector of peptide IDs belongs to, matched on their prefixes. It
+  is the detection `create_data()` uses for `peptide_library = TRUE`, and lets
+  downstream packages such as phiper fetch the matching libraries with
+  `get_peptide_library()` when no `<phip_data>` object is at hand.
+- A peptide-library file missing from the server now fails with "Failed to
+  download file" and its URL. The `curl` download fallback used to save the
+  server's 404 page as the library, so the error surfaced later as a checksum
+  warning plus `readRDS()` reporting "unknown input format".
+
 # phiperio 0.6.0 (2026-10-05)
 
 - `get_peptide_library()` now serves three peptide libraries: `"combined"`

@@ -14,8 +14,7 @@ Character vector with the names of the matched libraries; empty if
 no peptide matched any library.
 }
 \description{
-Matches the \code{peptide_id} prefixes of \code{data_long} (the part
-before the trailing \code{"_<number>"}) against the prefixes of the libraries
-known to \code{\link[=get_peptide_library]{get_peptide_library()}}.
+Runs \code{\link[=detect_peptide_libraries]{detect_peptide_libraries()}} on the distinct \code{peptide_id}
+values of \code{data_long}.
 }
 \keyword{internal}
