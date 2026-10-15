@@ -50,8 +50,9 @@
 #' **Caching:** A persistent DuckDB database is created under the user cache
 #' directory (via `tools::R_user_dir("phiperio", "cache")`). You can override
 #' this location with `options(phiperio.cache_dir = \"...\")`. Each library is
-#' stored in its own `peptide_meta_<name>` table. The `force_refresh` argument
-#' bypasses the fast path and rebuilds the cache.
+#' stored in its own `peptide_meta_<name>` table, which is rebuilt when phiperio
+#' points the library to a new file. The `force_refresh` argument bypasses the
+#' fast path and rebuilds the cache.
 #'
 #' **Several libraries:** The libraries are stacked by column name in a view
 #' named after them (e.g. `peptide_meta_combined_icam`). Columns that only some
@@ -153,15 +154,18 @@ get_peptide_library <- function(library = "combined",
         entry <- .ph_library_registry[[library[i]]]
 
         # 2. fast path: already cached? --> next library
-        ## the user can also force the evaluation by force_refresh arg
-        if (!force_refresh && DBI::dbExistsTable(con, lib_table)) {
+        ## the user can also force the evaluation by force_refresh arg; the
+        ## downloaded RDS is kept next to the cache, so a registry pointing to
+        ## a new file (not downloaded yet) rebuilds the table
+        tmp <- file.path(cache_dir, entry$file)
+        if (!force_refresh && DBI::dbExistsTable(con, lib_table) &&
+          file.exists(tmp)) {
           .ph_log_ok(sprintf("Using cached %s (fast path)", lib_table))
           next
         }
 
         # 3. download raw RDS from the github repo
         url <- paste0(.ph_library_base_url, entry$file)
-        tmp <- file.path(cache_dir, entry$file)
 
         ## safe download (fallbacks if file changed, or if download does not
         ## succeed)

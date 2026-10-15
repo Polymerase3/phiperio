@@ -96,6 +96,48 @@ test_that("get_peptide_library uses cached table when available", {
   DBI::dbDisconnect(attr(second_tbl, "duckdb_con"), shutdown = TRUE)
 })
 
+test_that("get_peptide_library rebuilds the cached table for a new file", {
+  skip_if_not_installed("mockery")
+
+  cache_dir <- withr::local_tempdir()
+  withr::local_options(list(
+    phiperio.cache_dir = cache_dir,
+    phiperio.log.verbose = FALSE
+  ))
+
+  libs <- list(
+    old = data.frame(peptide_id = "agilent_1", pos = 1),
+    new = data.frame(peptide_id = c("agilent_1", "agilent_2"), pos = c(1, 2))
+  )
+  served <- "old"
+
+  mockery::stub(
+    get_peptide_library,
+    ".ph_download_file",
+    function(url, dest, sha_expected, force) {
+      saveRDS(libs[[served]], dest)
+      invisible(dest)
+    }
+  )
+
+  first_tbl <- get_peptide_library()
+  expect_identical(dplyr::collect(first_tbl)$peptide_id, "agilent_1")
+  DBI::dbDisconnect(attr(first_tbl, "duckdb_con"), shutdown = TRUE)
+
+  # the registry now names a file that has not been downloaded yet
+  unlink(file.path(
+    cache_dir, "peptide_meta", .ph_library_registry$combined$file
+  ))
+  served <- "new"
+
+  second_tbl <- get_peptide_library()
+  expect_identical(
+    dplyr::collect(second_tbl)$peptide_id,
+    c("agilent_1", "agilent_2")
+  )
+  DBI::dbDisconnect(attr(second_tbl, "duckdb_con"), shutdown = TRUE)
+})
+
 test_that("get_peptide_library falls back to temp cache dir when needed", {
   skip_if_not_installed("mockery")
 
