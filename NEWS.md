@@ -6,7 +6,10 @@
   protein annotation combined with its species):
   - `"combined"` is now the library of the phipflow pipeline, with its revised
     taxonomy (2,068 peptides change species, 1,352 change genus) and the extra
-    `protein_unique_annotation` column. `protein_id` is kept.
+    `protein_unique_annotation` column. `protein_id` is kept. The corona2
+    peptides, which the phipflow library leaves without protein-level
+    annotation, get one `protein_seq_id` per `Fullname` and their
+    `Description` as the protein annotation.
   - `"human_proteome"` gains only these two columns.
   - `"icam"`: `Fullname` now holds the full protein name with its organism,
     and `Description` the name without it. `tax_id` and

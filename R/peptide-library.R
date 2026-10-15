@@ -10,7 +10,7 @@
 .ph_library_registry <- list(
   combined = list(
     file = "combined_library_16.07.26.rds",
-    sha256 = "02677e3d8ed8539f68a84eb29b17aaccca5878ee5f173caa032ce911a3bdf820",
+    sha256 = "de349dd54cc17bc34fbefd7fb9fad7ec4ca8f2e08968d018e7d9647e498f90a4",
     prefixes = c("agilent", "twist", "corona2")
   ),
   human_proteome = list(
