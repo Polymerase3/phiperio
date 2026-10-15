@@ -1,7 +1,7 @@
 # .github/workflows/phipflow-compat.yaml
 # Runs the phipflow end-to-end smoke test with this version of phiperio, so
-# changes that break phipflow (https://github.com/csReynaB/phipflow) are caught
-# before they reach main. phiper is installed from its GitHub main.
+# changes that break phipflow (https://github.com/Vogl-Lab-Research/phipflow)
+# are caught before they reach main. phiper is installed from its GitHub main.
 
 name: phipflow-compat
 permissions:
@@ -25,6 +25,6 @@ on:
 
 jobs:
   phipflow:
-    uses: csReynaB/phipflow/.github/workflows/upstream-compat.yml@main
+    uses: Vogl-Lab-Research/phipflow/.github/workflows/upstream-compat.yml@main
     with:
       phiperio: ${{ github.repository }}@${{ github.event.pull_request.head.sha || github.sha }}
