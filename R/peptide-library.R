@@ -9,18 +9,18 @@
 # "_<number>") that identify the library's peptides
 .ph_library_registry <- list(
   combined = list(
-    file = "combined_library_06.07.26.rds",
-    sha256 = "ce12b27d42ed3a6e26d02a25328c80f1b0bebd281c0112e3ee72a7c367d5ce02",
+    file = "combined_library_16.07.26.rds",
+    sha256 = "de349dd54cc17bc34fbefd7fb9fad7ec4ca8f2e08968d018e7d9647e498f90a4",
     prefixes = c("agilent", "twist", "corona2")
   ),
   human_proteome = list(
-    file = "human_proteome_library_16.09.26.rds",
-    sha256 = "c702e5968136363d6cd903b6aee587051e8674cc98b1ce848bc2a173a9bddb6b",
+    file = "human_proteome_library_09.10.26.rds",
+    sha256 = "151b17e2c097c5a33c77ebf4af81701b9563d174f825cb7f5c5304c63c1153c3",
     prefixes = "humanProteome"
   ),
   icam = list(
-    file = "icam_library_01.10.26.rds",
-    sha256 = "2ec7488a7b983c37fd953b88b666bc56d042d19f70efc12e2e0a32af3788f84e",
+    file = "icam_library_09.10.26.rds",
+    sha256 = "3e95d37bd00aa035b7d49bc6ab86a93c8c373fc375bef060b56ad315181ffb36",
     prefixes = "icam"
   )
 )
@@ -50,8 +50,9 @@
 #' **Caching:** A persistent DuckDB database is created under the user cache
 #' directory (via `tools::R_user_dir("phiperio", "cache")`). You can override
 #' this location with `options(phiperio.cache_dir = \"...\")`. Each library is
-#' stored in its own `peptide_meta_<name>` table. The `force_refresh` argument
-#' bypasses the fast path and rebuilds the cache.
+#' stored in its own `peptide_meta_<name>` table, which is rebuilt when phiperio
+#' points the library to a new file. The `force_refresh` argument bypasses the
+#' fast path and rebuilds the cache.
 #'
 #' **Several libraries:** The libraries are stacked by column name in a view
 #' named after them (e.g. `peptide_meta_combined_icam`). Columns that only some
@@ -153,15 +154,18 @@ get_peptide_library <- function(library = "combined",
         entry <- .ph_library_registry[[library[i]]]
 
         # 2. fast path: already cached? --> next library
-        ## the user can also force the evaluation by force_refresh arg
-        if (!force_refresh && DBI::dbExistsTable(con, lib_table)) {
+        ## the user can also force the evaluation by force_refresh arg; the
+        ## downloaded RDS is kept next to the cache, so a registry pointing to
+        ## a new file (not downloaded yet) rebuilds the table
+        tmp <- file.path(cache_dir, entry$file)
+        if (!force_refresh && DBI::dbExistsTable(con, lib_table) &&
+          file.exists(tmp)) {
           .ph_log_ok(sprintf("Using cached %s (fast path)", lib_table))
           next
         }
 
         # 3. download raw RDS from the github repo
         url <- paste0(.ph_library_base_url, entry$file)
-        tmp <- file.path(cache_dir, entry$file)
 
         ## safe download (fallbacks if file changed, or if download does not
         ## succeed)

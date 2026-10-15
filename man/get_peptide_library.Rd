@@ -35,8 +35,9 @@ character, numeric), and writes it into a DuckDB cache on disk.
 \strong{Caching:} A persistent DuckDB database is created under the user cache
 directory (via \code{tools::R_user_dir("phiperio", "cache")}). You can override
 this location with \verb{options(phiperio.cache_dir = \\"...\\")}. Each library is
-stored in its own \verb{peptide_meta_<name>} table. The \code{force_refresh} argument
-bypasses the fast path and rebuilds the cache.
+stored in its own \verb{peptide_meta_<name>} table, which is rebuilt when phiperio
+points the library to a new file. The \code{force_refresh} argument bypasses the
+fast path and rebuilds the cache.
 
 \strong{Several libraries:} The libraries are stacked by column name in a view
 named after them (e.g. \code{peptide_meta_combined_icam}). Columns that only some
