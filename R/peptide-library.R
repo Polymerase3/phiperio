@@ -9,18 +9,18 @@
 # "_<number>") that identify the library's peptides
 .ph_library_registry <- list(
   combined = list(
-    file = "combined_library_06.07.26.rds",
-    sha256 = "ce12b27d42ed3a6e26d02a25328c80f1b0bebd281c0112e3ee72a7c367d5ce02",
+    file = "combined_library_16.07.26.rds",
+    sha256 = "02677e3d8ed8539f68a84eb29b17aaccca5878ee5f173caa032ce911a3bdf820",
     prefixes = c("agilent", "twist", "corona2")
   ),
   human_proteome = list(
-    file = "human_proteome_library_16.09.26.rds",
-    sha256 = "c702e5968136363d6cd903b6aee587051e8674cc98b1ce848bc2a173a9bddb6b",
+    file = "human_proteome_library_09.10.26.rds",
+    sha256 = "151b17e2c097c5a33c77ebf4af81701b9563d174f825cb7f5c5304c63c1153c3",
     prefixes = "humanProteome"
   ),
   icam = list(
-    file = "icam_library_01.10.26.rds",
-    sha256 = "2ec7488a7b983c37fd953b88b666bc56d042d19f70efc12e2e0a32af3788f84e",
+    file = "icam_library_09.10.26.rds",
+    sha256 = "3e95d37bd00aa035b7d49bc6ab86a93c8c373fc375bef060b56ad315181ffb36",
     prefixes = "icam"
   )
 )
