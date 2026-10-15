@@ -1,5 +1,29 @@
 # Changelog
 
+## phiperio 0.6.2 (2026-10-15)
+
+- All three peptide libraries served by
+  [`get_peptide_library()`](https://polymerase3.github.io/phiperio/reference/get_peptide_library.md)
+  are updated and now carry the protein-level columns `protein_seq_id`
+  (one identifier per distinct protein sequence) and
+  `taxon_with_protein_unique_annotation` (the protein annotation
+  combined with its species):
+  - `"combined"` is now the library of the phipflow pipeline, with its
+    revised taxonomy (2,068 peptides change species, 1,352 change genus)
+    and the extra `protein_unique_annotation` column. `protein_id` is
+    kept. The corona2 peptides, which the phipflow library leaves
+    without protein-level annotation, get one `protein_seq_id` per
+    `Fullname` and their `Description` as the protein annotation.
+  - `"human_proteome"` gains only these two columns.
+  - `"icam"`: `Fullname` now holds the full protein name with its
+    organism, and `Description` the name without it. `tax_id` and
+    `origin_fused_chunks` are no longer part of the source table and are
+    gone.
+- A cached library table is now rebuilt when phiperio points the library
+  to a new file, so these updates reach existing caches without
+  `force_refresh = TRUE`. Previously the cached table was reused
+  regardless.
+
 ## phiperio 0.6.1 (2026-10-05)
 
 - New exported

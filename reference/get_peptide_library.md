@@ -47,7 +47,8 @@ tables of several. The returned object carries an attribute
 **Caching:** A persistent DuckDB database is created under the user
 cache directory (via `tools::R_user_dir("phiperio", "cache")`). You can
 override this location with `options(phiperio.cache_dir = \"...\")`.
-Each library is stored in its own `peptide_meta_<name>` table. The
+Each library is stored in its own `peptide_meta_<name>` table, which is
+rebuilt when phiperio points the library to a new file. The
 `force_refresh` argument bypasses the fast path and rebuilds the cache.
 
 **Several libraries:** The libraries are stacked by column name in a
@@ -76,22 +77,22 @@ value.
 
 ``` r
 lib <- get_peptide_library()
-#> [13:09:20] INFO  Retrieving peptide metadata into DuckDB cache
+#> [09:44:29] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(library = combined, force_refresh =
 #>                     FALSE)
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/Rtmpx3O1yL/duckdb
+#> ℹ /tmp/RtmpwAvtbl/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
 #> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
-#> [13:09:20] INFO  Opened DuckDB connection
+#> [09:44:29] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - tables: peptide_meta_combined
-#> [13:09:20] OK    Using cached peptide_meta_combined (fast path)
-#> [13:09:20] OK    Retrieving peptide metadata into DuckDB cache - done
-#>                  -> elapsed: 0.024s
+#> [09:44:29] OK    Using cached peptide_meta_combined (fast path)
+#> [09:44:29] OK    Retrieving peptide metadata into DuckDB cache - done
+#>                  -> elapsed: 0.025s
 ```

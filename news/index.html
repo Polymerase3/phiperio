@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,18 @@
       <small>Source: <a href="https://github.com/Polymerase3/phiperio/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.2" id="phiperio-062-2026-10-15">phiperio 0.6.2 (2026-10-15)<a class="anchor" aria-label="anchor" href="#phiperio-062-2026-10-15"></a></h2>
+<ul><li>All three peptide libraries served by <code><a href="../reference/get_peptide_library.html">get_peptide_library()</a></code> are updated and now carry the protein-level columns <code>protein_seq_id</code> (one identifier per distinct protein sequence) and <code>taxon_with_protein_unique_annotation</code> (the protein annotation combined with its species):
+<ul><li>
+<code>"combined"</code> is now the library of the phipflow pipeline, with its revised taxonomy (2,068 peptides change species, 1,352 change genus) and the extra <code>protein_unique_annotation</code> column. <code>protein_id</code> is kept. The corona2 peptides, which the phipflow library leaves without protein-level annotation, get one <code>protein_seq_id</code> per <code>Fullname</code> and their <code>Description</code> as the protein annotation.</li>
+<li>
+<code>"human_proteome"</code> gains only these two columns.</li>
+<li>
+<code>"icam"</code>: <code>Fullname</code> now holds the full protein name with its organism, and <code>Description</code> the name without it. <code>tax_id</code> and <code>origin_fused_chunks</code> are no longer part of the source table and are gone.</li>
+</ul></li>
+<li>A cached library table is now rebuilt when phiperio points the library to a new file, so these updates reach existing caches without <code>force_refresh = TRUE</code>. Previously the cached table was reused regardless.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.1" id="phiperio-061-2026-10-05">phiperio 0.6.1 (2026-10-05)<a class="anchor" aria-label="anchor" href="#phiperio-061-2026-10-05"></a></h2>
 <ul><li>New exported <code><a href="../reference/detect_peptide_libraries.html">detect_peptide_libraries()</a></code> returns the names of the peptide libraries a vector of peptide IDs belongs to, matched on their prefixes. It is the detection <code><a href="../reference/create_data.html">create_data()</a></code> uses for <code>peptide_library = TRUE</code>, and lets downstream packages such as phiper fetch the matching libraries with <code><a href="../reference/get_peptide_library.html">get_peptide_library()</a></code> when no <code>&lt;phip_data&gt;</code> object is at hand.</li>

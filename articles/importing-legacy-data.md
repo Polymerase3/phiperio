@@ -71,38 +71,38 @@ pd_xc <- convert_legacy(
   materialise_table = FALSE
 )
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/Rtmpdy5bSM/duckdb
+#> ℹ /tmp/RtmpC0H3xZ/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
 #> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
-#> [13:09:24] INFO  Constructing <phip_data> object
+#> [09:44:35] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:09:24] INFO  Validating <phip_data>
+#> [09:44:35] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:09:24] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:09:24] INFO  Checking outcome family availability (exist / fold_change /
+#> [09:44:35] INFO  Checking structural requirements (shape & mandatory columns)
+#> [09:44:35] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:09:24] INFO  Checking collisions with reserved names
+#> [09:44:35] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:09:24] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:09:24] INFO  Checking key uniqueness
-#> [13:09:24] INFO  Validating value ranges & types for outcomes
-#> [13:09:24] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [09:44:35] INFO  Ensuring all columns are atomic (no list-cols)
+#> [09:44:35] INFO  Checking key uniqueness
+#> [09:44:35] INFO  Validating value ranges & types for outcomes
+#> [09:44:35] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
 #> Warning: Missing values are always removed in SQL aggregation functions.
 #> Use `na.rm = TRUE` to silence this warning
 #> This warning is displayed once every 8 hours.
-#> [13:09:24] INFO  Checking peptide_id coverage against peptide_library
-#> [13:09:24] INFO  Checking full grid completeness (peptide * sample)
-#> [13:09:24] OK    Counts table is a full peptide * sample grid
-#> [13:09:24] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.332s
-#> [13:09:24] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.334s
+#> [09:44:35] INFO  Checking peptide_id coverage against peptide_library
+#> [09:44:35] INFO  Checking full grid completeness (peptide * sample)
+#> [09:44:35] OK    Counts table is a full peptide * sample grid
+#> [09:44:35] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.338s
+#> [09:44:35] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.34s
 
 get_counts(pd_xc) |> arrange(sample_id, peptide_id) |> collect()
 #> # A tibble: 4 × 7
@@ -168,35 +168,35 @@ pd_lg <- convert_legacy(
   materialise_table = FALSE
 )
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/Rtmpdy5bSM/duckdb
+#> ℹ /tmp/RtmpC0H3xZ/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
 #> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
-#> [13:09:24] INFO  Constructing <phip_data> object
+#> [09:44:35] INFO  Constructing <phip_data> object
 #>                  -> create_data()
-#> [13:09:24] INFO  Validating <phip_data>
+#> [09:44:35] INFO  Validating <phip_data>
 #>                  -> validate_phip_data()
-#> [13:09:24] INFO  Checking structural requirements (shape & mandatory columns)
-#> [13:09:24] INFO  Checking outcome family availability (exist / fold_change /
+#> [09:44:35] INFO  Checking structural requirements (shape & mandatory columns)
+#> [09:44:35] INFO  Checking outcome family availability (exist / fold_change /
 #>                  raw_counts)
-#> [13:09:24] INFO  Checking collisions with reserved names
+#> [09:44:35] INFO  Checking collisions with reserved names
 #>                    - subject_id, sample_id, timepoint, peptide_id, exist,
 #>                      fold_change, counts_input, counts_hit
-#> [13:09:24] INFO  Ensuring all columns are atomic (no list-cols)
-#> [13:09:24] INFO  Checking key uniqueness
-#> [13:09:24] INFO  Validating value ranges & types for outcomes
-#> [13:09:24] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
+#> [09:44:35] INFO  Ensuring all columns are atomic (no list-cols)
+#> [09:44:35] INFO  Checking key uniqueness
+#> [09:44:35] INFO  Validating value ranges & types for outcomes
+#> [09:44:35] INFO  Assessing sparsity (NA/zero prevalence vs threshold)
 #>                    - warn threshold: 50%
-#> [13:09:24] INFO  Checking peptide_id coverage against peptide_library
-#> [13:09:24] INFO  Checking full grid completeness (peptide * sample)
-#> [13:09:24] OK    Counts table is a full peptide * sample grid
-#> [13:09:24] OK    Validating <phip_data> - done
-#>                  -> elapsed: 0.16s
-#> [13:09:24] OK    Constructing <phip_data> object - done
-#>                  -> elapsed: 0.161s
+#> [09:44:35] INFO  Checking peptide_id coverage against peptide_library
+#> [09:44:35] INFO  Checking full grid completeness (peptide * sample)
+#> [09:44:35] OK    Counts table is a full peptide * sample grid
+#> [09:44:35] OK    Validating <phip_data> - done
+#>                  -> elapsed: 0.171s
+#> [09:44:35] OK    Constructing <phip_data> object - done
+#>                  -> elapsed: 0.172s
 
 get_counts(pd_lg) |>
   distinct(subject_id, sample_id, timepoint, peptide_id, exist, input_count, hit_count) |>
