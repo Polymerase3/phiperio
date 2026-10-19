@@ -40,6 +40,9 @@ all source files. Calculations against `data_long` remain lazy until
 - If `cfg$data_long_path` is a **directory**, all matching files within
   it are UNION ALL'ed.
 
+- Empty files (0 bytes, or no data rows) are skipped with a warning; an
+  error is raised if no non-empty file is left.
+
 - Parquet files are read via `parquet_scan()`, CSV via
   `read_csv_auto()`.
 

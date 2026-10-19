@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,9 +45,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="import-data">Import data<a class="anchor" aria-label="anchor" href="#import-data"></a></h2>
 
-
+      <div class="section-desc"><p>Build a <code>&lt;phip_data&gt;</code> object from PhIP-Seq output.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -56,17 +56,10 @@
 
       <dl><dt>
 
-          <code><a href="add_exist.html">add_exist()</a></code>
+          <code><a href="convert_standard.html">convert_standard()</a></code>
 
         </dt>
-        <dd>Ensure an existence flag (all ones) on <code>data_long</code></dd>
-
-        <dt>
-
-          <code><a href="close.phip_data.html">close(<i>&lt;phip_data&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Close phip_data connections</dd>
+        <dd>Convert raw PhIP-Seq output into a <code>phip_data</code> object</dd>
 
         <dt>
 
@@ -77,45 +70,26 @@
 
         <dt>
 
-          <code><a href="convert_standard.html">convert_standard()</a></code>
-
-        </dt>
-        <dd>Convert raw PhIP-Seq output into a <code>phip_data</code> object</dd>
-
-        <dt>
-
           <code><a href="create_data.html">create_data()</a></code>
 
         </dt>
         <dd>Construct a <strong>phip_data</strong> object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a></h2>
 
-        <dt>
 
-          <code><a href="detect_peptide_libraries.html">detect_peptide_libraries()</a></code>
 
-        </dt>
-        <dd>Detect the peptide libraries a set of peptides belongs to</dd>
+      <dl></dl></div><div class="section level2">
 
-        <dt>
 
-          <code><a href="expand_data.html">expand_data()</a></code>
 
-        </dt>
-        <dd>Expand to a full <code>sample_id * peptide_id</code> grid</dd>
 
-        <dt>
+      <dl><dt>
 
-          <code><a href="export_parquet.html">export_parquet()</a></code>
+          <code><a href="load_example_data.html">load_example_data()</a></code>
 
         </dt>
-        <dd>Export a phip_data Table to Parquet</dd>
-
-        <dt>
-
-          <code><a href="get_counts.html">get_counts()</a></code>
-
-        </dt>
-        <dd>Retrieve the main PhIP-Seq counts table</dd>
+        <dd>Load Example PhIP-Seq Dataset as &lt;phip_data&gt;</dd>
 
         <dt>
 
@@ -123,6 +97,22 @@
 
         </dt>
         <dd>Path to example PhIP-Seq datasets shipped with phiperio</dd>
+      </dl></div><div class="section level2">
+      <h2 id="work-with-phip-data">Work with phip_data<a class="anchor" aria-label="anchor" href="#work-with-phip-data"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="get_counts.html">get_counts()</a></code>
+
+        </dt>
+        <dd>Retrieve the main PhIP-Seq counts table</dd>
 
         <dt>
 
@@ -133,17 +123,24 @@
 
         <dt>
 
-          <code><a href="get_peptide_library.html">get_peptide_library()</a></code>
+          <code><a href="add_exist.html">add_exist()</a></code>
 
         </dt>
-        <dd>Retrieve the peptide metadata table into DuckDB, forcing atomic types</dd>
+        <dd>Ensure an existence flag (all ones) on <code>data_long</code></dd>
 
         <dt>
 
-          <code><a href="load_example_data.html">load_example_data()</a></code>
+          <code><a href="expand_data.html">expand_data()</a></code>
 
         </dt>
-        <dd>Load Example PhIP-Seq Dataset as &lt;phip_data&gt;</dd>
+        <dd>Expand to a full <code>sample_id * peptide_id</code> grid</dd>
+
+        <dt>
+
+          <code><a href="phip_data_join.html">left_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">right_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">inner_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">full_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">semi_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">anti_join(<i>&lt;phip_data&gt;</i>)</a></code>
+
+        </dt>
+        <dd>dplyr joins for <code>phip_data</code></dd>
 
         <dt>
 
@@ -154,12 +151,52 @@
 
         <dt>
 
-          <code><a href="phip_data_join.html">left_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">right_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">inner_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">full_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">semi_join(<i>&lt;phip_data&gt;</i>)</a></code> <code><a href="phip_data_join.html">anti_join(<i>&lt;phip_data&gt;</i>)</a></code>
+          <code><a href="close.phip_data.html">close(<i>&lt;phip_data&gt;</i>)</a></code>
 
         </dt>
-        <dd>dplyr joins for <code>phip_data</code></dd>
+        <dd>Close phip_data connections</dd>
+      </dl></div><div class="section level2">
+      <h2 id="peptide-libraries">Peptide libraries<a class="anchor" aria-label="anchor" href="#peptide-libraries"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="get_peptide_library.html">get_peptide_library()</a></code>
+
+        </dt>
+        <dd>Retrieve the peptide metadata table into DuckDB, forcing atomic types</dd>
+
+        <dt>
+
+          <code><a href="detect_peptide_libraries.html">detect_peptide_libraries()</a></code>
+
+        </dt>
+        <dd>Detect the peptide libraries a set of peptides belongs to</dd>
+      </dl></div><div class="section level2">
+      <h2 id="export">Export<a class="anchor" aria-label="anchor" href="#export"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="export_parquet.html">export_parquet()</a></code>
+
+        </dt>
+        <dd>Export a phip_data Table to Parquet</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

@@ -23,7 +23,7 @@ dplyr without loading the full dataset into R until explicitly collected."></hea
 
     <a class="navbar-brand me-2" href="../index.html">phiperio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,6 +98,8 @@ representing the union of all source files. Calculations against
 
 <ul><li><p>If <code>cfg$data_long_path</code> is a <strong>directory</strong>, all matching files
 within it are UNION ALL'ed.</p></li>
+<li><p>Empty files (0 bytes, or no data rows) are skipped with a warning; an
+error is raised if no non-empty file is left.</p></li>
 <li><p>Parquet files are read via <code>parquet_scan()</code>, CSV via
 <code>read_csv_auto()</code>.</p></li>
 <li><p>Column renaming is performed in SQL with <code>AS</code>, so no R-level

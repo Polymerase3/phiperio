@@ -1,5 +1,31 @@
 # Changelog
 
+## phiperio 0.6.3 (2026-10-19)
+
+- The example data
+  ([`load_example_data()`](https://polymerase3.github.io/phiperio/reference/load_example_data.md),
+  `phip_mixture.parquet`) gave groups A and B the same `subject_id`
+  values 1-20, so 20 subjects of each group looked like one person
+  sampled in both groups. Subject IDs now carry the group (`"A_1"`, …,
+  `"A_20"`, `"B_1"`, …, `"B_23"`), so each subject belongs to one group
+  and is still followed from T1 to T2. `sample_id` is unchanged.
+- The shared IDs had also made the de-duplication in
+  `data-raw/mockdata.R` drop the rows of B subjects 1-20 for the 50
+  peptides both groups have. The example data now has all 1,000 peptides
+  in every sample: 80,000 rows instead of 78,200. All other simulated
+  values are unchanged.
+- [`convert_standard()`](https://polymerase3.github.io/phiperio/reference/convert_standard.md)
+  now skips empty input files (0 bytes, or a header without data rows)
+  and warns with their names, instead of failing or stalling
+  ([\#21](https://github.com/Polymerase3/phiperio/issues/21)). A 0-byte
+  file broke the import, and a header-only CSV turned every column of
+  the combined table into text. If every file is empty, the import fails
+  with “All input files are empty”.
+- The reference page of the pkgdown site now groups the exported
+  functions by task (import, example data, working with `<phip_data>`,
+  peptide libraries, export). pkgcheck requires this grouping for
+  packages with 10 or more help pages and failed without it.
+
 ## phiperio 0.6.2 (2026-10-15)
 
 - All three peptide libraries served by

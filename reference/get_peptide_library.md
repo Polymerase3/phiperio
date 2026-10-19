@@ -77,22 +77,22 @@ value.
 
 ``` r
 lib <- get_peptide_library()
-#> [09:44:29] INFO  Retrieving peptide metadata into DuckDB cache
+#> [09:34:51] INFO  Retrieving peptide metadata into DuckDB cache
 #>                  -> get_peptide_library(library = combined, force_refresh =
 #>                     FALSE)
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpwAvtbl/duckdb
+#> ℹ /tmp/Rtmp6wt2ZU/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
 #> ℹ Run duckdb(shared_home = TRUE) (or create ~/.duckdb) to keep them (suitable for most users).
 #> ℹ Run duckdb(shared_home = FALSE) to accept the temporary directory (and silence this message).
 #> ℹ See ?duckdb_storage for details and alternatives.
-#> [09:44:29] INFO  Opened DuckDB connection
+#> [09:34:51] INFO  Opened DuckDB connection
 #>                    - cache dir:
 #>                      /home/runner/.cache/R/phiperio/peptide_meta/phip_cache.duckdb
 #>                    - tables: peptide_meta_combined
-#> [09:44:29] OK    Using cached peptide_meta_combined (fast path)
-#> [09:44:29] OK    Retrieving peptide metadata into DuckDB cache - done
+#> [09:34:51] OK    Using cached peptide_meta_combined (fast path)
+#> [09:34:51] OK    Retrieving peptide metadata into DuckDB cache - done
 #>                  -> elapsed: 0.025s
 ```
