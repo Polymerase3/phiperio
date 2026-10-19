@@ -10,6 +10,11 @@
   drop the rows of B subjects 1-20 for the 50 peptides both groups have. The
   example data now has all 1,000 peptides in every sample: 80,000 rows
   instead of 78,200. All other simulated values are unchanged.
+- `convert_standard()` now skips empty input files (0 bytes, or a header
+  without data rows) and warns with their names, instead of failing or
+  stalling (#21). A 0-byte file broke the import, and a header-only CSV turned
+  every column of the combined table into text. If every file is empty, the
+  import fails with "All input files are empty".
 - The reference page of the pkgdown site now groups the exported functions by
   task (import, example data, working with `<phip_data>`, peptide libraries,
   export). pkgcheck requires this grouping for packages with 10 or more help

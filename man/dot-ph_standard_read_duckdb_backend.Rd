@@ -33,6 +33,8 @@ dplyr without loading the full dataset into R until explicitly collected.
 \itemize{
 \item If \code{cfg$data_long_path} is a \strong{directory}, all matching files
 within it are UNION ALL'ed.
+\item Empty files (0 bytes, or no data rows) are skipped with a warning; an
+error is raised if no non-empty file is left.
 \item Parquet files are read via \code{parquet_scan()}, CSV via
 \code{read_csv_auto()}.
 \item Column renaming is performed in SQL with \code{AS}, so no R-level
