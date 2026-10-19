@@ -10,6 +10,10 @@
   drop the rows of B subjects 1-20 for the 50 peptides both groups have. The
   example data now has all 1,000 peptides in every sample: 80,000 rows
   instead of 78,200. All other simulated values are unchanged.
+- The reference page of the pkgdown site now groups the exported functions by
+  task (import, example data, working with `<phip_data>`, peptide libraries,
+  export). pkgcheck requires this grouping for packages with 10 or more help
+  pages and failed without it.
 
 # phiperio 0.6.2 (2026-10-15)
 
