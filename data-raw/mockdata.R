@@ -17,6 +17,8 @@
 # * two groups:              A and B,
 # * two timepoints:          T1 and T2,
 # * sample sizes (subjects): A_T1 = 20; A_T2 = 18, B_T1 = 23; B_T2 = 19
+# * subject_id:              group-prefixed ("A_1", ..., "B_23"); each subject
+#                            is in one group and is followed from T1 to T2
 #
 # The data is exported as .parquet. To load it using phiperio:
 #
@@ -425,8 +427,15 @@ withr::with_preserve_seed({
 panel_AB_T1_T2_long$peptide_id <-
   peptide_universe[panel_AB_T1_T2_long$peptide_id]
 
-# convert the subject_id and peptide_id to characters
-panel_AB_T1_T2_long$subject_id <- as.character(panel_AB_T1_T2_long$subject_id)
+# expand_to_subjects() numbers the subjects 1, 2, ... within every panel, so
+# group A and group B would share subject_id 1-20 and look like the same
+# people. Prefix the group (e.g. "A_1", "B_1") so every subject belongs to one
+# group. This has to happen before the de-duplication below, which otherwise
+# drops the rows of B subjects for the peptides both groups have.
+panel_AB_T1_T2_long$subject_id <- paste(
+  panel_AB_T1_T2_long$group, panel_AB_T1_T2_long$subject_id,
+  sep = "_"
+)
 panel_AB_T1_T2_long$peptide_id <- as.character(panel_AB_T1_T2_long$peptide_id)
 
 # remove potential duplicates
