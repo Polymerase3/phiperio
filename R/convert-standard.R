@@ -56,6 +56,9 @@
 #' @details
 #' *Paths are resolved to absolute form* before any work begins, and explicit
 #' checks confirm existence as well as extension validity.
+#'
+#' Empty input files (0 bytes, or a header without data rows) are skipped with
+#' a warning that names them; if every file is empty, the import fails.
 #' @examples
 #' # Basic import, auto-detecting default column names
 #' phip_obj <- convert_standard(
@@ -220,6 +223,8 @@ convert_standard <- function(
 #' @details
 #' - If `cfg$data_long_path` is a **directory**, all matching files
 #'   within it are UNION ALL'ed.
+#' - Empty files (0 bytes, or no data rows) are skipped with a warning; an
+#'   error is raised if no non-empty file is left.
 #' - Parquet files are read via `parquet_scan()`, CSV via
 #'   `read_csv_auto()`.
 #' - Column renaming is performed in SQL with `AS`, so no R-level
@@ -293,8 +298,45 @@ convert_standard <- function(
     }
   }
 
-  tbl_names <- sprintf("f_%d", seq_along(files))
-  Map(load_file, files, tbl_names)
+  ## empty files are skipped: a 0-byte file is not valid Parquet and comes back
+  ## from read_csv_auto() as a single placeholder column, which breaks the
+  ## UNION ALL below; a CSV with a header but no rows is read as all VARCHAR
+  ## and would turn every column of the union into text
+  zero_byte <- file.size(files) == 0
+  loaded <- files[!zero_byte]
+  tbl_names <- sprintf("f_%d", seq_along(loaded))
+  Map(load_file, loaded, tbl_names)
+
+  n_rows <- vapply(
+    tbl_names,
+    function(tn) {
+      as.numeric(
+        DBI::dbGetQuery(con, sprintf("SELECT count(*) AS n FROM %s;", tn))$n
+      )
+    },
+    numeric(1)
+  )
+  for (tn in tbl_names[n_rows == 0]) {
+    DBI::dbExecute(con, sprintf("DROP TABLE %s;", tn))
+  }
+  skipped <- c(files[zero_byte], loaded[n_rows == 0])
+  tbl_names <- tbl_names[n_rows > 0]
+
+  if (length(tbl_names) == 0L) {
+    DBI::dbDisconnect(con, shutdown = TRUE)
+    .ph_abort(
+      headline = "All input files are empty.",
+      step     = "reading data_long_path",
+      bullets  = basename(skipped)
+    )
+  }
+  if (length(skipped) > 0L) {
+    .ph_warn(
+      headline = sprintf("Skipped %d empty input file(s).", length(skipped)),
+      step     = "reading data_long_path",
+      bullets  = basename(skipped)
+    )
+  }
 
   ## -- 3. UNION ALL --> raw_combined ------------------------------------------
   union_sql <- paste(

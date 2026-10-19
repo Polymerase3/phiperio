@@ -82,6 +82,9 @@ queried with the tidy API used throughout the package.
 \details{
 \emph{Paths are resolved to absolute form} before any work begins, and explicit
 checks confirm existence as well as extension validity.
+
+Empty input files (0 bytes, or a header without data rows) are skipped with
+a warning that names them; if every file is empty, the import fails.
 }
 \examples{
 # Basic import, auto-detecting default column names

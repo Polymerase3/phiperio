@@ -16,6 +16,34 @@ template:
     btn-border-radius: 0.25rem
     danger: "#A6081A"
 
+reference:
+  - title: Import data
+    desc: Build a `<phip_data>` object from PhIP-Seq output.
+    contents:
+      - convert_standard
+      - convert_legacy
+      - create_data
+  - title: Example data
+    contents:
+      - load_example_data
+      - get_example_path
+  - title: Work with phip_data
+    contents:
+      - get_counts
+      - get_meta
+      - add_exist
+      - expand_data
+      - phip_data_join
+      - merge.phip_data
+      - close.phip_data
+  - title: Peptide libraries
+    contents:
+      - get_peptide_library
+      - detect_peptide_libraries
+  - title: Export
+    contents:
+      - export_parquet
+
 articles:
   - title: Getting started
     contents:

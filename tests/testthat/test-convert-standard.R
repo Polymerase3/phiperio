@@ -98,6 +98,64 @@ test_that("convert_standard can derive sample_id from filenames", {
   expect_equal(sort(unique(collected$sample_id)), c("sampleA", "sampleB"))
 })
 
+test_that("convert_standard skips empty sample files with a warning", {
+  tmp_dir <- withr::local_tempdir()
+
+  df1 <- data.frame(
+    peptide_id = c("p1", "p2"),
+    exist = c(1, 0),
+    stringsAsFactors = FALSE
+  )
+  df2 <- data.frame(
+    peptide_id = c("p1", "p2"),
+    exist = c(0, 1),
+    stringsAsFactors = FALSE
+  )
+
+  write_long_csv(file.path(tmp_dir, "sampleA.csv"), df1)
+  write_long_csv(file.path(tmp_dir, "sampleB.csv"), df2)
+  # 0-byte CSV and Parquet, and a CSV with a header but no rows
+  file.create(file.path(tmp_dir, "empty.csv"))
+  file.create(file.path(tmp_dir, "empty.parquet"))
+  write_long_csv(file.path(tmp_dir, "header_only.csv"), df1[0, ])
+
+  expect_warning(
+    pd <- withr::with_options(
+      list(phiperio.log.verbose = FALSE),
+      phiperio::convert_standard(
+        data_long_path = tmp_dir,
+        sample_id_from_filenames = TRUE,
+        materialise_table = FALSE,
+        auto_expand = FALSE,
+        peptide_library = FALSE
+      )
+    ),
+    "Skipped 3 empty input file"
+  )
+
+  collected <- dplyr::collect(pd$data_long)
+  expect_equal(sort(unique(collected$sample_id)), c("sampleA", "sampleB"))
+  # the header-only CSV would have turned `exist` into text
+  expect_true(is.numeric(collected$exist))
+})
+
+test_that("convert_standard errors when every input file is empty", {
+  tmp_dir <- withr::local_tempdir()
+  file.create(file.path(tmp_dir, "empty.csv"))
+
+  expect_error(
+    withr::with_options(
+      list(phiperio.log.verbose = FALSE),
+      phiperio::convert_standard(
+        data_long_path = tmp_dir,
+        sample_id_from_filenames = TRUE,
+        peptide_library = FALSE
+      )
+    ),
+    "All input files are empty"
+  )
+})
+
 test_that(".ph_rename_to_standard_inplace errors for missing object", {
   con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
   on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
