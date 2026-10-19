@@ -1,3 +1,16 @@
+# phiperio 0.6.3 (2026-10-19)
+
+- The example data (`load_example_data()`, `phip_mixture.parquet`) gave
+  groups A and B the same `subject_id` values 1-20, so 20 subjects of each
+  group looked like one person sampled in both groups. Subject IDs now carry
+  the group (`"A_1"`, ..., `"A_20"`, `"B_1"`, ..., `"B_23"`), so each subject
+  belongs to one group and is still followed from T1 to T2. `sample_id` is
+  unchanged.
+- The shared IDs had also made the de-duplication in `data-raw/mockdata.R`
+  drop the rows of B subjects 1-20 for the 50 peptides both groups have. The
+  example data now has all 1,000 peptides in every sample: 80,000 rows
+  instead of 78,200. All other simulated values are unchanged.
+
 # phiperio 0.6.2 (2026-10-15)
 
 - All three peptide libraries served by `get_peptide_library()` are updated and
